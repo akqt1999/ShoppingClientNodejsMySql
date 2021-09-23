@@ -1,0 +1,106 @@
+{
+  "project_info": {
+    "project_number": "479166885961",
+    "firebase_url": "https://myrestaurant-5004f-default-rtdb.firebaseio.com",
+    "project_id": "myrestaurant-5004f",
+    "storage_bucket": "myrestaurant-5004f.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:479166885961:android:c04d809719aad21810cf98",
+        "android_client_info": {
+          "package_name": "etn.app.danghoc.androidrestaurant"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "479166885961-727mel6kddiggqibnud8morqqu03mc38.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "etn.app.danghoc.androidrestaurant",
+            "certificate_hash": "9c6d22081bb32e90833c47aadc40963c79b21f96"
+          }
+        },
+        {
+          "client_id": "479166885961-9fl1i2aq9vvurv9f11afm6vlackh42hl.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBBlxW9Z5bCl_o2zuAtLGdFliJTP3rvn_o"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "479166885961-9fl1i2aq9vvurv9f11afm6vlackh42hl.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:479166885961:android:63d6cb24b5fd645510cf98",
+        "android_client_info": {
+          "package_name": "etn.app.danghoc.nhanthongbao"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "479166885961-9fl1i2aq9vvurv9f11afm6vlackh42hl.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBBlxW9Z5bCl_o2zuAtLGdFliJTP3rvn_o"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "479166885961-9fl1i2aq9vvurv9f11afm6vlackh42hl.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:479166885961:android:02cdfb553ee0aca910cf98",
+        "android_client_info": {
+          "package_name": "etn.app.danghoc.shoppingclient"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "479166885961-9fl1i2aq9vvurv9f11afm6vlackh42hl.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBBlxW9Z5bCl_o2zuAtLGdFliJTP3rvn_o"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "479166885961-9fl1i2aq9vvurv9f11afm6vlackh42hl.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

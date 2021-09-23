@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/bg_login"
+        android:padding="10dp"
+        android:text="chi tiết đơn hàng"
+        android:textColor="@color/black"
+        android:textSize="21dp"
+        android:textStyle="bold"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:text="tên sản phẩm"
+        android:textSize="16dp" />
+    <TextView
+        android:id="@+id/txt_name_product"
+        android:textColor="@color/black"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:text="xiaomu mi 11"
+        android:textSize="19dp" />
+    <TextView
+        android:layout_marginTop="29dp"
+
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:text="gia"
+        android:textSize="16dp" />
+    <TextView
+        android:textColor="@color/black"
+        android:id="@+id/txt_price"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:text="gia : 9000000"
+        android:textSize="19dp" />
+    <TextView
+        android:layout_marginTop="29dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:text="địa chỉ giao hàng"
+        android:textSize="16dp" />
+    <TextView
+        android:textColor="@color/black"
+        android:id="@+id/txt_address"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:text="quang nam nong son"
+        android:textSize="19dp" />
+
+
+    <TextView
+        android:layout_marginTop="29dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:text="số điện thoại"
+        android:textSize="16dp" />
+    <TextView
+        android:id="@+id/txt_phone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:text="02222222"
+        android:textColor="@color/black"
+        android:textSize="19dp" />
+
+    <TextView
+        android:layout_marginTop="29dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:text="tên người mua"
+        android:textSize="16dp" />
+    <TextView
+        android:id="@+id/txt_name_buyer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:text="nguyen xuan tri"
+        android:textColor="@color/black"
+        android:textSize="19dp" />
+
+    <TextView
+        android:layout_marginTop="29dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:text="ngay dat hang"
+        android:textSize="16dp" />
+    <TextView
+        android:id="@+id/txt_date_place"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:text="nguyen xuan tri"
+        android:textColor="@color/black"
+        android:textSize="19dp" />
+
+    <Button
+        android:layout_marginTop="29dp"
+        android:id="@+id/btn_close"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:text="close"
+        android:textColor="@color/black" />
+
+</LinearLayout>

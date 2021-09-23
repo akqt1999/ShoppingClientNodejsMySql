@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_splash"
+    android:orientation="vertical"
+    >
+
+
+    <TextView
+        android:id="@+id/edt_ent"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:text="ETN"
+        android:textColor="#EF34DC"
+        android:textSize="50dp" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:text="thay doi the gioi"
+        android:layout_below="@+id/edt_ent"
+        android:textColor="#EFE634"
+        android:textSize="20dp" />
+
+
+
+
+
+</RelativeLayout>
