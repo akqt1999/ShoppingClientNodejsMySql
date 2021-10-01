@@ -14,4 +14,6 @@ public class ViewOrderBySellerClick {
     public ViewOrderBySellerClick(boolean success) {
         this.success = success;
     }
+
+
 }

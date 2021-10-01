@@ -121,7 +121,7 @@ public class ChiTietSanPhamFragment extends Fragment {
         txtFoodName.setText(sanPham.getTenSP());
         txtFoodPrice.setText(Common.formatPrice(sanPham.getGiaSP()));
         txtFoodDescription.setText(sanPham.getMoTa());
-        txt_phone.setText(Common.currentUser.getPhoneUser());
+        txt_phone.setText(sanPham.getPhoneUser());
 
         ((AppCompatActivity) getActivity())
                 .getSupportActionBar().setTitle(sanPham.getTenSP());

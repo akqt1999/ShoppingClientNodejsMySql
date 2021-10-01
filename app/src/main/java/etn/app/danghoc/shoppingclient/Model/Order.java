@@ -6,7 +6,7 @@ public class Order {
     private int IdDonHang, IdSP;
     private int TrangThai;// 0 dang cho xac nhan ,1 da xac nhan ,2 da huy
     private Date NgayDat;
-    private String IdUser, sdt, IdSeller, TenUser, DiaChi,TenSP,hinh;
+    private String IdUser, sdt, IdSeller, TenUser, DiaChi,TenSP,hinh,sdtSeller,nameSeller;
     private Double gia;
 
 
@@ -23,6 +23,22 @@ public class Order {
         TenSP = tenSP;
         this.hinh = hinh;
         this.gia = gia;
+    }
+
+    public String getSdtSeller() {
+        return sdtSeller;
+    }
+
+    public void setSdtSeller(String sdtSeller) {
+        this.sdtSeller = sdtSeller;
+    }
+
+    public String getNameSeller() {
+        return nameSeller;
+    }
+
+    public void setNameSeller(String nameSeller) {
+        this.nameSeller = nameSeller;
     }
 
     public String getHinh() {

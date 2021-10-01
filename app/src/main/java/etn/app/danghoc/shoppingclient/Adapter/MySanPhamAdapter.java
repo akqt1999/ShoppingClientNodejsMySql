@@ -50,7 +50,7 @@ public class MySanPhamAdapter extends RecyclerView.Adapter<MySanPhamAdapter.MyVi
     public void onBindViewHolder(@NonNull @NotNull MyViewHolder holder, int position) {
         Picasso.get().load(sanPhamList.get(position).getHinh()).into(holder.img_sanpham);
         holder.txt_sanpham_name.setText(sanPhamList.get(position).getTenSP());
-        holder.txt_sanpham_gia.setText(Common.formatPrice(sanPhamList.get(position).getGiaSP())+" vnd");
+        holder.txt_sanpham_gia.setText(Common.formatPrice(sanPhamList.get(position).getGiaSP()));
 
         holder.setListener((view, position1) -> {
             Common.selectSanPham = sanPhamList.get(position1);

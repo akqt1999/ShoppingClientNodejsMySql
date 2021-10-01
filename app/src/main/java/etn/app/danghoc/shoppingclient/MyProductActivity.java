@@ -14,6 +14,7 @@ import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import butterknife.BindView;
@@ -55,7 +56,6 @@ public class MyProductActivity extends AppCompatActivity {
     }
 
     private void displayMyProduct() {
-        Toast.makeText(this, "vua vao app", Toast.LENGTH_SHORT).show();
         compositeDisposable.
                 add(myRestaurantAPI.getSanPhamByUser(Common.API_KEY,
                         Common.currentUser.getIdUser())
@@ -66,6 +66,7 @@ public class MyProductActivity extends AppCompatActivity {
                             {
                                 Common.sanPhamList = productModel.getResult();
                                 sanPhamList=productModel.getResult();
+                                Collections.reverse(sanPhamList);
                                 LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
                                 recycler_my_product.setLayoutManager(linearLayoutManager);
                                 adapter = new MyProductAdapter(this, sanPhamList);

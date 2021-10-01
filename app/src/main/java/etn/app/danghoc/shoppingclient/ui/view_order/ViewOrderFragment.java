@@ -34,6 +34,7 @@ import butterknife.Unbinder;
 import etn.app.danghoc.shoppingclient.Adapter.ViewOrderAdapter;
 import etn.app.danghoc.shoppingclient.Common.Common;
 import etn.app.danghoc.shoppingclient.EventBus.UpdateStatusOrder;
+import etn.app.danghoc.shoppingclient.EventBus.ViewOrderByBuyerClick;
 import etn.app.danghoc.shoppingclient.Model.Order;
 import etn.app.danghoc.shoppingclient.R;
 import etn.app.danghoc.shoppingclient.Retrofit.IMyShoppingAPI;
@@ -116,7 +117,16 @@ public class ViewOrderFragment extends Fragment {
         if (EventBus.getDefault().isRegistered(toString()))
             EventBus.getDefault().unregister(this);
         EventBus.getDefault().postSticky(new UpdateStatusOrder(-99, -1));
+        EventBus.getDefault().postSticky(new ViewOrderByBuyerClick(false));
         super.onStop();
+    }
+
+    @Subscribe(sticky = true, threadMode = ThreadMode.MAIN)
+    public  void clickOrder(ViewOrderByBuyerClick event){
+        if (event.isSuccess()){
+                    OrderDetailDialog dialog=OrderDetailDialog.newInstance();
+                    dialog.show(getParentFragmentManager(),"12354");
+        }
     }
 
     @Subscribe(sticky = true, threadMode = ThreadMode.MAIN)

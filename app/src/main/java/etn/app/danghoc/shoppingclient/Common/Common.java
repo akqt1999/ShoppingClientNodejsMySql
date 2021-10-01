@@ -39,12 +39,13 @@ public class Common {
     public static CategoryProduct selectCategprySelect;
     public static double totalPriceFromCart;
     public static Order selectOrderBySeller;
+    public static Order selectOrderByBuyer;
 
     public static String formatPrice(double price) {
         if (price != 0) {
-            DecimalFormat df = new DecimalFormat("#,##0.00");
+            DecimalFormat df = new DecimalFormat("#,##0");
             df.setRoundingMode(RoundingMode.UP);
-            String finalPrice = new StringBuilder(df.format(price)).toString();
+            String finalPrice = new StringBuilder(df.format(price)).append(" ₫").toString();
             return finalPrice;
             //.replace(".","");
         } else

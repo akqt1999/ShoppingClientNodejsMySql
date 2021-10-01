@@ -48,7 +48,7 @@ public class OrderDetailDialog extends DialogFragment {
     }
 
     private void displayDetailOrder() {
-         SimpleDateFormat simpleDateFormat= new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+         SimpleDateFormat simpleDateFormat= new SimpleDateFormat("dd-MM-yyyy");
 
         txt_name_product.setText(Common.selectOrderBySeller.getTenSP());
         txt_price.setText(Common.formatPrice(Common.selectOrderBySeller.getGia()));

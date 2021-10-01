@@ -282,7 +282,8 @@ public class ConfirmOrderDialog extends DialogFragment {
 
     private String createCurrentDay() {
         long estimatedServerTimeMs = System.currentTimeMillis();
-        SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
+     //   SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
         Date resultDate = new Date(estimatedServerTimeMs);
         String date = sdf.format(resultDate);
 
@@ -292,7 +293,7 @@ public class ConfirmOrderDialog extends DialogFragment {
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        c.add(Calendar.DATE, 1);  // number of days to add
+     //   c.add(Calendar.DATE, 1);  // number of days to add trong sql server bi loi cai nay se khong bi loi
         date=sdf.format(c.getTime());
         return date;
 

@@ -88,6 +88,8 @@ public class MainActivity extends AppCompatActivity {
 
         mAuth = FirebaseAuth.getInstance();
 
+        mAuth.getFirebaseAuthSettings().setAppVerificationDisabledForTesting(true);
+
         edt_phone_number=findViewById(R.id.edit_phone_number);
 
         providers= Arrays.asList(new AuthUI.IdpConfig.PhoneBuilder().build());
@@ -164,10 +166,10 @@ public class MainActivity extends AppCompatActivity {
                 .setIsSmartLockEnabled(false)
                 .build());
 
-        if(edt_phone_number.getText().toString()==null){
-            Toast.makeText(this, "chưa nhập số điện thoại hoặt nhập sai", Toast.LENGTH_SHORT).show();
-            return;
-        }
+//        if(edt_phone_number.getText().toString()==null){
+//            Toast.makeText(this, "chưa nhập số điện thoại hoặt nhập sai", Toast.LENGTH_SHORT).show();
+//            return;
+//        }
 
 //        PhoneAuthOptions options =
 //                PhoneAuthOptions.newBuilder(mAuth)

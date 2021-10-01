@@ -4,7 +4,7 @@ public class SanPham {
   private String   IdUser,TenSP,MoTa,hinh;
   private int IdSP,IdDanhMuc,trangthai;
   private float GiaSP;
-
+  private String PhoneUser;
 
     public SanPham(String idUser, String tenSP, String moTa, String hinh, int idSP, int idDanhMuc, int trangthai, float giaSP) {
         IdUser = idUser;
@@ -15,6 +15,14 @@ public class SanPham {
         IdDanhMuc = idDanhMuc;
         this.trangthai = trangthai;
         GiaSP = giaSP;
+    }
+
+    public String getPhoneUser() {
+        return PhoneUser;
+    }
+
+    public void setPhoneUser(String phoneUser) {
+        PhoneUser = phoneUser;
     }
 
     public int getTrangthai() {

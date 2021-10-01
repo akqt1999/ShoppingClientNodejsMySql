@@ -12,6 +12,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -68,9 +69,11 @@ public class SanPhamBuyCategoryFragment extends Fragment {
     private void displaySanPham(List<SanPham> sanPhams) {
         Toast.makeText(getContext(), sanPhams.get(0).getTenSP(), Toast.LENGTH_SHORT).show();
         adapter = new MySanPhamAdapter(getContext(), sanPhams);
-        LinearLayoutManager linearLayoutManager=new LinearLayoutManager(getContext());
-        recycler_sp_by_category.setLayoutManager(linearLayoutManager);
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 2);
+
+        recycler_sp_by_category.setLayoutManager(gridLayoutManager);
         recycler_sp_by_category.setAdapter(adapter);
+
     }
 
     @Override

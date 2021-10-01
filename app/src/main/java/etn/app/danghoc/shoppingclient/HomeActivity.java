@@ -133,6 +133,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         if (EventBus.getDefault().isRegistered(this))
             EventBus.getDefault().unregister(this);
         EventBus.getDefault().postSticky(new DanhMucItemClick(false,-99));
+        EventBus.getDefault().postSticky(new SanPhamItemClick(false, null));
         super.onStop();
     }
 

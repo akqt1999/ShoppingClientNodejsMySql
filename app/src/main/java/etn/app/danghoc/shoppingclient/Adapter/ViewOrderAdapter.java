@@ -28,6 +28,7 @@ import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import etn.app.danghoc.shoppingclient.Common.Common;
 import etn.app.danghoc.shoppingclient.EventBus.UpdateStatusOrder;
+import etn.app.danghoc.shoppingclient.EventBus.ViewOrderByBuyerClick;
 import etn.app.danghoc.shoppingclient.Interface.IOnRecycleViewClickListener;
 import etn.app.danghoc.shoppingclient.Model.Order;
 import etn.app.danghoc.shoppingclient.R;
@@ -59,7 +60,8 @@ public class ViewOrderAdapter extends RecyclerView.Adapter<ViewOrderAdapter.MyVi
         Glide.with(context).load(orderList.get(position).getHinh()).into(holder.img_order);
 
         holder.setOnRecycleViewClickListener((view, position1) -> {
-            Toast.makeText(context, orderList.get(position).getTenSP(), Toast.LENGTH_SHORT).show();
+            Common.selectOrderByBuyer=orderList.get(position1);
+            EventBus.getDefault().postSticky(new ViewOrderByBuyerClick(true));
         });
 
         holder.btn_cancel.setOnClickListener(view -> {

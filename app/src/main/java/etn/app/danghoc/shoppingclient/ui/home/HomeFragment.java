@@ -117,7 +117,6 @@ public class HomeFragment extends Fragment {
     private void initView(View root) {
         unbinder = ButterKnife.bind(this, root);
 
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 2);
         recycler_sanpham.setLayoutManager(gridLayoutManager);
         recycler_sanpham.addItemDecoration(new DividerItemDecoration(getContext(), gridLayoutManager.getOrientation()));
