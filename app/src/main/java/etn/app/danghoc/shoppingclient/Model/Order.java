@@ -10,6 +10,7 @@ public class Order {
     private Double gia;
 
 
+
     public Order(int idDonHang, int idSP, int trangThai, Date ngayDat, String idUser, String sdt, String idSeller, String tenUser, String diaChi, String tenSP, String hinh, Double gia) {
         IdDonHang = idDonHang;
         IdSP = idSP;

@@ -73,7 +73,7 @@ import etn.app.danghoc.shoppingclient.R;
             }
 
             AlertDialog.Builder builder=new AlertDialog.Builder(context);
-            builder.setMessage("ban co thu su muon xoa");
+            builder.setMessage("bạn có thực sự muốn xoá");
             builder.setPositiveButton("xoa", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {

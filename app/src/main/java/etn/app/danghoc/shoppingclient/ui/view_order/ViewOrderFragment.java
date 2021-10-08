@@ -5,6 +5,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -61,6 +62,8 @@ public class ViewOrderFragment extends Fragment {
     Unbinder unbinder;
     @BindView(R.id.recycler_orders)
     RecyclerView recycler_orders;
+    @BindView(R.id.progress_bar)
+    ProgressBar progress_bar;
     ViewOrderAdapter adapter;
 
     List<Order> orderList;
@@ -79,10 +82,12 @@ public class ViewOrderFragment extends Fragment {
 
         viewOrderViewModel.getOrderList().observe(this, orders -> {
             if (orders.size() > 0) {
+                progress_bar.setVisibility(View.GONE);
                 Common.orderList = orders;
                 orderList = orders;
                 displayOrders();
             } else {
+                progress_bar.setVisibility(View.GONE);
                 viewOrderViewModel.getMessageError().observe(this, s -> {
                     Toast.makeText(getContext(), "" + s, Toast.LENGTH_SHORT).show();
                 });
@@ -91,6 +96,7 @@ public class ViewOrderFragment extends Fragment {
 
 
         unbinder = ButterKnife.bind(this, root);
+
         compositeDisposable = new CompositeDisposable();
         myRestaurantAPI = RetrofitClient.getInstance(Common.API_RESTAURANT_ENDPOINT).create(IMyShoppingAPI.class);
         apiService= Client.getInstance().create(APIService.class);

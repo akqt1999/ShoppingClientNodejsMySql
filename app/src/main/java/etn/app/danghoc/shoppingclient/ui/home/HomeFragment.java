@@ -6,13 +6,16 @@ import android.app.SearchManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ProgressBar;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -30,18 +33,23 @@ import androidx.recyclerview.widget.RecyclerView;
 import org.greenrobot.eventbus.EventBus;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
+import etn.app.danghoc.shoppingclient.Adapter.CategoryAdapter;
 import etn.app.danghoc.shoppingclient.Adapter.MySanPhamAdapter;
 import etn.app.danghoc.shoppingclient.Adapter.SanPhamSliderAdapter;
 import etn.app.danghoc.shoppingclient.Common.Common;
 import etn.app.danghoc.shoppingclient.Model.SanPham;
+import etn.app.danghoc.shoppingclient.Model.Tinh;
 import etn.app.danghoc.shoppingclient.R;
 import etn.app.danghoc.shoppingclient.Retrofit.IMyShoppingAPI;
 import etn.app.danghoc.shoppingclient.Retrofit.RetrofitClient;
+import etn.app.danghoc.shoppingclient.Retrofit.RetrofitClientAddress;
 import etn.app.danghoc.shoppingclient.Sevices.PicassoImageLoadingService;
 import etn.app.danghoc.shoppingclient.databinding.FragmentHomeBinding;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -56,6 +64,10 @@ public class HomeFragment extends Fragment {
 
     Unbinder unbinder;
 
+    IMyShoppingAPI addressAPI;
+ //   @BindView(R.id.spinner)
+
+    Spinner spinner;
     @BindView(R.id.progress_bar)
     ProgressBar progress_bar;
     @BindView(R.id.banner_slider)
@@ -66,7 +78,11 @@ public class HomeFragment extends Fragment {
     MySanPhamAdapter adapter, searchSanPhamAdapter;
 
     CompositeDisposable compositeDisposable = new CompositeDisposable();
+
     IMyShoppingAPI shoppingAPI;
+    List<Tinh> provinceList = new ArrayList<>();
+    CategoryAdapter adapterCategory;
+
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -93,12 +109,57 @@ public class HomeFragment extends Fragment {
             progress_bar.setVisibility(View.GONE);
         });
 
+        addressAPI = RetrofitClientAddress.getInstance("https://dev-online-gateway.ghn.vn/").create(IMyShoppingAPI.class);
+        displayProvince();
+
         initView(root);
 
 
         return root;
     }
 
+
+    private void displayProvince() {
+        compositeDisposable.add(addressAPI.getProvince("8ce54678-f9b7-11eb-bfef-86bbb1a09031",
+                "application/json")
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(s -> {
+                    try {
+                        if (provinceList.size() > 0)
+                            provinceList.clear();
+
+                        provinceList = s.getResult();
+
+                        Collections.reverse(provinceList);
+                        adapterCategory = new CategoryAdapter(getContext(), R.layout.item_selected_province, provinceList);
+
+                        spinner.setAdapter(adapterCategory);
+
+
+                    } catch (Exception e) {
+                        Toast.makeText(getContext(), "" + e.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+
+                }, throwable -> {
+                    Toast.makeText(getContext(), "loi" + throwable.getMessage(), Toast.LENGTH_SHORT).show();
+                    Log.d("assas", throwable.getMessage());
+                }));
+    //    spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+//            @Override
+//            public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
+//
+//            }
+//
+//            @Override
+//            public void onNothingSelected(AdapterView<?> adapterView) {
+//
+//            }
+//        });
+
+//
+
+    }
 
     private void displayRestaurant(List<SanPham> sanPhams) {
         progress_bar.setVisibility(View.GONE);
@@ -121,6 +182,8 @@ public class HomeFragment extends Fragment {
         recycler_sanpham.setLayoutManager(gridLayoutManager);
         recycler_sanpham.addItemDecoration(new DividerItemDecoration(getContext(), gridLayoutManager.getOrientation()));
         // DividerItemDecoration : dung de tao ra cac dau ____ ngan cach
+
+        spinner=root.findViewById(R.id.spinner);
 
         Slider.init(new PicassoImageLoadingService());
 

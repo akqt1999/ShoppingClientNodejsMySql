@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -68,13 +69,21 @@ public class ConfirmOrderDialog extends DialogFragment {
         CompositeDisposable compositeDisposable = new CompositeDisposable();
     APIService apiService;
 
+    @BindView(R.id.progress_bar)
+    ProgressBar progressBar;
+
+   @BindView(R.id.txt_address)
     TextView txt_address;
+
     @BindView(R.id.btn_cancel123)
     Button btn_cancel;
+
     @BindView(R.id.btn_confirm_buy)
     Button btn_confirm_buy;
+
     @BindView(R.id.btn_add_new_address)
      Button btn_add_new_address;
+
     @BindView(R.id.txt_total_price)
       TextView txt_total_price;
     Unbinder unbinder;
@@ -154,10 +163,17 @@ public class ConfirmOrderDialog extends DialogFragment {
     @OnClick(R.id.btn_confirm_buy)
     void confirmBuyClick() {
 
+        progressBar.setVisibility(View.VISIBLE);
 
         for (int i = 0; i < Common.cartList.size(); i++) {
             if (Common.cartList.get(i).isChoose()) {
                 countOrderChoose++;
+            }
+        }
+
+        for (int i = 0; i < Common.cartList.size(); i++) {
+            if (Common.cartList.get(i).isChoose()) {
+
                 float gia = Common.cartList.get(i).getGia();
                 int IdSP = Common.cartList.get(i).getIdSP();
                 String IdSeller = Common.cartList.get(i).getIdSeller();
@@ -198,6 +214,7 @@ public class ConfirmOrderDialog extends DialogFragment {
                                 countOrderSuccess++;
                                 if(countOrderSuccess==countOrderChoose)
                                 {
+                                    progressBar.setVisibility(View.GONE);
                                     showDialogSuccess();
                                 }
 
@@ -231,27 +248,36 @@ public class ConfirmOrderDialog extends DialogFragment {
                         String usertoken=snapshot.getValue(String.class);
                         NotificationSender sender = new NotificationSender(data, usertoken);
 
+                        try {
+                            apiService.sendNotifcation(sender).enqueue(new Callback<MyResponse>() {
+                                @Override
+                                public void onResponse(Call<MyResponse> call, Response<MyResponse> response) {
+                                    if(response.code()==200)
+                                    {
+                                        if(response.body().success!=1){
+                                            Toast.makeText(getContext(), "send Notification Fail", Toast.LENGTH_SHORT).show();
+                                        }
+                                        else {
+                                            Toast.makeText(getContext(), "send notifi success", Toast.LENGTH_SHORT).show();
+                                        }
+                                    }
 
-                        apiService.sendNotifcation(sender).enqueue(new Callback<MyResponse>() {
-                            @Override
-                            public void onResponse(Call<MyResponse> call, Response<MyResponse> response) {
-                                if(response.code()==200)
-                                {
-                                    if(response.body().success!=1){
-                                        Toast.makeText(getContext(), "send Notification Fail", Toast.LENGTH_SHORT).show();
-                                    }
-                                    else {
-                                        Toast.makeText(getContext(), "send notifi success", Toast.LENGTH_SHORT).show();
-                                    }
                                 }
 
-                            }
+                                @Override
+                                public void onFailure(Call<MyResponse> call, Throwable t) {
+                                    Toast.makeText(getContext(), ""+t.getMessage(), Toast.LENGTH_SHORT).show();
+                                }
+                            });
+                        }
+                        catch (Exception ex){
+                            Toast.makeText(getContext(), ex.getMessage(), Toast.LENGTH_SHORT).show();
 
-                            @Override
-                            public void onFailure(Call<MyResponse> call, Throwable t) {
-                                Toast.makeText(getContext(), ""+t.getMessage(), Toast.LENGTH_SHORT).show();
-                            }
-                        });
+                        }
+
+
+
+
 
                     }
 

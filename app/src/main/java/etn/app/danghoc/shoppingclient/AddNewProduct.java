@@ -40,18 +40,24 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import etn.app.danghoc.shoppingclient.Adapter.CategoryAdapter;
 import etn.app.danghoc.shoppingclient.Adapter.CategoryProductAdapter;
 import etn.app.danghoc.shoppingclient.Common.Common;
+import etn.app.danghoc.shoppingclient.Common.MoneyTextWatcher;
 import etn.app.danghoc.shoppingclient.Model.CategoryProduct;
+import etn.app.danghoc.shoppingclient.Model.Tinh;
 import etn.app.danghoc.shoppingclient.Model.UpdateModel;
 import etn.app.danghoc.shoppingclient.Retrofit.IMyShoppingAPI;
 import etn.app.danghoc.shoppingclient.Retrofit.RetrofitClient;
+import etn.app.danghoc.shoppingclient.Retrofit.RetrofitClientAddress;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.schedulers.Schedulers;
@@ -70,22 +76,33 @@ import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
 public class AddNewProduct extends AppCompatActivity implements View.OnClickListener {
 
     CompositeDisposable compositeDisposable = new CompositeDisposable();
-    Spinner spinner;
     CategoryProductAdapter adapter;
+    CategoryAdapter adapterProvince;
     List<CategoryProduct> categoryProducts;
     //ApiService apiService;
     IMyShoppingAPI shoppingAPI;
+    IMyShoppingAPI addressAPI;
     Uri picUri;
     ImageButton btn_choose_img;
     Button btn_add_pd;
+
+    List<Tinh> provinceList = new ArrayList<>();
 
     private static final int IMAGE_PICK_CODE=1000;
     private static final int PERMISSION_CODE=1001;
 
 
-
     Bitmap mBitmap;
+
+//    @BindView(R.id.spinner_khuvuc)
+    Spinner  spinner_khuvuc;
+
+    @BindView(R.id.spinner_category)
+    Spinner  spinner;
+
+    @BindView(R.id.image_pd)
     ImageView image_pd;
+
     @BindView(R.id.progress_bar)
     ProgressBar progress_bar;
     @BindView(R.id.edt_description_pd)
@@ -96,15 +113,19 @@ public class AddNewProduct extends AppCompatActivity implements View.OnClickList
     EditText edt_price_pd;
 
 
-    int idDanhMuc = -99;
+    int idDanhMuc = -99,provinceId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_add_new_product);
 
+        spinner_khuvuc=findViewById(R.id.spinner_khuvuc);
 
         ButterKnife.bind(this);
+
+        edt_price_pd.addTextChangedListener(new MoneyTextWatcher(edt_price_pd));
 
         btn_add_pd = findViewById(R.id.btn_add_pd);
         btn_add_pd.setOnClickListener(this);
@@ -119,7 +140,7 @@ public class AddNewProduct extends AppCompatActivity implements View.OnClickList
         initRetrofitClient();
 
         loadSpinner();
-        progress_bar.setVisibility(View.GONE);
+        displayProvince();//
         compositeDisposable = new CompositeDisposable();
     }
 
@@ -127,6 +148,7 @@ public class AddNewProduct extends AppCompatActivity implements View.OnClickList
     private void initRetrofitClient() {
         OkHttpClient client = new OkHttpClient.Builder().build();
 
+        addressAPI = RetrofitClientAddress.getInstance("https://dev-online-gateway.ghn.vn/").create(IMyShoppingAPI.class);
 
         shoppingAPI = new RetrofitClient().getInstance(Common.API_RESTAURANT_ENDPOINT)
                 .create(IMyShoppingAPI.class);
@@ -134,9 +156,8 @@ public class AddNewProduct extends AppCompatActivity implements View.OnClickList
 
     }
 
+
     private void loadSpinner() {
-        spinner = findViewById(R.id.spinner_category);
-        progress_bar.setVisibility(View.VISIBLE);
         compositeDisposable.add(shoppingAPI.getDanhMuc("1234")
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -174,7 +195,6 @@ public class AddNewProduct extends AppCompatActivity implements View.OnClickList
 
 
 
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -209,6 +229,51 @@ public class AddNewProduct extends AppCompatActivity implements View.OnClickList
     }
 
 
+    private void displayProvince() {
+        compositeDisposable.add(addressAPI.getProvince("8ce54678-f9b7-11eb-bfef-86bbb1a09031",
+                "application/json")
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(s -> {
+                    try {
+                        if (provinceList.size() > 0)
+                            provinceList.clear();
+
+                        provinceList = s.getResult();
+
+                        Collections.reverse(provinceList);
+                      adapterProvince = new CategoryAdapter(this, R.layout.item_selected_province, provinceList);
+
+                        spinner_khuvuc.setAdapter(adapterProvince);
+
+                        progress_bar.setVisibility(View.GONE);
+
+                    } catch (Exception e) {
+                        progress_bar.setVisibility(View.GONE);
+
+                        Toast.makeText(this, "" + e.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+
+                }, throwable -> {
+                    progress_bar.setVisibility(View.GONE);
+
+                    Toast.makeText(this, "loi" + throwable.getMessage(), Toast.LENGTH_SHORT).show();
+                    Log.d("assas", throwable.getMessage());
+                }));
+
+
+        spinner_khuvuc.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
+                        provinceId=provinceList.get(position).getProvinceID();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+            }
+        });
+
+    }
 
     private void multipartImageUpload() {
 
@@ -256,7 +321,10 @@ public class AddNewProduct extends AppCompatActivity implements View.OnClickList
                 public void onResponse(Call<UpdateModel> call, Response<UpdateModel> response) {
 
                     String tenSp = edt_name_pd.getText().toString();
-                    float giaSp = Float.parseFloat(edt_price_pd.getText().toString());
+                   // float giaSp = Float.parseFloat(edt_price_pd.getText().toString());
+                            BigDecimal values= MoneyTextWatcher.parseCurrencyValue(edt_price_pd.getText().toString());
+                            String gia=String.valueOf(values);
+                    float giaSp=Float.parseFloat(gia);
                     String mota = edt_description_pd.getText().toString();
 
                     if (response.code() == 200) {
@@ -266,7 +334,8 @@ public class AddNewProduct extends AppCompatActivity implements View.OnClickList
                                 Common.currentUser.getIdUser(),
                                 tenSp, giaSp, mota, idDanhMuc,
                                 new StringBuilder(Common.API_RESTAURANT_ENDPOINT)
-                                        .append(response.body().getMessage()).toString()
+                                        .append(response.body().getMessage()).toString(),
+                                    provinceId
 
                         )
                                 .subscribeOn(Schedulers.io())

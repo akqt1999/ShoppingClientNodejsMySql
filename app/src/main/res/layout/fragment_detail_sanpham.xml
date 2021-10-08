@@ -132,7 +132,9 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:orientation="horizontal">
-                            <ImageView
+                            <ImageButton
+                                android:backgroundTint="#00000000"
+                                android:id="@+id/btn_call"
                                 android:src="@drawable/ic_baseline_local_phone_24"
                                 android:layout_width="39dp"
                                 android:layout_height="39dp"/>
@@ -183,12 +185,7 @@
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
-    <ProgressBar
-        android:id="@+id/progress_bar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        />
+
 </RelativeLayout>
 
 

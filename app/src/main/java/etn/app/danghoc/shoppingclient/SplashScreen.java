@@ -86,14 +86,14 @@ public class SplashScreen extends AppCompatActivity {
 
 
                                                         startActivity(new Intent(SplashScreen.this, HomeActivity.class));
-                                                       // finish();
+                                                       finish();
                                                         Toast.makeText(SplashScreen.this, "user ton tai trong database", Toast.LENGTH_SHORT).show();
                                                 } else //if  user not available in database
                                                 {
 
                                                     Toast.makeText(SplashScreen.this, "user k ton tai trong database", Toast.LENGTH_SHORT);
                                                     startActivity(new Intent(SplashScreen.this, UpdateInfoActivity.class));
-                                                   // finish();
+                                                    finish();
                                                 }
                                             }, throwable -> {
                                                 dialog.dismiss();
@@ -104,7 +104,7 @@ public class SplashScreen extends AppCompatActivity {
                         } else {
                             //co nghĩa là cái này  là chưa có cái user đăng nhập vào hệ thống
                             startActivity(new Intent(SplashScreen.this, MainActivity.class));
-                          //  finish();
+                            finish();
                         }
 
 
@@ -120,6 +120,7 @@ public class SplashScreen extends AppCompatActivity {
 
                     }
                 }).check();
+
 
 
         // handler 3s vao app

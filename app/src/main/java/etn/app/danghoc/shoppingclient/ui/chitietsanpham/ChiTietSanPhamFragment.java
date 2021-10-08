@@ -1,5 +1,8 @@
 package etn.app.danghoc.shoppingclient.ui.chitietsanpham;
 
+import android.Manifest;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,6 +23,12 @@ import androidx.lifecycle.ViewModelProvider;
 import com.andremion.counterfab.CounterFab;
 import com.bumptech.glide.Glide;
 import com.cepheuen.elegantnumberbutton.view.ElegantNumberButton;
+import com.karumi.dexter.Dexter;
+import com.karumi.dexter.PermissionToken;
+import com.karumi.dexter.listener.PermissionDeniedResponse;
+import com.karumi.dexter.listener.PermissionGrantedResponse;
+import com.karumi.dexter.listener.PermissionRequest;
+import com.karumi.dexter.listener.single.PermissionListener;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -46,8 +55,7 @@ public class ChiTietSanPhamFragment extends Fragment {
 
 
     Unbinder unbinder;
-    @BindView(R.id.progress_bar)
-    ProgressBar progress_bar;
+
     @BindView(R.id.imgFood)
     ImageView imgFood;
     @BindView(R.id.txtFoodName)
@@ -65,7 +73,6 @@ public class ChiTietSanPhamFragment extends Fragment {
     @OnClick(R.id.btn_cart)
     public void addCart ()
     {
-        progress_bar.setVisibility(View.VISIBLE);
             compositeDisposable.add(myRestaurantAPI.addCart(
                     Common.API_KEY,
                     Common.selectSanPham.getIdSP(),
@@ -79,18 +86,38 @@ public class ChiTietSanPhamFragment extends Fragment {
                     .subscribe(cartModel -> {
                         if(cartModel.isSuccess())
                         {
-                            progress_bar.setVisibility(View.GONE);
                             Toast.makeText(getContext(), "add cart success", Toast.LENGTH_SHORT).show();
                         }else {
-                            progress_bar.setVisibility(View.GONE);
                         }
 
                     },throwable -> {
-                        progress_bar.setVisibility(View.GONE);
                         Toast.makeText(getContext(), "[ADD CART]"+throwable.getMessage(), Toast.LENGTH_SHORT).show();
                     }));
     }
 
+    @OnClick(R.id.btn_call)
+    public void clickCall(){
+        Dexter.withContext(getContext())
+                .withPermission(Manifest.permission.CALL_PHONE)
+                .withListener(new PermissionListener() {
+                    @Override
+                    public void onPermissionGranted(PermissionGrantedResponse permissionGrantedResponse) {
+                        Intent intent = new Intent(Intent.ACTION_DIAL,
+                                Uri.fromParts("tel", txt_phone.getText().toString(), null));
+                        startActivity(intent);
+                    }
+
+                    @Override
+                    public void onPermissionDenied(PermissionDeniedResponse permissionDeniedResponse) {
+                        Toast.makeText(getContext(), "you must accept permission to use our app", Toast.LENGTH_SHORT).show();
+                    }
+
+                    @Override
+                    public void onPermissionRationaleShouldBeShown(PermissionRequest permissionRequest, PermissionToken permissionToken) {
+
+                    }
+                }).check();
+    }
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         slideshowViewModel =
@@ -108,7 +135,6 @@ public class ChiTietSanPhamFragment extends Fragment {
         unbinder= ButterKnife.bind(this,root);
 
         init();
-    progress_bar.setVisibility(View.GONE);
         return root;
     }
 

@@ -74,9 +74,7 @@ public class AddAddressOrder extends DialogFragment {
 
     Unbinder unbinder;
 
-    //hien ra thong thanh cong neu hai cai nay bang nhau
-    int countOrderSuccess = 0;
-    int countOrderChoose = 0;
+
 
     @Override
     public void onCreate(@Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {

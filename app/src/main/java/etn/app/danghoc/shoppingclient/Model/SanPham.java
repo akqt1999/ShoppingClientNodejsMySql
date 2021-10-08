@@ -5,7 +5,7 @@ public class SanPham {
   private int IdSP,IdDanhMuc,trangthai;
   private float GiaSP;
   private String PhoneUser;
-
+private int ProvinceId;
     public SanPham(String idUser, String tenSP, String moTa, String hinh, int idSP, int idDanhMuc, int trangthai, float giaSP) {
         IdUser = idUser;
         TenSP = tenSP;
@@ -15,6 +15,14 @@ public class SanPham {
         IdDanhMuc = idDanhMuc;
         this.trangthai = trangthai;
         GiaSP = giaSP;
+    }
+
+    public int getProvinceId() {
+        return ProvinceId;
+    }
+
+    public void setProvinceId(int provinceId) {
+        ProvinceId = provinceId;
     }
 
     public String getPhoneUser() {

@@ -1,5 +1,7 @@
 package etn.app.danghoc.shoppingclient.ui.view_order;
 
+import android.util.Log;
+
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
@@ -47,9 +49,11 @@ public class ViewOrderViewModel extends ViewModel {
                             if(orderModel.isSuccess())
                             {
                                 orderList.setValue(orderModel.getResult());
+                                Log.d("loix",orderModel.getResult().size()+"");
                             }
 
                         },throwable -> {
+                            Log.d("loix",throwable.getMessage());
                             messageError.setValue(throwable.getMessage());
                         })
                 );

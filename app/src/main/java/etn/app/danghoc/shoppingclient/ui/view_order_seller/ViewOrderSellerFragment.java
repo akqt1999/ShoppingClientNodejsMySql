@@ -5,6 +5,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -67,6 +68,8 @@ public class ViewOrderSellerFragment extends Fragment {
     @BindView(R.id.recycler_orders)
     RecyclerView recycler_orders;
     ViewOrderSellerAdapter adapter;
+    @BindView(R.id.progress_bar)
+    ProgressBar progress_bar;
 
     List<Order> orderList;
 
@@ -91,7 +94,9 @@ public class ViewOrderSellerFragment extends Fragment {
                 Common.orderSellerList = orders;
                 orderList = orders;
                 displayOrders();
+                progress_bar.setVisibility(View.GONE);
             } else {
+                progress_bar.setVisibility(View.GONE);
                 viewOrderSellerModel.getMessageError().observe(this, s -> {
                     Toast.makeText(getContext(), "" + s, Toast.LENGTH_SHORT).show();
                 });

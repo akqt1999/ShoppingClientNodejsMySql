@@ -77,7 +77,10 @@ public interface IMyShoppingAPI {
                         @Field("GiaSP") float GiaSP,
                         @Field("MoTa") String Mota,
                         @Field("IdDanhMuc") int IdDanhMuc,
-                        @Field("hinh") String hinh);
+                        @Field("hinh") String hinh,
+                        @Field("ProvinceId") int privinceid)
+
+            ;
 
 
     @POST("updatesanpham")
@@ -89,7 +92,8 @@ public interface IMyShoppingAPI {
             @Field("GiaSP") float GiaSP,
             @Field("Mota") String Mota,
             @Field("IdDanhMuc") int IdDanhMuc,
-            @Field("hinh") String hinh);
+            @Field("hinh") String hinh,
+            @Field("ProvinceId") int privinceid);
 
 //=============
     // gio hang

@@ -51,8 +51,7 @@ public class CartFragment extends Fragment {
 
 
     Unbinder unbinder;
-    @BindView(R.id.progress_bar)
-    ProgressBar progress_bar;
+
     @BindView(R.id.recycler_cart)
     RecyclerView recyclerCart;
     @BindView(R.id.txtTotalPrice)
@@ -80,11 +79,11 @@ public class CartFragment extends Fragment {
 
         cartViewModel.getMessageError().observe(this, s -> {
             txt_empty_cart.setVisibility(View.VISIBLE);
-            progress_bar.setVisibility(View.GONE);
+           // progress_bar.setVisibility(View.GONE);
             if (s != null || s.length() != 0){
                 txt_empty_cart.setVisibility(View.VISIBLE);
                 Toast.makeText(getContext(), "null cart", Toast.LENGTH_SHORT).show();
-                progress_bar.setVisibility(View.GONE);
+              //  progress_bar.setVisibility(View.GONE);
                 Toast.makeText(getContext(), "[get listr cart]" + s, Toast.LENGTH_SHORT).show();
 
             }
@@ -92,7 +91,7 @@ public class CartFragment extends Fragment {
 
         cartViewModel.getListCart().observe(this, carts -> {
 
-            progress_bar.setVisibility(View.GONE);
+        //    progress_bar.setVisibility(View.GONE);
 
             if (carts.size() == 0) {
 
@@ -100,12 +99,12 @@ public class CartFragment extends Fragment {
             } else {
 
                 Common.cartList = carts;
-                progress_bar.setVisibility(View.GONE);
+           //     progress_bar.setVisibility(View.GONE);
                 cartList = carts;
                 displayCart();
             }
         });
-        progress_bar.setVisibility(View.GONE);
+     //   progress_bar.setVisibility(View.GONE);
         init();
         return root;
     }
@@ -171,7 +170,7 @@ public class CartFragment extends Fragment {
             // adapter.deleteItem(position);
             //adapter.notifyItemRemoved(position);
 
-            progress_bar.setVisibility(View.VISIBLE);
+          //  progress_bar.setVisibility(View.VISIBLE);
             compositeDisposable.
                     add(myRestaurantAPI.deleteCart(
                             Common.API_KEY,
@@ -185,17 +184,17 @@ public class CartFragment extends Fragment {
                                             //Common.cartList.remove(position);
                                             cartList.remove(position);
                                             adapter.notifyDataSetChanged();
-                                            progress_bar.setVisibility(View.GONE);
+                                           // progress_bar.setVisibility(View.GONE);
                                             totalPrice();
                                             Toast.makeText(getContext(), "size common" + Common.cartList.size(), Toast.LENGTH_SHORT).show();
                                             Toast.makeText(getContext(), "delete success", Toast.LENGTH_SHORT).show();
                                         }
                                         else{
-                                            progress_bar.setVisibility(View.GONE);
+                                         //   progress_bar.setVisibility(View.GONE);
                                         }
 
                                     }, throwable -> {
-                                        progress_bar.setVisibility(View.GONE);
+                                       // progress_bar.setVisibility(View.GONE);
                                         Toast.makeText(getContext(), "[DELETE CART]" + throwable.getMessage(), Toast.LENGTH_SHORT).show();
                                     })
                     );
