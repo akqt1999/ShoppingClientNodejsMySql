@@ -61,6 +61,11 @@ public interface IMyShoppingAPI {
                                             @Query("key")String key,
                                             @Query("IdDanhMuc") int IdDanhMuc );
 
+    @GET("sanPhamByProvinceIdTest")
+    Observable<SanPhamModel> getSanPhamByProvinceId(@Query("key") String apiKey,
+                                              @Query("IdUser") String IdUser,
+                                                    @Query("ProvinceId") int ProvinceId );
+
     @DELETE("sanpham")
     Observable<DeleteProductModel> deleteProduct(@Query("key") String apiKey,
                                                  @Query("IdSP") int IdSP);

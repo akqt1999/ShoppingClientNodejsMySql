@@ -94,6 +94,9 @@ public class ViewOrderFragment extends Fragment {
             }
         });
 
+        viewOrderViewModel.getMessageError().observe(this,s -> {
+            progress_bar.setVisibility(View.GONE);
+        });
 
         unbinder = ButterKnife.bind(this, root);
 
@@ -124,6 +127,7 @@ public class ViewOrderFragment extends Fragment {
             EventBus.getDefault().unregister(this);
         EventBus.getDefault().postSticky(new UpdateStatusOrder(-99, -1));
         EventBus.getDefault().postSticky(new ViewOrderByBuyerClick(false));
+
         super.onStop();
     }
 
@@ -220,4 +224,6 @@ public class ViewOrderFragment extends Fragment {
         super.onDestroyView();
         binding = null;
     }
+
+
 }

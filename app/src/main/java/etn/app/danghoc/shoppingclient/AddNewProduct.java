@@ -48,6 +48,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import dmax.dialog.SpotsDialog;
 import etn.app.danghoc.shoppingclient.Adapter.CategoryAdapter;
 import etn.app.danghoc.shoppingclient.Adapter.CategoryProductAdapter;
 import etn.app.danghoc.shoppingclient.Common.Common;
@@ -85,6 +86,8 @@ public class AddNewProduct extends AppCompatActivity implements View.OnClickList
     Uri picUri;
     ImageButton btn_choose_img;
     Button btn_add_pd;
+
+    AlertDialog dialog;
 
     List<Tinh> provinceList = new ArrayList<>();
 
@@ -125,7 +128,7 @@ public class AddNewProduct extends AppCompatActivity implements View.OnClickList
 
         ButterKnife.bind(this);
 
-        edt_price_pd.addTextChangedListener(new MoneyTextWatcher(edt_price_pd));
+
 
         btn_add_pd = findViewById(R.id.btn_add_pd);
         btn_add_pd.setOnClickListener(this);
@@ -136,6 +139,7 @@ public class AddNewProduct extends AppCompatActivity implements View.OnClickList
 
         image_pd = findViewById(R.id.image_pd);
 
+        dialog = new SpotsDialog.Builder().setContext(this).setTheme(R.style.Custom).setCancelable(false).build();
 
         initRetrofitClient();
 
@@ -314,17 +318,18 @@ public class AddNewProduct extends AppCompatActivity implements View.OnClickList
             MultipartBody.Part body = MultipartBody.Part.createFormData("myFile", file.getName(), reqFile);
             RequestBody name = RequestBody.create(MediaType.parse("text/plain"), "myFile");
 
-
+            dialog.show();
             Call<UpdateModel> req = shoppingAPI.postImage2(body, name);
             req.enqueue(new Callback<UpdateModel>() {
                 @Override
                 public void onResponse(Call<UpdateModel> call, Response<UpdateModel> response) {
 
+
+
                     String tenSp = edt_name_pd.getText().toString();
-                   // float giaSp = Float.parseFloat(edt_price_pd.getText().toString());
-                            BigDecimal values= MoneyTextWatcher.parseCurrencyValue(edt_price_pd.getText().toString());
-                            String gia=String.valueOf(values);
-                    float giaSp=Float.parseFloat(gia);
+
+                    float giaSp=Float.parseFloat(edt_price_pd.getText().toString()
+                            .replaceAll("[,]","").replaceAll("[.]",""));
                     String mota = edt_description_pd.getText().toString();
 
                     if (response.code() == 200) {
@@ -341,6 +346,7 @@ public class AddNewProduct extends AppCompatActivity implements View.OnClickList
                                 .subscribeOn(Schedulers.io())
                                 .observeOn(AndroidSchedulers.mainThread())
                                 .subscribe(uploadSanPhamModel -> {
+                                    dialog.dismiss();
                                     Toast.makeText(AddNewProduct.this, "them san pham thanh cong", Toast.LENGTH_SHORT).show();
                                 }, throwable -> {
                                     Toast.makeText(AddNewProduct.this, "[UPLOAD NEW PRODUCT]" + throwable.getMessage(), Toast.LENGTH_SHORT).show();
@@ -348,12 +354,14 @@ public class AddNewProduct extends AppCompatActivity implements View.OnClickList
                     }
                     else{
                         progress_bar.setVisibility(View.GONE);
+                        dialog.dismiss();
                     }
 
                 }
 
                 @Override
                 public void onFailure(Call<UpdateModel> call, Throwable t) {
+                    dialog.dismiss();
                     progress_bar.setVisibility(View.GONE);
                     Toast.makeText(getApplicationContext(), "Request failed", Toast.LENGTH_SHORT).show();
                     t.printStackTrace();
@@ -363,8 +371,10 @@ public class AddNewProduct extends AppCompatActivity implements View.OnClickList
 
 
         } catch (FileNotFoundException e) {
+            dialog.dismiss();
             e.printStackTrace();
         } catch (IOException e) {
+            dialog.dismiss();
             e.printStackTrace();
         }
     }

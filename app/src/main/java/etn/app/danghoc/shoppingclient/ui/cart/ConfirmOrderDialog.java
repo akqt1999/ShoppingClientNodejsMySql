@@ -235,6 +235,7 @@ public class ConfirmOrderDialog extends DialogFragment {
     private void sendNotificationOrderSuccess(String IdSeller) {
 
 
+        progressBar.setVisibility(View.VISIBLE);
         String title="new order";
         String message="you have new order form "+Common.currentUser.getNameUser();
         Data data = new Data(title, message);
@@ -252,26 +253,38 @@ public class ConfirmOrderDialog extends DialogFragment {
                             apiService.sendNotifcation(sender).enqueue(new Callback<MyResponse>() {
                                 @Override
                                 public void onResponse(Call<MyResponse> call, Response<MyResponse> response) {
+                                    progressBar.setVisibility(View.GONE);
                                     if(response.code()==200)
                                     {
-                                        if(response.body().success!=1){
-                                            Toast.makeText(getContext(), "send Notification Fail", Toast.LENGTH_SHORT).show();
+                                        try {
+                                            if(response.body().success!=1){
+                                              //  Toast.makeText(getContext(), "send Notification Fail", Toast.LENGTH_SHORT).show();
+                                            }
+                                            else {
+                                                Toast.makeText(getContext(), "send notifi success", Toast.LENGTH_SHORT).show();
+                                            }
+
+                                        }catch (Exception ex){
+                                          //  Toast.makeText(getContext(), ex.getMessage(), Toast.LENGTH_SHORT).show();
                                         }
-                                        else {
-                                            Toast.makeText(getContext(), "send notifi success", Toast.LENGTH_SHORT).show();
-                                        }
+
                                     }
 
                                 }
 
                                 @Override
                                 public void onFailure(Call<MyResponse> call, Throwable t) {
-                                    Toast.makeText(getContext(), ""+t.getMessage(), Toast.LENGTH_SHORT).show();
+                                    try {
+                                      //  Toast.makeText(getContext(), ""+t.getMessage(), Toast.LENGTH_SHORT).show();
+
+                                    }catch (Exception ex){
+                                      //  Toast.makeText(getContext(), ""+ex.getMessage(), Toast.LENGTH_SHORT).show();
+                                    }
                                 }
                             });
                         }
                         catch (Exception ex){
-                            Toast.makeText(getContext(), ex.getMessage(), Toast.LENGTH_SHORT).show();
+                           // Toast.makeText(getContext(), ex.getMessage(), Toast.LENGTH_SHORT).show();
 
                         }
 
@@ -283,7 +296,7 @@ public class ConfirmOrderDialog extends DialogFragment {
 
                     @Override
                     public void onCancelled(@NonNull @NotNull DatabaseError error) {
-                        Toast.makeText(getContext(), ""+error.getMessage(), Toast.LENGTH_SHORT).show();
+                       // Toast.makeText(getContext(), ""+error.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 });
 

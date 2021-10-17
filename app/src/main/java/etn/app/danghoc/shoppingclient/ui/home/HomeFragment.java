@@ -2,6 +2,7 @@ package etn.app.danghoc.shoppingclient.ui.home;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.app.FragmentManager;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -23,6 +24,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.DividerItemDecoration;
@@ -68,14 +70,14 @@ public class HomeFragment extends Fragment {
  //   @BindView(R.id.spinner)
 
     Spinner spinner;
-    @BindView(R.id.progress_bar)
-    ProgressBar progress_bar;
+
     @BindView(R.id.banner_slider)
     Slider banner_slider;
     @BindView(R.id.recycler_restaurant)
     RecyclerView recycler_sanpham;
 
     MySanPhamAdapter adapter, searchSanPhamAdapter;
+    List<SanPham> sanPhamList=new ArrayList<>();
 
     CompositeDisposable compositeDisposable = new CompositeDisposable();
 
@@ -84,8 +86,11 @@ public class HomeFragment extends Fragment {
     CategoryAdapter adapterCategory;
 
 
+
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
+
+
         homeViewModel =
                 new ViewModelProvider(this).get(HomeViewModel.class);
 
@@ -97,8 +102,9 @@ public class HomeFragment extends Fragment {
         //load recyclerview
         homeViewModel.getListSanPham().observe(this, sanPhams -> {
             if (sanPhams.size() != 0) {
-                displayBanner(sanPhams);
-                displayRestaurant(sanPhams);
+                sanPhamList=sanPhams;
+                displayBanner(sanPhamList);
+                displayRestaurant(sanPhamList);
             } else
                 homeViewModel.getMessageError().observe(this, error -> {
                     Toast.makeText(getContext(), "[Load  restaurant ]" + error, Toast.LENGTH_SHORT).show();
@@ -106,17 +112,21 @@ public class HomeFragment extends Fragment {
 
         });
         homeViewModel.getMessageError().observe(this,s -> {
-            progress_bar.setVisibility(View.GONE);
         });
 
         addressAPI = RetrofitClientAddress.getInstance("https://dev-online-gateway.ghn.vn/").create(IMyShoppingAPI.class);
-        displayProvince();
 
         initView(root);
+        displayProvince();
 
+        Log.d("testacti","create");
 
         return root;
+
+
     }
+
+
 
 
     private void displayProvince() {
@@ -130,8 +140,9 @@ public class HomeFragment extends Fragment {
                             provinceList.clear();
 
                         provinceList = s.getResult();
-
                         Collections.reverse(provinceList);
+                        provinceList.add(0,new Tinh(99998,"Toàn quốc"));
+
                         adapterCategory = new CategoryAdapter(getContext(), R.layout.item_selected_province, provinceList);
 
                         spinner.setAdapter(adapterCategory);
@@ -145,24 +156,57 @@ public class HomeFragment extends Fragment {
                     Toast.makeText(getContext(), "loi" + throwable.getMessage(), Toast.LENGTH_SHORT).show();
                     Log.d("assas", throwable.getMessage());
                 }));
-    //    spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-//            @Override
-//            public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
-//
-//            }
-//
-//            @Override
-//            public void onNothingSelected(AdapterView<?> adapterView) {
-//
-//            }
-//        });
 
-//
+                spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
+                    compositeDisposable.add(shoppingAPI.getSanPhamByProvinceId(Common.API_KEY,
+                            Common.currentUser.getIdUser(),
+                           provinceList.get(position).getProvinceID() )
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(sanPhamModel -> {
+                        if(sanPhamModel.isSuccess()){
+
+                            sanPhamList.clear();
+                            sanPhamList=sanPhamModel.getResult();
+
+                                adapter = new MySanPhamAdapter(getContext(), sanPhamList);
+                                recycler_sanpham.setAdapter(adapter);
+                            displayBanner(sanPhamList);
+
+
+                          //  adapter.notifyDataSetChanged();
+
+                        }
+                        else {
+                            if(sanPhamModel.getMessage().equals("empty")){
+                                Toast.makeText(getContext(), "không có sản phẩm ở địa chỉ được chọn", Toast.LENGTH_SHORT).show();
+
+                            }else{
+                                Toast.makeText(getContext(), "[HOME]"+sanPhamModel.getMessage(), Toast.LENGTH_SHORT).show();
+
+                            }
+                        }
+
+                    },throwable -> {
+                        Toast.makeText(getContext(), "[HOME]"+throwable.getMessage(), Toast.LENGTH_SHORT).show();
+                    }));
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+
+
+
+
 
     }
 
     private void displayRestaurant(List<SanPham> sanPhams) {
-        progress_bar.setVisibility(View.GONE);
         if(sanPhams.size()>0)
         {
             adapter = new MySanPhamAdapter(getContext(), sanPhams);
@@ -262,5 +306,13 @@ public class HomeFragment extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
         binding = null;
+        Log.d("testacti","destroy");
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        Log.d("testacti","stop");
+
     }
 }

@@ -51,6 +51,9 @@ public class ViewOrderViewModel extends ViewModel {
                                 orderList.setValue(orderModel.getResult());
                                 Log.d("loix",orderModel.getResult().size()+"");
                             }
+                            else {
+                                messageError.setValue("empty");
+                            }
 
                         },throwable -> {
                             Log.d("loix",throwable.getMessage());

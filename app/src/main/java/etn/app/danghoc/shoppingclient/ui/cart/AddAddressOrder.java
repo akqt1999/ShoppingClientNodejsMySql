@@ -80,6 +80,7 @@ public class AddAddressOrder extends DialogFragment {
     public void onCreate(@Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setStyle(DialogFragment.STYLE_NORMAL, R.style.FullScreenDialogTheme);
+
     }
 
     @Nullable

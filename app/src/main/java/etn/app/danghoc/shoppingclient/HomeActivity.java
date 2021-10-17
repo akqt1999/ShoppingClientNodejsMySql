@@ -25,6 +25,8 @@ import com.google.firebase.messaging.FirebaseMessaging;
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.SearchView;
 import androidx.core.view.GravityCompat;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -46,6 +48,7 @@ import etn.app.danghoc.shoppingclient.EventBus.HideFABCart;
 import etn.app.danghoc.shoppingclient.EventBus.SanPhamItemClick;
 import etn.app.danghoc.shoppingclient.databinding.ActivityHomeBinding;
 import etn.app.danghoc.shoppingclient.sendNotificationPack.Token;
+import etn.app.danghoc.shoppingclient.ui.home.HomeFragment;
 
 public class HomeActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -101,6 +104,13 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         txt_user_name.setText(Common.currentUser.getNameUser());
         showDialogLock();
         UpdateToken();
+
+        //save state home fragment
+        if (savedInstanceState == null){
+
+
+        }
+
     }
 
     private void showDialogLock() {

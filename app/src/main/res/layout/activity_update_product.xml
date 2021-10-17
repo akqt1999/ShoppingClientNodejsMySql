@@ -42,15 +42,14 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="9dp"
-                        android:hint="ten san pham" />
-
-                    <EditText
-                        android:inputType="number"
+                        android:hint="tên sản phẩm ..." />
+                    <com.aldoapps.autoformatedittext.AutoFormatEditText
+                        android:hint="giá sản phẩm..."
                         android:id="@+id/edt_price_pd"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="9dp"
-                        android:hint="gia san pham" />
+                        app:isDecimal="true"
+                        android:maxLength="10"/>
 
                     <LinearLayout
                         android:orientation="horizontal"
@@ -136,7 +135,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="9dp"
-                        android:hint="mo ta san pham" />
+                        android:hint="mô tả sản phẩm..." />
 
 
 

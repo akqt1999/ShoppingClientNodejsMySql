@@ -48,6 +48,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import dmax.dialog.SpotsDialog;
 import etn.app.danghoc.shoppingclient.Adapter.CategoryAdapter;
 import etn.app.danghoc.shoppingclient.Adapter.CategoryProductAdapter;
 import etn.app.danghoc.shoppingclient.Common.Common;
@@ -91,6 +92,8 @@ public class UpdateProductActivity extends AppCompatActivity implements View.OnC
     private static final int IMAGE_PICK_CODE=1000;
     private static final int PERMISSION_CODE=1001;
 
+    AlertDialog dialog;
+
 
     Bitmap mBitmap;
 
@@ -127,7 +130,7 @@ public class UpdateProductActivity extends AppCompatActivity implements View.OnC
         btn_add_pd = findViewById(R.id.btn_add_pd);
         btn_add_pd.setOnClickListener(this);
 
-        edt_price_pd.addTextChangedListener(new MoneyTextWatcher(edt_price_pd));
+
 
         btn_choose_img = findViewById(R.id.btn_choose_img);
         btn_choose_img.setOnClickListener(this);
@@ -142,6 +145,7 @@ public class UpdateProductActivity extends AppCompatActivity implements View.OnC
         displayView();
 
         compositeDisposable = new CompositeDisposable();
+        dialog = new SpotsDialog.Builder().setContext(this).setTheme(R.style.Custom).setCancelable(false).build();
     }
 
     private void displayView() {
@@ -283,6 +287,8 @@ public class UpdateProductActivity extends AppCompatActivity implements View.OnC
 
     private void multipartImageUpload() {
 
+        dialog.show();
+
         progress_bar.setVisibility(View.VISIBLE);
         if (edt_description_pd.getText().toString().trim().length() == 0
                 || edt_name_pd.getText().toString().trim().length() == 0
@@ -328,9 +334,10 @@ public class UpdateProductActivity extends AppCompatActivity implements View.OnC
 
                     String tenSp = edt_name_pd.getText().toString();
                  //   float giaSp = Float.parseFloat(edt_price_pd.getText().toString());
-                    BigDecimal values= MoneyTextWatcher.parseCurrencyValue(edt_price_pd.getText().toString());
-                    String gia=String.valueOf(values);
-                    float giaSp=Float.parseFloat(gia);
+
+                    float giaSp=Float.parseFloat(edt_price_pd.getText().toString()
+                            .replaceAll("[,]","").replaceAll("[.]",""));
+
 
                     String mota = edt_description_pd.getText().toString();
 
@@ -349,12 +356,17 @@ public class UpdateProductActivity extends AppCompatActivity implements View.OnC
                                 .subscribeOn(Schedulers.io())
                                 .observeOn(AndroidSchedulers.mainThread())
                                 .subscribe(uploadSanPhamModel -> {
+
+                                    dialog.dismiss();
+
                                     Toast.makeText(UpdateProductActivity.this, "cap nhap pham thanh cong", Toast.LENGTH_SHORT).show();
                                 }, throwable -> {
+                                    dialog.dismiss();
                                     Toast.makeText(UpdateProductActivity.this, "[UPLOAD NEW PRODUCT]" + throwable.getMessage(), Toast.LENGTH_SHORT).show();
                                 }));
                     }
                     else{
+                        dialog.dismiss();
                         progress_bar.setVisibility(View.GONE);
                     }
 
@@ -363,6 +375,7 @@ public class UpdateProductActivity extends AppCompatActivity implements View.OnC
                 @Override
                 public void onFailure(Call<UpdateModel> call, Throwable t) {
                     progress_bar.setVisibility(View.GONE);
+                    dialog.dismiss();
                     Toast.makeText(getApplicationContext(), "Request failed", Toast.LENGTH_SHORT).show();
                     t.printStackTrace();
                     Log.e("ERROR", t.toString());
@@ -372,8 +385,10 @@ public class UpdateProductActivity extends AppCompatActivity implements View.OnC
 
         } catch (FileNotFoundException e) {
             e.printStackTrace();
+            dialog.dismiss();
         } catch (IOException e) {
             e.printStackTrace();
+            dialog.dismiss();
         }
     }
 
