@@ -85,7 +85,7 @@ public class SplashScreen extends AppCompatActivity {
                                                     etn.app.danghoc.shoppingclient.Common.Common.currentUser = userModel.getResult().get(0);
 
 
-                                                        startActivity(new Intent(SplashScreen.this, HomeActivity.class));
+                                                        startActivity(new Intent(SplashScreen.this, HomeActivity2.class));
                                                        finish();
                                                         Toast.makeText(SplashScreen.this, "user ton tai trong database", Toast.LENGTH_SHORT).show();
                                                 } else //if  user not available in database

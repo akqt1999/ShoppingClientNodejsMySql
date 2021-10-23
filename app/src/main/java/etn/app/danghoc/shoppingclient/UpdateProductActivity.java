@@ -3,6 +3,7 @@ package etn.app.danghoc.shoppingclient;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import android.Manifest;
 import android.annotation.TargetApi;
@@ -22,6 +23,7 @@ import android.os.Bundle;
 import android.os.Parcelable;
 import android.provider.MediaStore;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -97,7 +99,6 @@ public class UpdateProductActivity extends AppCompatActivity implements View.OnC
 
     Bitmap mBitmap;
 
-    //    @BindView(R.id.spinner_khuvuc)
     Spinner  spinner_khuvuc;
 
     @BindView(R.id.spinner_category)
@@ -139,7 +140,7 @@ public class UpdateProductActivity extends AppCompatActivity implements View.OnC
 
 
         initRetrofitClient();
-
+        initToolbar();
         loadSpinner();
         displayProvince();//
         displayView();
@@ -154,6 +155,13 @@ public class UpdateProductActivity extends AppCompatActivity implements View.OnC
         edt_description_pd.setText(Common.productSelectEdit.getMoTa());
     }
 
+    private void initToolbar() {
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+
+    }
 
     private void initRetrofitClient() {
         OkHttpClient client = new OkHttpClient.Builder().build();
@@ -394,10 +402,6 @@ public class UpdateProductActivity extends AppCompatActivity implements View.OnC
 
 
 
-    @OnClick(R.id.btn_cancel)
-    void cancel(){
-        finish();
-    }
 
     @Override
     public void onClick(View view) {
@@ -451,6 +455,16 @@ public class UpdateProductActivity extends AppCompatActivity implements View.OnC
             }
 
         }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // handle arrow click here
+        if (item.getItemId() == android.R.id.home) {
+            finish();
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 }
 /*

@@ -60,7 +60,7 @@ import retrofit2.Response;
 
 public class ConfirmOrderDialog extends DialogFragment {
 
-    static ConfirmOrderDialog newInstance() {
+    public static ConfirmOrderDialog newInstance() {
         return new ConfirmOrderDialog();
     }
 

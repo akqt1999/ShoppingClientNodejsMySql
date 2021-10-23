@@ -25,9 +25,11 @@ import etn.app.danghoc.shoppingclient.Adapter.CategorySanPhamAdapter;
 import etn.app.danghoc.shoppingclient.Model.CategoryProduct;
 import etn.app.danghoc.shoppingclient.Model.DanhMucModel;
 import etn.app.danghoc.shoppingclient.R;
+import etn.app.danghoc.shoppingclient.Retrofit.IMyShoppingAPI;
 import etn.app.danghoc.shoppingclient.databinding.FragmentCartBinding;
 import etn.app.danghoc.shoppingclient.databinding.FragmentCategoryBinding;
 import etn.app.danghoc.shoppingclient.databinding.FragmentGalleryBinding;
+import io.reactivex.disposables.CompositeDisposable;
 
 public class CategoryFragment extends Fragment {
 
@@ -39,7 +41,8 @@ public class CategoryFragment extends Fragment {
 
     CategorySanPhamAdapter adapter;
 
-    Unbinder unbinder;
+    private IMyShoppingAPI myRestaurantAPI;
+    private CompositeDisposable compositeDisposable = new CompositeDisposable();
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -47,7 +50,7 @@ public class CategoryFragment extends Fragment {
                 new ViewModelProvider(this).get(CategoryViewModel.class);
         binding = FragmentCategoryBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
-        unbinder= ButterKnife.bind(this,root);
+     ButterKnife.bind(this,root);
 
 
         galleryViewModel.getListCategory().observe(this,categoryProducts -> {

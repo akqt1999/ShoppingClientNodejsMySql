@@ -18,16 +18,24 @@
                 android:layout_height="match_parent"
                 android:fitsSystemWindows="true"
                 android:orientation="vertical">
-                <TextView
+                <com.google.android.material.appbar.AppBarLayout
+                    android:id="@+id/appBarLayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@color/bg_login"
-                    android:padding="10dp"
-                    android:text="cập nhập sản phẩm "
-                    android:textColor="@color/black"
-                    android:textSize="21dp"
-                    android:textStyle="bold"
-                    />
+                    android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+
+                    <androidx.appcompat.widget.Toolbar
+
+                        android:id="@+id/toolbar"
+                        android:layout_width="match_parent"
+                        android:layout_height="?attr/actionBarSize"
+                        android:background="#7A86EA"
+                        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+                        app:title="@string/update_pd">
+
+                    </androidx.appcompat.widget.Toolbar>
+                </com.google.android.material.appbar.AppBarLayout>
+
 
                 <LinearLayout
                     android:id="@+id/content_main"
@@ -146,32 +154,7 @@
             </LinearLayout>
 
 
-            <LinearLayout
-                android:padding="15dp"
-                android:layout_alignParentBottom="true"
-                android:orientation="horizontal"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-                <Button
-                    android:inputType="textCapSentences|textMultiLine"
-                    android:maxLines ="4"
-                    android:maxLength ="2000"
-                    android:background="@drawable/border_bottom"
-                    android:id="@+id/btn_add_pd"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="right"
-                    android:text="cậpn nhập sản phẩm" />
 
-                <Button
-                    android:layout_marginLeft="69dp"
-                    android:background="@drawable/border_bottom"
-                    android:id="@+id/btn_cancel"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="right"
-                    android:text="Cancel" />
-            </LinearLayout>
         </LinearLayout>
 
 
@@ -183,6 +166,24 @@
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         />
+    <LinearLayout
+        android:layout_alignParentBottom="true"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <Button
+            android:layout_margin="6dp"
+            android:inputType="textCapSentences|textMultiLine"
+            android:maxLines ="4"
+            android:maxLength ="2000"
+            android:background="@drawable/border_bottom"
+            android:id="@+id/btn_add_pd"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:text="cập nhập sản phẩm" />
 
+
+    </LinearLayout>
 </RelativeLayout>
 

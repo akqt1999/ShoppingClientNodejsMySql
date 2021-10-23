@@ -3,7 +3,7 @@
     android:shape="rectangle"
     >
 
-    <solid android:color="@color/bg_login"/>
+    <solid android:color="#94C7DF"/>
     <corners android:radius="19dp"/>
 
 </shape>

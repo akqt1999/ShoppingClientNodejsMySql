@@ -59,7 +59,6 @@ public class SanPhamBuyCategoryFragment extends Fragment {
                 sanPhamCategoryViewModel.getMessageError().observe(this, error -> {
                     Toast.makeText(getContext(), "[Load  restaurant ]" + error, Toast.LENGTH_SHORT).show();
                 });
-
         });
 
         unbinder= ButterKnife.bind(this,root);
@@ -68,7 +67,7 @@ public class SanPhamBuyCategoryFragment extends Fragment {
 
     private void displaySanPham(List<SanPham> sanPhams) {
         Toast.makeText(getContext(), sanPhams.get(0).getTenSP(), Toast.LENGTH_SHORT).show();
-        adapter = new MySanPhamAdapter(getContext(), sanPhams);
+      //  adapter = new MySanPhamAdapter(getContext(), sanPhams);
         GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 2);
 
         recycler_sp_by_category.setLayoutManager(gridLayoutManager);

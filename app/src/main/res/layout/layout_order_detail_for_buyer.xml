@@ -6,12 +6,12 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <TextView
+    <androidx.appcompat.widget.Toolbar
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="?attr/actionBarSize"
         android:background="@color/bg_login"
         android:padding="10dp"
-        android:text="chi tiết đơn hàng"
+        app:title="Chi tiết đơn hàng"
         android:textColor="@color/black"
         android:textSize="21dp"
         android:textStyle="bold"

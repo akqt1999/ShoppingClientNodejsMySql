@@ -110,7 +110,7 @@ public class UpdateInfoActivity extends AppCompatActivity {
                                             //gio lam ghem login
                                             Toast.makeText(this, "cap nhap thanh cong va vao phan home", Toast.LENGTH_SHORT).show();
                                             Common.currentUser=userModel.getResult().get(0);
-                                            startActivity(new Intent(UpdateInfoActivity.this,HomeActivity.class));
+                                            startActivity(new Intent(UpdateInfoActivity.this,HomeActivity2.class));
                                             //  startActivity(new Intent(UpdateInfoActivity.this,ActivityTest.class));
                                             finish();
                                         }

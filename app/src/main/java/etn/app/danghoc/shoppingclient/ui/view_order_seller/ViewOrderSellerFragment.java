@@ -107,7 +107,6 @@ public class ViewOrderSellerFragment extends Fragment {
     }
 
     private void displayOrders() {
-        orderList.get(0).getTenSP();
         adapter = new ViewOrderSellerAdapter(getContext(), orderList);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         recycler_orders.setLayoutManager(linearLayoutManager);

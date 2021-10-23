@@ -47,7 +47,7 @@ public class CartFragment extends Fragment {
     private CartViewModel cartViewModel;
     private FragmentCartBinding binding;
 
-    private List<Cart> cartList = new ArrayList<>();
+    List<Cart> cartList = new ArrayList<>();
 
 
     Unbinder unbinder;
@@ -79,11 +79,11 @@ public class CartFragment extends Fragment {
 
         cartViewModel.getMessageError().observe(this, s -> {
             txt_empty_cart.setVisibility(View.VISIBLE);
-           // progress_bar.setVisibility(View.GONE);
-            if (s != null || s.length() != 0){
+            // progress_bar.setVisibility(View.GONE);
+            if (s != null || s.length() != 0) {
                 txt_empty_cart.setVisibility(View.VISIBLE);
                 Toast.makeText(getContext(), "null cart", Toast.LENGTH_SHORT).show();
-              //  progress_bar.setVisibility(View.GONE);
+                //  progress_bar.setVisibility(View.GONE);
                 Toast.makeText(getContext(), "[get listr cart]" + s, Toast.LENGTH_SHORT).show();
 
             }
@@ -91,7 +91,7 @@ public class CartFragment extends Fragment {
 
         cartViewModel.getListCart().observe(this, carts -> {
 
-        //    progress_bar.setVisibility(View.GONE);
+            //    progress_bar.setVisibility(View.GONE);
 
             if (carts.size() == 0) {
 
@@ -99,12 +99,12 @@ public class CartFragment extends Fragment {
             } else {
 
                 Common.cartList = carts;
-           //     progress_bar.setVisibility(View.GONE);
+                //     progress_bar.setVisibility(View.GONE);
                 cartList = carts;
                 displayCart();
             }
         });
-     //   progress_bar.setVisibility(View.GONE);
+        //   progress_bar.setVisibility(View.GONE);
         init();
         return root;
     }
@@ -170,7 +170,7 @@ public class CartFragment extends Fragment {
             // adapter.deleteItem(position);
             //adapter.notifyItemRemoved(position);
 
-          //  progress_bar.setVisibility(View.VISIBLE);
+            //  progress_bar.setVisibility(View.VISIBLE);
             compositeDisposable.
                     add(myRestaurantAPI.deleteCart(
                             Common.API_KEY,
@@ -184,17 +184,16 @@ public class CartFragment extends Fragment {
                                             //Common.cartList.remove(position);
                                             cartList.remove(position);
                                             adapter.notifyDataSetChanged();
-                                           // progress_bar.setVisibility(View.GONE);
+                                            // progress_bar.setVisibility(View.GONE);
                                             totalPrice();
                                             Toast.makeText(getContext(), "size common" + Common.cartList.size(), Toast.LENGTH_SHORT).show();
                                             Toast.makeText(getContext(), "delete success", Toast.LENGTH_SHORT).show();
-                                        }
-                                        else{
-                                         //   progress_bar.setVisibility(View.GONE);
+                                        } else {
+                                            //   progress_bar.setVisibility(View.GONE);
                                         }
 
                                     }, throwable -> {
-                                       // progress_bar.setVisibility(View.GONE);
+                                        // progress_bar.setVisibility(View.GONE);
                                         Toast.makeText(getContext(), "[DELETE CART]" + throwable.getMessage(), Toast.LENGTH_SHORT).show();
                                     })
                     );
@@ -223,7 +222,7 @@ public class CartFragment extends Fragment {
         displayPrice = totalPriceFinal;
         displayPrice = Math.round(displayPrice * 100.0 / 100.0);
         txtTotalPrice.setText(new StringBuilder().append(Common.formatPrice(displayPrice)));
-        Common.totalPriceFromCart=totalPriceFinal;
+        Common.totalPriceFromCart = totalPriceFinal;
     }
 
 
@@ -237,11 +236,10 @@ public class CartFragment extends Fragment {
     void placeOrderClick() {
 
 
-        boolean isChoose=true;
-        for (int i=0;i<Common.cartList.size();i++){
-            if(Common.cartList.get(i).isChoose())
-            {
-                isChoose=false;
+        boolean isChoose = true;
+        for (int i = 0; i < Common.cartList.size(); i++) {
+            if (Common.cartList.get(i).isChoose()) {
+                isChoose = false;
                 break;
             }
         }

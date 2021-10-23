@@ -29,18 +29,17 @@ public class CartViewModel extends ViewModel {
     }
 
     public MutableLiveData<List<Cart>> getListCart() {
-        if(listCart==null)
-        {
-            listCart=new MutableLiveData<>();
-            messageError=new MutableLiveData<>();
+        if (listCart == null) {
+            listCart = new MutableLiveData<>();
+            messageError = new MutableLiveData<>();
             loadListCart();
         }
         return listCart;
     }
 
-    public MutableLiveData <String>getMessageError(){
-        if(messageError==null)
-            messageError=new MutableLiveData<>();
+    public MutableLiveData<String> getMessageError() {
+        if (messageError == null)
+            messageError = new MutableLiveData<>();
         return messageError;
     }
 
@@ -50,19 +49,17 @@ public class CartViewModel extends ViewModel {
 
     private void loadListCart() {
         compositeDisposable.
-                add(myRestaurantAPI.getCart(Common.API_KEY,Common.currentUser.getIdUser())
+                add(myRestaurantAPI.getCart(Common.API_KEY, Common.currentUser.getIdUser())
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe(cartModel -> {
-                            if(cartModel.isSuccess())
-                            {
+                            if (cartModel.isSuccess()) {
                                 listCart.setValue(cartModel.getResult());
-                            }
-                            else{
+                            } else {
                                 messageError.setValue(cartModel.getMessage());
                             }
 
-                        },throwable -> {
+                        }, throwable -> {
                             messageError.setValue(throwable.getMessage());
                         })
                 );

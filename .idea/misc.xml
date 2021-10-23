@@ -4,21 +4,34 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="../../../../layout/custom_preview.xml" value="0.27282051282051284" />
+        <entry key="app/src/main/res/drawable/border_bottom.xml" value="0.1605" />
         <entry key="app/src/main/res/drawable/ic_baseline_restaurant_24.xml" value="0.1495" />
         <entry key="app/src/main/res/drawable/ic_baseline_shopping_cart_24.xml" value="0.112" />
         <entry key="app/src/main/res/layout/activity_add_new_product.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/activity_cart.xml" value="0.25052083333333336" />
+        <entry key="app/src/main/res/layout/activity_category_product.xml" value="0.23645833333333333" />
+        <entry key="app/src/main/res/layout/activity_chi_tiet_sp.xml" value="0.25052083333333336" />
         <entry key="app/src/main/res/layout/activity_enter_otp.xml" value="0.22327898550724637" />
         <entry key="app/src/main/res/layout/activity_home.xml" value="0.11170212765957446" />
+        <entry key="app/src/main/res/layout/activity_home2.xml" value="0.165" />
+        <entry key="app/src/main/res/layout/activity_home3.xml" value="0.25052083333333336" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.22327898550724637" />
+        <entry key="app/src/main/res/layout/activity_main2.xml" value="0.25052083333333336" />
         <entry key="app/src/main/res/layout/activity_my_product.xml" value="0.22327898550724637" />
+        <entry key="app/src/main/res/layout/activity_product_by_category.xml" value="0.25052083333333336" />
         <entry key="app/src/main/res/layout/activity_splash_screen.xml" value="0.22327898550724637" />
         <entry key="app/src/main/res/layout/activity_update_info.xml" value="0.22327898550724637" />
         <entry key="app/src/main/res/layout/activity_update_product.xml" value="0.22327898550724637" />
+        <entry key="app/src/main/res/layout/activity_view_order.xml" value="0.25052083333333336" />
+        <entry key="app/src/main/res/layout/activity_view_order_seller.xml" value="0.25052083333333336" />
+        <entry key="app/src/main/res/layout/app_bar_home.xml" value="0.12183383991894631" />
         <entry key="app/src/main/res/layout/content_home.xml" value="0.25052083333333336" />
         <entry key="app/src/main/res/layout/fragment_cart.xml" value="0.192481884057971" />
+        <entry key="app/src/main/res/layout/fragment_category.xml" value="0.25052083333333336" />
         <entry key="app/src/main/res/layout/fragment_detail_sanpham.xml" value="0.22327898550724637" />
         <entry key="app/src/main/res/layout/fragment_home.xml" value="0.192481884057971" />
         <entry key="app/src/main/res/layout/fragment_my_product.xml" value="0.25052083333333336" />
+        <entry key="app/src/main/res/layout/fragment_sanpham_by_category.xml" value="0.25052083333333336" />
         <entry key="app/src/main/res/layout/fragment_view_order.xml" value="0.2128623188405797" />
         <entry key="app/src/main/res/layout/fragment_view_order_seller.xml" value="0.22327898550724637" />
         <entry key="app/src/main/res/layout/item_selected_province.xml" value="0.2128623188405797" />
@@ -28,6 +41,7 @@
         <entry key="app/src/main/res/layout/layout_order_deltail.xml" value="0.335" />
         <entry key="app/src/main/res/layout/layout_order_detail_for_buyer.xml" value="0.25" />
         <entry key="app/src/main/res/menu/activity_main_drawer.xml" value="0.45" />
+        <entry key="app/src/main/res/menu/menu_search.xml" value="0.25052083333333336" />
       </map>
     </option>
   </component>

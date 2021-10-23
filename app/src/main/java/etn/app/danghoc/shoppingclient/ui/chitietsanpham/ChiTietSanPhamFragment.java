@@ -71,32 +71,30 @@ public class ChiTietSanPhamFragment extends Fragment {
     CounterFab btn_cart;
 
     @OnClick(R.id.btn_cart)
-    public void addCart ()
-    {
-            compositeDisposable.add(myRestaurantAPI.addCart(
-                    Common.API_KEY,
-                    Common.selectSanPham.getIdSP(),
-                    Common.selectSanPham.getGiaSP(),
-                    Common.selectSanPham.getTenSP(),
-                    Common.currentUser.getIdUser(),
-                    Common.selectSanPham.getIdUser()//id of seller
-                    )
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(cartModel -> {
-                        if(cartModel.isSuccess())
-                        {
-                            Toast.makeText(getContext(), "add cart success", Toast.LENGTH_SHORT).show();
-                        }else {
-                        }
+    public void addCart() {
+        compositeDisposable.add(myRestaurantAPI.addCart(
+                Common.API_KEY,
+                Common.selectSanPham.getIdSP(),
+                Common.selectSanPham.getGiaSP(),
+                Common.selectSanPham.getTenSP(),
+                Common.currentUser.getIdUser(),
+                Common.selectSanPham.getIdUser()//id of seller
+        )
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(cartModel -> {
+                    if (cartModel.isSuccess()) {
+                        Toast.makeText(getContext(), "add cart success", Toast.LENGTH_SHORT).show();
+                    } else {
+                    }
 
-                    },throwable -> {
-                        Toast.makeText(getContext(), "[ADD CART]"+throwable.getMessage(), Toast.LENGTH_SHORT).show();
-                    }));
+                }, throwable -> {
+                    Toast.makeText(getContext(), "[ADD CART]" + throwable.getMessage(), Toast.LENGTH_SHORT).show();
+                }));
     }
 
     @OnClick(R.id.btn_call)
-    public void clickCall(){
+    public void clickCall() {
         Dexter.withContext(getContext())
                 .withPermission(Manifest.permission.CALL_PHONE)
                 .withListener(new PermissionListener() {
@@ -118,6 +116,7 @@ public class ChiTietSanPhamFragment extends Fragment {
                     }
                 }).check();
     }
+
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         slideshowViewModel =
@@ -126,13 +125,13 @@ public class ChiTietSanPhamFragment extends Fragment {
         binding = FragmentDetailSanphamBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
-        slideshowViewModel.getMutableLiveDataSanPham().observe(this,sanPham -> {
-                if(sanPham!=null)
-                    displayDetal(sanPham);
+        slideshowViewModel.getMutableLiveDataSanPham().observe(this, sanPham -> {
+            if (sanPham != null)
+                displayDetal(sanPham);
         });
 
 
-        unbinder= ButterKnife.bind(this,root);
+        unbinder = ButterKnife.bind(this, root);
 
         init();
         return root;
@@ -157,7 +156,7 @@ public class ChiTietSanPhamFragment extends Fragment {
 
     private void calculateTotalPrice() {
         double totalPrice = Double.parseDouble(Common.selectSanPham.getGiaSP() + ""), displayPrice = 0.0;
-        displayPrice=totalPrice;
+        displayPrice = totalPrice;
         displayPrice = Math.round(displayPrice * 100.0 / 100.0);
         txtFoodPrice.setText(new StringBuilder().append(Common.formatPrice(displayPrice)));
 

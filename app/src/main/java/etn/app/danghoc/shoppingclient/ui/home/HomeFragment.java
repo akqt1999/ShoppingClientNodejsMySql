@@ -45,6 +45,7 @@ import butterknife.Unbinder;
 import etn.app.danghoc.shoppingclient.Adapter.CategoryAdapter;
 import etn.app.danghoc.shoppingclient.Adapter.MySanPhamAdapter;
 import etn.app.danghoc.shoppingclient.Adapter.SanPhamSliderAdapter;
+import etn.app.danghoc.shoppingclient.Callback.IClickItemSanPham;
 import etn.app.danghoc.shoppingclient.Common.Common;
 import etn.app.danghoc.shoppingclient.Model.SanPham;
 import etn.app.danghoc.shoppingclient.Model.Tinh;
@@ -171,7 +172,12 @@ public class HomeFragment extends Fragment {
                             sanPhamList.clear();
                             sanPhamList=sanPhamModel.getResult();
 
-                                adapter = new MySanPhamAdapter(getContext(), sanPhamList);
+                                adapter = new MySanPhamAdapter(getContext(), sanPhamList, new IClickItemSanPham() {
+                                    @Override
+                                    public void onClickItemUser() {
+
+                                    }
+                                });
                                 recycler_sanpham.setAdapter(adapter);
                             displayBanner(sanPhamList);
 
@@ -209,7 +215,7 @@ public class HomeFragment extends Fragment {
     private void displayRestaurant(List<SanPham> sanPhams) {
         if(sanPhams.size()>0)
         {
-            adapter = new MySanPhamAdapter(getContext(), sanPhams);
+         //   adapter = new MySanPhamAdapter(getContext(), sanPhams);
             recycler_sanpham.setAdapter(adapter);
         }
 
@@ -289,7 +295,7 @@ public class HomeFragment extends Fragment {
                 .subscribe(sanPhamModel -> {
                     if (sanPhamModel.isSuccess()) {
 
-                        searchSanPhamAdapter = new MySanPhamAdapter(getContext(), sanPhamModel.getResult());
+                   //     searchSanPhamAdapter = new MySanPhamAdapter(getContext(), sanPhamModel.getResult());
                         recycler_sanpham.setAdapter(searchSanPhamAdapter);
                     } else {
                         if (sanPhamModel.getMessage().contains("empty")) {

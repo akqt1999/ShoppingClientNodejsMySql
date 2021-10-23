@@ -2,7 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="etn.app.danghoc.shoppingclient">
-    <uses-permission android:name="android.permission.CALL_PHONE"/>
+
+    <uses-permission android:name="android.permission.CALL_PHONE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
@@ -30,6 +31,27 @@
         android:theme="@style/Theme.ShoppingClient"
         android:usesCleartextTraffic="true"
         tools:replace="android:theme">
+        <activity
+            android:name=".ProductByCategory"
+            android:exported="true" />
+        <activity
+            android:name=".CategoryProductActivity"
+            android:exported="true" />
+        <activity
+            android:name=".CartActivity"
+            android:exported="true" />
+        <activity
+            android:name=".ChiTietSP"
+            android:exported="true" />
+        <activity
+            android:name=".ViewOrderSeller"
+            android:exported="true" />
+        <activity
+            android:name=".ViewOrder"
+            android:exported="true" />
+        <activity
+            android:name=".HomeActivity2"
+            android:exported="true" />
         <activity
             android:name=".EnterOtpActivity"
             android:exported="true" />

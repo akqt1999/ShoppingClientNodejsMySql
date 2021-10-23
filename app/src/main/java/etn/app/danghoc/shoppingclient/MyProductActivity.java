@@ -1,11 +1,13 @@
 package etn.app.danghoc.shoppingclient;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.Toast;
 
@@ -38,8 +40,7 @@ public class MyProductActivity extends AppCompatActivity {
     private List<SanPham> sanPhamList ;
     @BindView(R.id.recycler_my_product)
     RecyclerView recycler_my_product;
-    @BindView(R.id.btn_back)
-    Button btn_back;
+
 
     MyProductAdapter adapter;
 
@@ -53,6 +54,7 @@ public class MyProductActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         myRestaurantAPI= RetrofitClient.getInstance(Common.API_RESTAURANT_ENDPOINT).create(IMyShoppingAPI.class);
         displayMyProduct();
+        initToolbar();
     }
 
     private void displayMyProduct() {
@@ -144,10 +146,23 @@ public class MyProductActivity extends AppCompatActivity {
             }
     }
 
-    @OnClick(R.id.btn_back)
-     void onClickBack(){
-        finish();
+    private void initToolbar() {
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+
     }
 
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // handle arrow click here
+        if (item.getItemId() == android.R.id.home) {
+            finish();
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
 
 }

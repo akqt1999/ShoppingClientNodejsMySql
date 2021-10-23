@@ -3,6 +3,7 @@ package etn.app.danghoc.shoppingclient;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import android.Manifest;
 import android.annotation.TargetApi;
@@ -22,6 +23,7 @@ import android.os.Bundle;
 import android.os.Parcelable;
 import android.provider.MediaStore;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -141,6 +143,7 @@ public class AddNewProduct extends AppCompatActivity implements View.OnClickList
 
         dialog = new SpotsDialog.Builder().setContext(this).setTheme(R.style.Custom).setCancelable(false).build();
 
+        initToolbar();
         initRetrofitClient();
 
         loadSpinner();
@@ -150,7 +153,6 @@ public class AddNewProduct extends AppCompatActivity implements View.OnClickList
 
 
     private void initRetrofitClient() {
-        OkHttpClient client = new OkHttpClient.Builder().build();
 
         addressAPI = RetrofitClientAddress.getInstance("https://dev-online-gateway.ghn.vn/").create(IMyShoppingAPI.class);
 
@@ -379,11 +381,24 @@ public class AddNewProduct extends AppCompatActivity implements View.OnClickList
         }
     }
 
+    private void initToolbar() {
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
 
 
-    @OnClick(R.id.btn_cancel)
-    void cancel(){
-              finish();
+
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) { // button back
+        // handle arrow click here
+        if (item.getItemId() == android.R.id.home) {
+            finish();
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
     @Override

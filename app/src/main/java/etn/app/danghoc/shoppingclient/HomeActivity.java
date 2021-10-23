@@ -105,11 +105,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         showDialogLock();
         UpdateToken();
 
-        //save state home fragment
-        if (savedInstanceState == null){
 
-
-        }
 
     }
 

@@ -20,6 +20,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
+import etn.app.danghoc.shoppingclient.Callback.IClickItemSanPham;
 import etn.app.danghoc.shoppingclient.Common.Common;
 import etn.app.danghoc.shoppingclient.EventBus.SanPhamItemClick;
 import etn.app.danghoc.shoppingclient.Interface.IOnRecycleViewClickListener;
@@ -30,10 +31,12 @@ public class MySanPhamAdapter extends RecyclerView.Adapter<MySanPhamAdapter.MyVi
 
     private List<SanPham> sanPhamList;
     Context context;
+    private IClickItemSanPham itemSanPham;
 
-    public MySanPhamAdapter( Context context,List<SanPham> sanPhamList) {
+    public MySanPhamAdapter( Context context,List<SanPham> sanPhamList,IClickItemSanPham itemSanPham) {
         this.sanPhamList = sanPhamList;
         this.context = context;
+        this.itemSanPham=itemSanPham;
     }
 
     @NonNull
@@ -55,6 +58,7 @@ public class MySanPhamAdapter extends RecyclerView.Adapter<MySanPhamAdapter.MyVi
         holder.setListener((view, position1) -> {
             Common.selectSanPham = sanPhamList.get(position1);
             EventBus.getDefault().postSticky(new SanPhamItemClick(true, sanPhamList.get(position1)));
+            itemSanPham.onClickItemUser();
         });
 
     }

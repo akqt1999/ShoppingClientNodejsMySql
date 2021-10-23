@@ -58,6 +58,9 @@ public class MainActivity extends AppCompatActivity {
     IMyShoppingAPI myRestaurantAPI;
     CompositeDisposable compositeDisposable=new CompositeDisposable();
 
+    //draw
+
+
 
 
     @Override
@@ -111,7 +114,7 @@ public class MainActivity extends AppCompatActivity {
                             if(userModel.isSuccess())
                             {
                                 Common.currentUser=userModel.getResult().get(0);
-                                startActivity(new Intent(MainActivity.this,HomeActivity.class));
+                                startActivity(new Intent(MainActivity.this,HomeActivity2.class));
 
                                 finish();
                             }

@@ -22,7 +22,7 @@ import etn.app.danghoc.shoppingclient.ui.cart.ConfirmOrderDialog;
 
 public class OrderDetailDialog extends DialogFragment {
 
-    static OrderDetailDialog newInstance() {
+    public static OrderDetailDialog newInstance() {
         return new OrderDetailDialog();
     }
 

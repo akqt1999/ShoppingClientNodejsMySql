@@ -32,7 +32,7 @@ import etn.app.danghoc.shoppingclient.R;
 import etn.app.danghoc.shoppingclient.SplashScreen;
 
 public class OrderDetailDialog extends DialogFragment{
-    static OrderDetailDialog newInstance() {
+    public static OrderDetailDialog newInstance() {
         return new OrderDetailDialog();
     }
 
