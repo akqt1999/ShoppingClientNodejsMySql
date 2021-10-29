@@ -1,9 +1,7 @@
 package etn.app.danghoc.shoppingclient.ui.cart;
 
 import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -40,6 +38,7 @@ import butterknife.OnClick;
 import butterknife.Unbinder;
 import etn.app.danghoc.shoppingclient.Common.Common;
 import etn.app.danghoc.shoppingclient.EventBus.AddNewAddressClick;
+import etn.app.danghoc.shoppingclient.EventBus.LoadCartAgain;
 import etn.app.danghoc.shoppingclient.R;
 import etn.app.danghoc.shoppingclient.Retrofit.IMyShoppingAPI;
 import etn.app.danghoc.shoppingclient.Retrofit.RetrofitClient;
@@ -216,6 +215,7 @@ public class ConfirmOrderDialog extends DialogFragment {
                                 {
                                     progressBar.setVisibility(View.GONE);
                                     showDialogSuccess();
+                                    EventBus.getDefault().postSticky(new LoadCartAgain(true));
                                 }
 
                                 Toast.makeText(getContext(), "create order success", Toast.LENGTH_SHORT).show();

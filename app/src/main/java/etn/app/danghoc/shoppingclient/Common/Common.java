@@ -23,7 +23,8 @@ import etn.app.danghoc.shoppingclient.Model.SanPham;
 import etn.app.danghoc.shoppingclient.Model.User;
 import etn.app.danghoc.shoppingclient.R;
 
-public class Common {
+public class
+Common {
     public static final String API_KEY = "1234";//
     //public static final String API_RESTAURANT_ENDPOINT = "http://10.0.2.2:3000/";
     public static final String API_RESTAURANT_ENDPOINT = "https://nguyenxuantri.xyz/";

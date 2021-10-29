@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.Toast;
@@ -14,6 +15,8 @@ import android.widget.Toast;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -28,6 +31,7 @@ import etn.app.danghoc.shoppingclient.Adapter.MyProductAdapter;
 import etn.app.danghoc.shoppingclient.Common.Common;
 import etn.app.danghoc.shoppingclient.EventBus.MyProductItemDelete;
 import etn.app.danghoc.shoppingclient.EventBus.MyProductItemEdit;
+import etn.app.danghoc.shoppingclient.Model.LinkImageModel;
 import etn.app.danghoc.shoppingclient.Model.SanPham;
 import etn.app.danghoc.shoppingclient.Retrofit.IMyShoppingAPI;
 import etn.app.danghoc.shoppingclient.Retrofit.RetrofitClient;
@@ -53,8 +57,13 @@ public class MyProductActivity extends AppCompatActivity {
         setContentView(R.layout.activity_my_product);
         ButterKnife.bind(this);
         myRestaurantAPI= RetrofitClient.getInstance(Common.API_RESTAURANT_ENDPOINT).create(IMyShoppingAPI.class);
-        displayMyProduct();
+
         initToolbar();
+    }
+    @Override
+    protected void onResume() {
+        super.onResume();
+        displayMyProduct(); // de cho no cap nhap lai san pham sau khi load vo lai
     }
 
     private void displayMyProduct() {
@@ -69,6 +78,22 @@ public class MyProductActivity extends AppCompatActivity {
                                 Common.sanPhamList = productModel.getResult();
                                 sanPhamList=productModel.getResult();
                                 Collections.reverse(sanPhamList);
+
+                                // add list link image
+                                for(int i=0;i<sanPhamList.size();i++){
+
+                                    List<LinkImageModel>listLinkImage=new ArrayList<>();
+                                    String jsonListImage=sanPhamList.get(i).getListImage();
+                                    JSONArray jsonArray=new JSONArray(jsonListImage);
+
+                                    for (int j=0;j<jsonArray.length();j++) {
+                                        JSONObject jsonObjectImage=jsonArray.getJSONObject(j);
+                                        String UrlHinhAnh=jsonObjectImage.getString("UrlHinhAnh");
+                                        listLinkImage.add(new LinkImageModel(UrlHinhAnh));
+                                    }
+                                    sanPhamList.get(i).setListLinkImage(listLinkImage);
+                                }
+
                                 LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
                                 recycler_my_product.setLayoutManager(linearLayoutManager);
                                 adapter = new MyProductAdapter(this, sanPhamList);
@@ -99,15 +124,19 @@ public class MyProductActivity extends AppCompatActivity {
     protected void onStop() {
         if(EventBus.getDefault().isRegistered(this))
             EventBus.getDefault().unregister(this);
-
+        Log.d("dfknsoif","stop");
         super.onStop();
     }
 
     @Override
     protected void onPause() {
+        Log.d("dfknsoif","pause");
         EventBus.getDefault().postSticky(new MyProductItemEdit(false,-98));//no se xoa trang thai nay de khong khoi dong lai
         super.onPause();
     }
+
+
+
 
 
     @Subscribe(sticky = true,threadMode = ThreadMode.MAIN)

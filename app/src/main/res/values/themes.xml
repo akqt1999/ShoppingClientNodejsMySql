@@ -22,6 +22,14 @@
         <item name="DialogSpotCount">4</item>
     </style>
 
+    <style name="CustomUpdate" parent="android:Theme.DeviceDefault.Dialog">
+        <item name="DialogTitleAppearance">@android:style/TextAppearance.Medium</item>
+        <item name="DialogTitleText">đang cập nhập sản phẩm</item>
+
+        <item name="DialogSpotColor">@android:color/holo_orange_dark</item>
+        <item name="DialogSpotCount">4</item>
+    </style>
+
     <style name="FullScreenDialogTheme" parent="Theme.AppCompat.Light.DialogWhenLarge">
         <item name="windowNoTitle">true</item>
         <item name="android:windowAnimationStyle">@style/Animation.Design.BottomSheetDialog</item>

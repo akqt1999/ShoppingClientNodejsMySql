@@ -34,6 +34,7 @@
         <entry key="app/src/main/res/layout/fragment_sanpham_by_category.xml" value="0.25052083333333336" />
         <entry key="app/src/main/res/layout/fragment_view_order.xml" value="0.2128623188405797" />
         <entry key="app/src/main/res/layout/fragment_view_order_seller.xml" value="0.22327898550724637" />
+        <entry key="app/src/main/res/layout/item_image_select.xml" value="0.25052083333333336" />
         <entry key="app/src/main/res/layout/item_selected_province.xml" value="0.2128623188405797" />
         <entry key="app/src/main/res/layout/layout_add_address_order.xml" value="0.22327898550724637" />
         <entry key="app/src/main/res/layout/layout_cart_item.xml" value="0.2296875" />

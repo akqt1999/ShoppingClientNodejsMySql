@@ -38,12 +38,12 @@ import etn.app.danghoc.shoppingclient.R;
     public class MyProductAdapter extends RecyclerView.Adapter<MyProductAdapter.ViewHolder> {
     Context context;
     List<SanPham> sanPhams;
-    Gson gson;
+
 
     public MyProductAdapter(Context context, List<SanPham> cartItems) {
         this.context = context;
         this.sanPhams = cartItems;
-        gson = new Gson();
+
     }
 
     @NonNull

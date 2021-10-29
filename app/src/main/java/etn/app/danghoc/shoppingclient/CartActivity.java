@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -33,6 +34,7 @@ import etn.app.danghoc.shoppingclient.Common.Common;
 import etn.app.danghoc.shoppingclient.EventBus.CartIsChoose;
 import etn.app.danghoc.shoppingclient.EventBus.CartItemDelete;
 import etn.app.danghoc.shoppingclient.EventBus.HideFABCart;
+import etn.app.danghoc.shoppingclient.EventBus.LoadCartAgain;
 import etn.app.danghoc.shoppingclient.Model.Cart;
 import etn.app.danghoc.shoppingclient.Retrofit.IMyShoppingAPI;
 import etn.app.danghoc.shoppingclient.Retrofit.RetrofitClient;
@@ -73,8 +75,14 @@ public class CartActivity extends AppCompatActivity {
         initToolbar();
         displayCart();
 
+        Log.d("trnagthai","crate");
     }
 
+    @Override
+    protected void onResume() {
+             Log.d("trnagthai","resum");
+        super.onResume();
+    }
 
     private void initToolbar() {
         Toolbar toolbar = findViewById(R.id.toolbar);
@@ -130,7 +138,6 @@ public class CartActivity extends AppCompatActivity {
                                             adapter.notifyDataSetChanged();
                                         progress_bar.setVisibility(View.GONE);
                                             totalPrice();
-                                            Toast.makeText(this, "size common" + Common.cartList.size(), Toast.LENGTH_SHORT).show();
                                             Toast.makeText(this, "delete success", Toast.LENGTH_SHORT).show();
                                         } else {
                                             Toast.makeText(this, "[DELETE CART]" + cartModel.getMessage(), Toast.LENGTH_SHORT).show();
@@ -150,6 +157,15 @@ public class CartActivity extends AppCompatActivity {
     public void CartIsChoose(CartIsChoose event) {
         if (event.isSuccess()) {
             totalPrice();
+        }
+    }
+
+    @Subscribe(sticky = true, threadMode = ThreadMode.MAIN)
+    public void loadCartAgain(LoadCartAgain event) {
+        if (event.isSuccess()) {
+            cartList.clear();
+            adapter.notifyDataSetChanged();
+            displayCart();
         }
     }
 
@@ -230,15 +246,16 @@ public class CartActivity extends AppCompatActivity {
 
 
         super.onStart();
-
+        Log.d("trnagthai","staer");
         if (!EventBus.getDefault().isRegistered(this))
             EventBus.getDefault().register(this);
 
-        EventBus.getDefault().postSticky(new HideFABCart(true));
+
     }
 
     @Override
     protected void onPause() {
+        Log.d("trnagthai","pause");
         EventBus.getDefault().postSticky(new CartItemDelete(false, -1));// khi thoat la no se xoa cai event bus
         EventBus.getDefault().postSticky(new CartIsChoose(false));
 
@@ -248,7 +265,7 @@ public class CartActivity extends AppCompatActivity {
 
     @Override
     public void onStop() {
-
+        Log.d("trnagthai","stop");
 
         if (EventBus.getDefault().isRegistered(this))
             EventBus.getDefault().unregister(this);

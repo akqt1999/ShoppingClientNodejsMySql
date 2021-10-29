@@ -4,6 +4,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.Manifest;
 import android.annotation.TargetApi;
@@ -22,6 +24,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.provider.MediaStore;
+import android.provider.OpenableColumns;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -34,7 +37,12 @@ import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -53,9 +61,14 @@ import butterknife.OnClick;
 import dmax.dialog.SpotsDialog;
 import etn.app.danghoc.shoppingclient.Adapter.CategoryAdapter;
 import etn.app.danghoc.shoppingclient.Adapter.CategoryProductAdapter;
+import etn.app.danghoc.shoppingclient.Adapter.ImageAdapter;
+import etn.app.danghoc.shoppingclient.Callback.IClickDeleteImage;
 import etn.app.danghoc.shoppingclient.Common.Common;
 import etn.app.danghoc.shoppingclient.Common.MoneyTextWatcher;
+import etn.app.danghoc.shoppingclient.EventBus.UpLoadImageSuccess;
 import etn.app.danghoc.shoppingclient.Model.CategoryProduct;
+import etn.app.danghoc.shoppingclient.Model.ImageModel;
+import etn.app.danghoc.shoppingclient.Model.LinkImageModel;
 import etn.app.danghoc.shoppingclient.Model.Tinh;
 import etn.app.danghoc.shoppingclient.Model.UpdateModel;
 import etn.app.danghoc.shoppingclient.Retrofit.IMyShoppingAPI;
@@ -76,7 +89,11 @@ import static android.Manifest.permission.CAMERA;
 import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
 import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
 
+import org.greenrobot.eventbus.EventBus;
+
 public class UpdateProductActivity extends AppCompatActivity implements View.OnClickListener {
+
+    private static final int IMAGE_CODE = 1;
 
     CompositeDisposable compositeDisposable = new CompositeDisposable();
     CategoryProductAdapter adapter;
@@ -85,7 +102,7 @@ public class UpdateProductActivity extends AppCompatActivity implements View.OnC
     //ApiService apiService;
     IMyShoppingAPI shoppingAPI;
     IMyShoppingAPI addressAPI;
-    Uri picUri;
+
     ImageButton btn_choose_img;
     Button btn_add_pd;
 
@@ -104,8 +121,7 @@ public class UpdateProductActivity extends AppCompatActivity implements View.OnC
     @BindView(R.id.spinner_category)
     Spinner  spinner;
 
-    @BindView(R.id.image_pd)
-    ImageView image_pd;
+
 
     @BindView(R.id.progress_bar)
     ProgressBar progress_bar;
@@ -116,6 +132,16 @@ public class UpdateProductActivity extends AppCompatActivity implements View.OnC
     @BindView(R.id.edt_price_pd)
     EditText edt_price_pd;
 
+    @BindView(R.id.recycler_view)
+    RecyclerView recycler_view;
+    ImageAdapter imageAdapter;
+    List<ImageModel>listImages=new ArrayList<>();
+    List<ImageModel>listImagesDeleteAdd=new ArrayList<>();
+    List<ImageModel>listImageDelete=new ArrayList<>();
+    List<ImageModel>listImageAdd=new ArrayList<>();
+    StorageReference mStorageRef;
+
+    boolean isUpdateInfoSP=false;
 
     int idDanhMuc = -99,provinceId;
 
@@ -125,6 +151,7 @@ public class UpdateProductActivity extends AppCompatActivity implements View.OnC
         setContentView(R.layout.activity_update_product);
 
         spinner_khuvuc=findViewById(R.id.spinner_khuvuc);
+        mStorageRef= FirebaseStorage.getInstance().getReference();
 
         ButterKnife.bind(this);
 
@@ -136,7 +163,6 @@ public class UpdateProductActivity extends AppCompatActivity implements View.OnC
         btn_choose_img = findViewById(R.id.btn_choose_img);
         btn_choose_img.setOnClickListener(this);
 
-        image_pd = findViewById(R.id.image_pd);
 
 
         initRetrofitClient();
@@ -146,13 +172,37 @@ public class UpdateProductActivity extends AppCompatActivity implements View.OnC
         displayView();
 
         compositeDisposable = new CompositeDisposable();
-        dialog = new SpotsDialog.Builder().setContext(this).setTheme(R.style.Custom).setCancelable(false).build();
+        dialog = new SpotsDialog.Builder().setContext(this).setTheme(R.style.CustomUpdate).setCancelable(false).build();
     }
 
     private void displayView() {
         edt_name_pd.setText(Common.productSelectEdit.getTenSP());
         edt_price_pd.setText(Common.productSelectEdit.getGiaSP()+"");
         edt_description_pd.setText(Common.productSelectEdit.getMoTa());
+
+
+        recycler_view.setHasFixedSize(true);
+        recycler_view.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL, false));
+        // add link image
+        for (LinkImageModel item: Common.productSelectEdit.getListLinkImage()) {
+            listImages.add(new ImageModel(item.getLink()));
+
+        }
+
+        imageAdapter=new ImageAdapter(UpdateProductActivity.this, listImages, new IClickDeleteImage() {
+            @Override
+            public void onClick(int position) {
+                if(listImages.get(position).getLinkImage()!=null){
+                    listImageDelete.add(new ImageModel(listImages.get(position).getLinkImage()));
+                }
+
+                listImages.remove(position);
+                imageAdapter.notifyDataSetChanged();
+            }
+        });
+
+        recycler_view.setAdapter(imageAdapter);
+
     }
 
     private void initToolbar() {
@@ -171,9 +221,7 @@ public class UpdateProductActivity extends AppCompatActivity implements View.OnC
         shoppingAPI = new RetrofitClient().getInstance(Common.API_RESTAURANT_ENDPOINT)
                 .create(IMyShoppingAPI.class);
 
-
     }
-
 
     private void loadSpinner() {
         compositeDisposable.add(shoppingAPI.getDanhMuc("1234")
@@ -215,17 +263,68 @@ public class UpdateProductActivity extends AppCompatActivity implements View.OnC
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if(resultCode==RESULT_OK&&requestCode==IMAGE_PICK_CODE){
 
-            String filePath = getImageFilePath(data);
-            if (filePath != null) {
-                mBitmap = BitmapFactory.decodeFile(filePath);
-                image_pd.setImageBitmap(mBitmap);
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == IMAGE_CODE && resultCode == RESULT_OK) {
+
+            if (data.getClipData() != null) {
+
+                int totalitem = data.getClipData().getItemCount();
+
+                for (int i = 0; i < totalitem; i++) {
+
+                    Uri imageUri = data.getClipData().getItemAt(i).getUri();
+                    String imagename = getFileName(imageUri);
+                    ImageModel modalClass = new ImageModel(imagename, imageUri);
+                    listImages.add(modalClass);
+
+                    listImageAdd.add(new ImageModel(imagename,imageUri));
+                    imageAdapter.notifyDataSetChanged();
+                }
+
+            } else if (data.getData() != null) {
+                Toast.makeText(this, "single", Toast.LENGTH_SHORT).show();
+                Uri imageUri = data.getData();
+                String imagename = getFileName(imageUri);
+
+                ImageModel modalClass = new ImageModel(imagename, imageUri);
+                listImages.add(modalClass);
+                listImageAdd.add(new ImageModel(imagename,imageUri));
+                
+                recycler_view.setAdapter(imageAdapter);
+
+
             }
-            // mImageView.setImageURI(data.getData());
         }
     }
+
+    public String getFileName(Uri uri) {
+        String result = null;
+        if (uri.getScheme().equals("content")) {
+            Cursor cursor = getContentResolver().query(uri, null, null, null, null);
+            try {
+                if (cursor != null && cursor.moveToFirst()) {
+                    result = cursor.getString(cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME));
+                }
+            } finally {
+                cursor.close();
+            }
+        }
+        if (result == null) {
+            result = uri.getPath();
+            int cut = result.lastIndexOf('/');
+            if (cut != -1) {
+                result = result.substring(cut + 1);
+            }
+        }
+        // tao so random
+        double cc= Math.random();
+        String str=String.valueOf(cc);
+        str= str.replaceAll("[.]","");
+        return str+result;
+    }
+
 
     private String getImageFromFilePath(Intent data) {
 
@@ -343,6 +442,7 @@ public class UpdateProductActivity extends AppCompatActivity implements View.OnC
                     String tenSp = edt_name_pd.getText().toString();
                  //   float giaSp = Float.parseFloat(edt_price_pd.getText().toString());
 
+
                     float giaSp=Float.parseFloat(edt_price_pd.getText().toString()
                             .replaceAll("[,]","").replaceAll("[.]",""));
 
@@ -364,9 +464,7 @@ public class UpdateProductActivity extends AppCompatActivity implements View.OnC
                                 .subscribeOn(Schedulers.io())
                                 .observeOn(AndroidSchedulers.mainThread())
                                 .subscribe(uploadSanPhamModel -> {
-
                                     dialog.dismiss();
-
                                     Toast.makeText(UpdateProductActivity.this, "cap nhap pham thanh cong", Toast.LENGTH_SHORT).show();
                                 }, throwable -> {
                                     dialog.dismiss();
@@ -407,35 +505,178 @@ public class UpdateProductActivity extends AppCompatActivity implements View.OnC
     public void onClick(View view) {
         switch (view.getId()) {
 
-
-
             case R.id.btn_add_pd:
 
-                if (mBitmap != null) {
-                    multipartImageUpload();
-                } else {
-                    Toast.makeText(getApplicationContext(), "Bitmap is null. Try again", Toast.LENGTH_SHORT).show();
+                if(listImages.size()==0){
+                    Toast.makeText(this, "chưa chọn hình", Toast.LENGTH_SHORT).show();
+                }else{
+                    if(listImageAdd.size()>0){ // neu co xoa het add lai cung k sao
+                        for (ImageModel item:listImageAdd) {
+                            uploadImagesToFirebase(item);
+                        }
+                    }else{
+                        if(listImages.size()>0)
+                        updateSP(listImages.get(0).getLinkImage()); // trong cai update sp chi co xoa
+
+                    }
                 }
                 break;
             case R.id.btn_choose_img:
-
-                if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.M){
-                    if(checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE)
-                            == PackageManager.PERMISSION_DENIED){
-                        String[]permission={Manifest.permission.READ_EXTERNAL_STORAGE};
-                        requestPermissions(permission,PERMISSION_CODE);
-
-                    }else{
-                        pickImageFromGarelly();
-                    }
-                }
-                else{
-                    pickImageFromGarelly();
-                }
+                pickImage();
                 break;
 
         }
     }
+
+
+
+    private void updateSP(String linkImage) {
+        dialog.show();
+        if (edt_description_pd.getText().toString().trim().length() == 0
+                || edt_name_pd.getText().toString().trim().length() == 0
+                || edt_price_pd.getText().toString().trim().length() == 0) {
+            Toast.makeText(this, "chưa nhập đầy đủ thông tin sản phẩm", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        float giaSp=Float.parseFloat(edt_price_pd.getText().toString()
+                .replaceAll("[,]","").replaceAll("[.]",""));
+
+        String mota = edt_description_pd.getText().toString().trim();
+        String tenSP=edt_name_pd.getText().toString().trim();
+
+        compositeDisposable.add(shoppingAPI.updateSanPham(
+                Common.API_KEY,
+                Common.productSelectEdit.getIdSP(),
+                tenSP, giaSp, mota, idDanhMuc,
+                linkImage,
+                provinceId
+        )
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(uploadSanPhamModel -> {
+                    if(uploadSanPhamModel.isSuccess()){
+
+                        if(listImageDelete.size()>0){
+                            for (ImageModel item:listImageDelete) {
+                                if(item.getLinkImage()!=null){// xoa di cai link cu
+                                    deleteLinkImage(item.getLinkImage());
+
+                                }
+                            }
+                        }
+
+
+                    }else{
+                        Toast.makeText(this, "fail update info sp"+uploadSanPhamModel.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                    dialog.dismiss();
+
+                    Toast.makeText(UpdateProductActivity.this, "cap nhap info thanh cong", Toast.LENGTH_SHORT).show();
+                }, throwable -> {
+                    dialog.dismiss();
+                    Toast.makeText(UpdateProductActivity.this, "[fail UPLOAD NEW PRODUCT]" + throwable.getMessage(), Toast.LENGTH_SHORT).show();
+                }));
+    }
+
+    private void uploadImagesToFirebase(ImageModel item) {
+        dialog.show();
+        StorageReference mRef = mStorageRef.child("image").child(item.getImagename());
+        mRef.putFile(item.getImage()).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+
+                mRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                    @Override
+                    public void onSuccess(Uri uri) {
+                        dialog.dismiss();
+                        uploadLinkImage(uri.toString());
+
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        dialog.dismiss();
+                        Toast.makeText(UpdateProductActivity.this, "[fail load link ] " + e.getMessage(), Toast.LENGTH_SHORT).show();
+
+                    }
+                });
+
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Toast.makeText(UpdateProductActivity.this, "[Fail upload iamge to firebase ] " + e.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void uploadLinkImage(String linkImage) {
+        dialog.show();
+        compositeDisposable.add(shoppingAPI.uploadLinkHinhAnh(Common.API_KEY,
+             Common.productSelectEdit.getIdSP(),linkImage)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(hinhAnhModel -> {
+                    dialog.dismiss();
+                    if(hinhAnhModel.isSuccess()){
+                        Toast.makeText(this, "upload link success", Toast.LENGTH_SHORT).show();
+
+                        if(!isUpdateInfoSP) // check neu chua update info sp thi update info
+                        updateSP(linkImage);
+                        isUpdateInfoSP=true;
+                    }
+                    else {
+                        Toast.makeText(this, "upload link fail"+hinhAnhModel.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                },throwable -> {
+                    dialog.dismiss();
+                    Toast.makeText(this, "[fail UPLOAD link image]" + throwable.getMessage(), Toast.LENGTH_SHORT).show();
+                }));
+    }
+
+
+    private void deleteLinkImage(String linkImage) {
+        dialog.show();
+        compositeDisposable.add(shoppingAPI.deleteLinkImage(Common.API_KEY,
+                linkImage
+        )
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(hinhAnhModel -> {
+                    dialog.dismiss();
+                    if(hinhAnhModel.isSuccess()){
+                        Toast.makeText(this, "delete link success", Toast.LENGTH_SHORT).show();
+                        deleteImageFromFirebase(linkImage);
+                    }
+                    else {
+                        Toast.makeText(this, "delete link fail"+hinhAnhModel.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                },throwable -> {
+                    dialog.dismiss();
+                    Toast.makeText(this, "[fail delete link image]" + throwable.getMessage(), Toast.LENGTH_SHORT).show();
+                }));
+    }
+
+    private void deleteImageFromFirebase(String url) {
+        dialog.show();
+            StorageReference referenceDelete= FirebaseStorage.getInstance().getReferenceFromUrl(url);
+            referenceDelete.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+                @Override
+                public void onSuccess(Void unused) {
+                    dialog.dismiss();
+                    Toast.makeText(UpdateProductActivity.this, "delete success", Toast.LENGTH_SHORT).show();
+                }
+            });
+    }
+
+    private void pickImage() {
+        Intent intent = new Intent();
+        intent.setType("image/*");
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
+        startActivityForResult(intent, IMAGE_CODE);
+    }
+
     private void pickImageFromGarelly() {
         Intent intent=new Intent(Intent.ACTION_PICK);
         intent.setType("image/*");
@@ -466,7 +707,10 @@ public class UpdateProductActivity extends AppCompatActivity implements View.OnC
 
         return super.onOptionsItemSelected(item);
     }
+
+
 }
+
 /*
 
 

@@ -1,20 +1,43 @@
 package etn.app.danghoc.shoppingclient.Model;
 
+import java.util.List;
+
 public class SanPham {
-  private String   IdUser,TenSP,MoTa,hinh;
+  private String   IdUser,TenSP,MoTa,hinh,listImage;
   private int IdSP,IdDanhMuc,trangthai;
   private float GiaSP;
   private String PhoneUser;
-private int ProvinceId;
-    public SanPham(String idUser, String tenSP, String moTa, String hinh, int idSP, int idDanhMuc, int trangthai, float giaSP) {
+  private int ProvinceId;
+  private List<LinkImageModel>listLinkImage;
+
+    public SanPham(String idUser, String tenSP, String moTa, String hinh, String listImage, int idSP, int idDanhMuc, int trangthai, float giaSP, String phoneUser, int provinceId) {
         IdUser = idUser;
         TenSP = tenSP;
         MoTa = moTa;
         this.hinh = hinh;
+        this.listImage = listImage;
         IdSP = idSP;
         IdDanhMuc = idDanhMuc;
         this.trangthai = trangthai;
         GiaSP = giaSP;
+        PhoneUser = phoneUser;
+        ProvinceId = provinceId;
+    }
+
+    public List<LinkImageModel> getListLinkImage() {
+        return listLinkImage;
+    }
+
+    public void setListLinkImage(List<LinkImageModel> listLinkImage) {
+        this.listLinkImage = listLinkImage;
+    }
+
+    public String getListImage() {
+        return listImage;
+    }
+
+    public void setListImage(String listImage) {
+        this.listImage = listImage;
     }
 
     public int getProvinceId() {

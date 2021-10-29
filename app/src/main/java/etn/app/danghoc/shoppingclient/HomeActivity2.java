@@ -35,6 +35,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.messaging.FirebaseMessaging;
 
 import org.jetbrains.annotations.NotNull;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -48,7 +50,11 @@ import etn.app.danghoc.shoppingclient.Adapter.MySanPhamAdapter;
 import etn.app.danghoc.shoppingclient.Adapter.SanPhamSliderAdapter;
 import etn.app.danghoc.shoppingclient.Callback.IClickItemSanPham;
 import etn.app.danghoc.shoppingclient.Common.Common;
+import etn.app.danghoc.shoppingclient.Model.LinkImageModel;
 import etn.app.danghoc.shoppingclient.Model.SanPham;
+import etn.app.danghoc.shoppingclient.Model.Test1;
+import etn.app.danghoc.shoppingclient.Model.TestModel;
+import etn.app.danghoc.shoppingclient.Model.TestModelCha;
 import etn.app.danghoc.shoppingclient.Model.Tinh;
 import etn.app.danghoc.shoppingclient.Retrofit.IMyShoppingAPI;
 import etn.app.danghoc.shoppingclient.Retrofit.RetrofitClient;
@@ -62,7 +68,8 @@ import ss.com.bannerslider.Slider;
 
 public class HomeActivity2 extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
-
+    List<TestModel>list12Cha=new ArrayList<>();
+    List<Test1>listTest1Con=new ArrayList<>();
 
 
     @BindView(R.id.spinner)
@@ -74,6 +81,7 @@ public class HomeActivity2 extends AppCompatActivity implements NavigationView.O
 
     MySanPhamAdapter adapter, searchSanPhamAdapter;
     List<SanPham> sanPhamList=new ArrayList<>();
+    List<SanPham> listSanPham2=new ArrayList<>();
 
     CompositeDisposable compositeDisposable = new CompositeDisposable();
     IMyShoppingAPI shoppingAPI;
@@ -99,12 +107,66 @@ public class HomeActivity2 extends AppCompatActivity implements NavigationView.O
         showDialogLockUser();
         UpdateToken();
 
+       testSelectImage();
+
     }
+
+    // đẻ dây xí sài
+    private void testSelectImage() {
+
+        // get lisst san pham tich list
+        compositeDisposable.add(shoppingAPI.getSanPham2(Common.API_KEY,Common.currentUser.getIdUser())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(model -> {
+                    listSanPham2=model.getResult();
+
+                    for(int i=0;i<listSanPham2.size();i++){
+
+                        List<LinkImageModel>listLinkImage=new ArrayList<>();
+                        String jsonListImage=listSanPham2.get(i).getListImage();
+                        JSONArray jsonArray=new JSONArray(jsonListImage);
+
+                        for (int j=0;j<jsonArray.length();j++) {
+                            JSONObject jsonObjectImage=jsonArray.getJSONObject(j);
+                            String UrlHinhAnh=jsonObjectImage.getString("UrlHinhAnh");
+                            listLinkImage.add(new LinkImageModel(UrlHinhAnh));
+                        }
+                        listSanPham2.get(i).setListLinkImage(listLinkImage);
+                    }
+                    for (int i=0;i<listSanPham2.get(1).getListLinkImage().size();i++){
+                        Log.d("assas","link image: "+ listSanPham2.get(1).getListLinkImage().get(i).getLink());
+                    }
+
+                }, throwable -> {
+                    Toast.makeText(this, "loi" + throwable.getMessage(), Toast.LENGTH_SHORT).show();
+                    Log.d("assas","loi get link:"+ throwable.getMessage());
+                }));
+
+        compositeDisposable.add(shoppingAPI.getTest()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(s -> {
+
+                    list12Cha=s.getResult();
+                    String jsonString=list12Cha.get(1).getList();
+                    JSONArray jsonArray=new JSONArray(jsonString);
+                    Log.d("jsonn",jsonArray.length()+"");
+                    for (int i=0;i<jsonArray.length();i++) {
+                        JSONObject jsonObjectId=jsonArray.getJSONObject(i);
+                        String idsp=jsonObjectId.getString("IdSP");
+                        Log.d("jsonn",idsp);
+                    }
+
+                }, throwable -> {
+                    //Toast.makeText(this, "loi" + throwable.getMessage(), Toast.LENGTH_SHORT).show();
+                    Log.d("assas","loi json"+ throwable.getMessage());
+                }));
+        }
 
     private void initMenu() {
         toolbar=findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
 
         drawerLayout=findViewById(R.id.drawer_layout);
         navigationView=findViewById(R.id.nav_view);
@@ -128,7 +190,6 @@ public class HomeActivity2 extends AppCompatActivity implements NavigationView.O
         txt_user_phone.setText(Common.currentUser.getPhoneUser());
         txt_user_name.setText(Common.currentUser.getNameUser());
 
-        //
     }
 
     private void displayProvince() {
@@ -139,10 +200,12 @@ public class HomeActivity2 extends AppCompatActivity implements NavigationView.O
                 .subscribe(s -> {
                     try {
                         if (provinceList.size() > 0)
+
                             provinceList.clear();
 
-
                         provinceList = s.getResult();
+
+
 
 
                         Collections.reverse(provinceList);
@@ -176,6 +239,21 @@ public class HomeActivity2 extends AppCompatActivity implements NavigationView.O
                                 sanPhamList.clear();
                                 sanPhamList=sanPhamModel.getResult();
 
+                                // add list link image
+                                for(int i=0;i<sanPhamList.size();i++){
+
+                                    List<LinkImageModel>listLinkImage=new ArrayList<>();
+                                    String jsonListImage=sanPhamList.get(i).getListImage();
+                                    JSONArray jsonArray=new JSONArray(jsonListImage);
+
+                                    for (int j=0;j<jsonArray.length();j++) {
+                                        JSONObject jsonObjectImage=jsonArray.getJSONObject(j);
+                                        String UrlHinhAnh=jsonObjectImage.getString("UrlHinhAnh");
+                                        listLinkImage.add(new LinkImageModel(UrlHinhAnh));
+                                    }
+                                    sanPhamList.get(i).setListLinkImage(listLinkImage);
+                                }
+
                                 adapter = new MySanPhamAdapter(HomeActivity2.this, sanPhamList, new IClickItemSanPham() {
                                     @Override
                                     public void onClickItemUser() {
@@ -193,7 +271,6 @@ public class HomeActivity2 extends AppCompatActivity implements NavigationView.O
 
                                 }else{
                                     Toast.makeText(HomeActivity2.this, "[HOME]"+sanPhamModel.getMessage(), Toast.LENGTH_SHORT).show();
-
                                 }
                             }
 
@@ -218,6 +295,7 @@ public class HomeActivity2 extends AppCompatActivity implements NavigationView.O
     private void displayBanner(List<SanPham> restaurants) {
         banner_slider.setAdapter(new SanPhamSliderAdapter(restaurants));
     }
+
 
     private void initView() {
         addressAPI = RetrofitClientAddress.getInstance("https://dev-online-gateway.ghn.vn/").create(IMyShoppingAPI.class);
@@ -422,6 +500,7 @@ public class HomeActivity2 extends AppCompatActivity implements NavigationView.O
         }
 
     }
+
     private void UpdateToken(){
 
         FirebaseMessaging.getInstance().getToken()

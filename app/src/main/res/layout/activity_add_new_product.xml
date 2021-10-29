@@ -7,6 +7,7 @@
     >
 
     <ScrollView
+        android:id="@+id/scrollView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -133,16 +134,13 @@
                             android:layout_centerHorizontal="true"
                             android:text="chọn hình " />
 
-                        <ImageView
-
-                            android:id="@+id/image_pd"
-                            android:layout_width="280dp"
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/recycler_view"
+                            android:layout_width="match_parent"
                             android:layout_height="280dp"
                             android:layout_below="@+id/txt_choose"
-                            android:layout_centerInParent="true"
-                            android:adjustViewBounds="true"
-                            android:background="@drawable/empty_image"
-                            android:scaleType="centerCrop" />
+                            android:orientation="horizontal" />
+
 
                     </RelativeLayout>
 
@@ -174,7 +172,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
+        android:layout_below="@id/scrollView"
         android:orientation="horizontal"
         >
 

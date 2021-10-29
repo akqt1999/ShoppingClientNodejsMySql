@@ -8,8 +8,12 @@ import etn.app.danghoc.shoppingclient.Model.CreateOrderModel;
 import etn.app.danghoc.shoppingclient.Model.DanhMucModel;
 import etn.app.danghoc.shoppingclient.Model.DeleteProductModel;
 import etn.app.danghoc.shoppingclient.Model.DistrictModel;
+import etn.app.danghoc.shoppingclient.Model.HinhAnhModel;
+import etn.app.danghoc.shoppingclient.Model.IdNewSanPhamModel;
 import etn.app.danghoc.shoppingclient.Model.OrdersModel;
 import etn.app.danghoc.shoppingclient.Model.SanPhamModel;
+import etn.app.danghoc.shoppingclient.Model.TestModel;
+import etn.app.danghoc.shoppingclient.Model.TestModelCha;
 import etn.app.danghoc.shoppingclient.Model.TinhModel;
 import etn.app.danghoc.shoppingclient.Model.UpdateModel;
 import etn.app.danghoc.shoppingclient.Model.UpdateStatusModel;
@@ -49,7 +53,11 @@ public interface IMyShoppingAPI {
     Observable<SanPhamModel> getSanPham(@Query("key") String apiKey,
                                         @Query("IdUser")String iduser);
 
-    @GET("sanPhamByIdUser")
+    @GET("sanPham2")
+    Observable<SanPhamModel> getSanPham2(@Query("key") String apiKey,
+                                        @Query("IdUser")String iduser);
+
+    @GET("sanPhamByIdUser2")
     Observable<SanPhamModel> getSanPhamByUser(@Query("key") String apiKey,
                                               @Query("IdUser") String IdUser);
 
@@ -61,16 +69,34 @@ public interface IMyShoppingAPI {
                                             @Query("key")String key,
                                             @Query("IdDanhMuc") int IdDanhMuc );
 
-    @GET("sanPhamByProvinceIdTest")
+    @GET("sanPhamByProvinceIdTest2")
     Observable<SanPhamModel> getSanPhamByProvinceId(@Query("key") String apiKey,
                                               @Query("IdUser") String IdUser,
                                                     @Query("ProvinceId") int ProvinceId );
+    @GET("idNewSanPham")
+    Observable<IdNewSanPhamModel> getIdNewSanPham(@Query("key") String apiKey,
+                                                  @Query("IdUser") String IdUser
+                                                    );
+
+
 
     @DELETE("sanpham")
     Observable<DeleteProductModel> deleteProduct(@Query("key") String apiKey,
                                                  @Query("IdSP") int IdSP);
 
+    @DELETE("hinhanh")
+    Observable<DeleteProductModel> deleteLinkImage(@Query("key") String apiKey,
+                                                 @Query("UrlHinhAnh") String UrlHinhAnh);
 
+
+    @POST("hinhanh")
+    @FormUrlEncoded
+    Observable<HinhAnhModel> uploadLinkHinhAnh(
+            @Field("key") String key,
+            @Field("IdSP") int IdSP,
+            @Field("UrlHinhAnh") String UrlHinhAnh)
+
+            ;
 
 
     @POST("sanpham")
@@ -95,7 +121,7 @@ public interface IMyShoppingAPI {
             @Field("IdSP")int IdSP,
             @Field("TenSP") String TenSP,
             @Field("GiaSP") float GiaSP,
-            @Field("Mota") String Mota,
+            @Field("MoTa") String Mota,
             @Field("IdDanhMuc") int IdDanhMuc,
             @Field("hinh") String hinh,
             @Field("ProvinceId") int privinceid);
@@ -106,6 +132,12 @@ public interface IMyShoppingAPI {
     @GET("giohang")
     Observable<CartModel> getCart(@Query("key") String apiKey,
                                   @Query("IdUser") String idUser);
+
+    //check sp da ton tai trong gio hang hay chua
+    @GET("giohangcheck")
+    Observable<CartModel> getCartCheck(@Query("key") String apiKey,
+                                  @Query("IdUser") String idUser,
+                                    @Query("IdSP")int idsp);
 
     @DELETE("giohang")
     Observable<CartModel> deleteCart(@Query("key") String apiKey,
@@ -182,4 +214,7 @@ public interface IMyShoppingAPI {
 
     @GET("danhmuc")
     Observable<DanhMucModel> getDanhMuc(@Query("key") String apiKey);
+
+    @GET("testselect2")
+    Observable<TestModelCha> getTest();
 }
