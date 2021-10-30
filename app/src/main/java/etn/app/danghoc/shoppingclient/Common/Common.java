@@ -20,6 +20,7 @@ import etn.app.danghoc.shoppingclient.Model.Cart;
 import etn.app.danghoc.shoppingclient.Model.CategoryProduct;
 import etn.app.danghoc.shoppingclient.Model.Order;
 import etn.app.danghoc.shoppingclient.Model.SanPham;
+import etn.app.danghoc.shoppingclient.Model.Tinh;
 import etn.app.danghoc.shoppingclient.Model.User;
 import etn.app.danghoc.shoppingclient.R;
 
@@ -41,6 +42,7 @@ Common {
     public static double totalPriceFromCart;
     public static Order selectOrderBySeller;
     public static Order selectOrderByBuyer;
+    public static List<Tinh> provinceList;
 
     public static String formatPrice(double price) {
         if (price != 0) {

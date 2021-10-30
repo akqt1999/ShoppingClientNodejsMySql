@@ -54,8 +54,14 @@ public interface IMyShoppingAPI {
                                         @Query("IdUser")String iduser);
 
     @GET("sanPham2")
-    Observable<SanPhamModel> getSanPham2(@Query("key") String apiKey,
+    Observable<SanPhamModel> getSanPham2(@Query("key") String apiKey, // get san pham kem theo hinh anh
                                         @Query("IdUser")String iduser);
+
+    @GET("sanPham3")
+    Observable<SanPhamModel> getSanPham3(@Query("key") String apiKey, // get san pham keo theo hinh anh , page . load more,
+                                         @Query("IdUser")String iduser,//
+                                         @Query("page")int page
+                                         );
 
     @GET("sanPhamByIdUser2")
     Observable<SanPhamModel> getSanPhamByUser(@Query("key") String apiKey,
@@ -69,10 +75,13 @@ public interface IMyShoppingAPI {
                                             @Query("key")String key,
                                             @Query("IdDanhMuc") int IdDanhMuc );
 
-    @GET("sanPhamByProvinceIdTest2")
+    @GET("sanPhamByProvinceIdTest3")
     Observable<SanPhamModel> getSanPhamByProvinceId(@Query("key") String apiKey,
                                               @Query("IdUser") String IdUser,
-                                                    @Query("ProvinceId") int ProvinceId );
+                                                    @Query("ProvinceId") int ProvinceId ,
+                                                    @Query("page") int page);
+
+
     @GET("idNewSanPham")
     Observable<IdNewSanPhamModel> getIdNewSanPham(@Query("key") String apiKey,
                                                   @Query("IdUser") String IdUser

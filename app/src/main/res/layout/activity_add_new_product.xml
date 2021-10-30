@@ -55,12 +55,11 @@
                         android:layout_marginBottom="9dp"
                         android:hint="tên sản phẩm..." />
 
-                    <com.aldoapps.autoformatedittext.AutoFormatEditText
+                    <EditText
+                        android:inputType="number"
                         android:id="@+id/edt_price_pd"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        app:isDecimal="true"
-                        android:maxLength="10"
                         android:hint="giá sản phẩm..."
                         />
 

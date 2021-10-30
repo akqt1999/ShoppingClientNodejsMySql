@@ -10,6 +10,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.AlertDialog;
@@ -25,6 +26,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -78,10 +80,15 @@ public class HomeActivity2 extends AppCompatActivity implements NavigationView.O
     Slider banner_slider;
     @BindView(R.id.recycler_restaurant)
     RecyclerView recycler_sanpham;
+    @BindView(R.id.progress_bar)
+    ProgressBar progress_bar;
 
+    LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
     MySanPhamAdapter adapter, searchSanPhamAdapter;
     List<SanPham> sanPhamList=new ArrayList<>();
-    List<SanPham> listSanPham2=new ArrayList<>();
+    boolean isLoading=false;
+    int page=1;
+
 
     CompositeDisposable compositeDisposable = new CompositeDisposable();
     IMyShoppingAPI shoppingAPI;
@@ -107,62 +114,73 @@ public class HomeActivity2 extends AppCompatActivity implements NavigationView.O
         showDialogLockUser();
         UpdateToken();
 
-       testSelectImage();
 
     }
 
+    private void loadMoreData(int provinceId) {
+            recycler_sanpham.addOnScrollListener(new RecyclerView.OnScrollListener() {
+                @Override
+                public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
+                    super.onScrollStateChanged(recyclerView, newState);
+                }
+
+                @Override
+                public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                    super.onScrolled(recyclerView, dx, dy);
+                    int visibleItem=linearLayoutManager.getChildCount();
+                    int totalItem=linearLayoutManager.getItemCount();
+                    int firstVisible=linearLayoutManager.findFirstVisibleItemPosition();
+
+
+                    if(visibleItem+firstVisible>=totalItem&&totalItem!=0&&isLoading==false) {
+
+                        isLoading=true;
+                        progress_bar.setVisibility(View.VISIBLE);
+
+                        compositeDisposable.add(shoppingAPI.getSanPhamByProvinceId(Common.API_KEY,
+                                Common.currentUser.getIdUser(),provinceId,
+                               ++ page)
+                                .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                                .subscribe(model -> {
+                                    progress_bar.setVisibility(View.GONE);
+                                    isLoading=false;
+
+                                    if(model.isSuccess()){
+                                        for (SanPham item:model.getResult()) {
+
+
+                                            List<LinkImageModel>listLinkImage=new ArrayList<>();
+                                            String jsonListImage=item.getListImage();
+                                            JSONArray jsonArray=new JSONArray(jsonListImage);
+
+                                            for (int j=0;j<jsonArray.length();j++) {
+                                                JSONObject jsonObjectImage=jsonArray.getJSONObject(j);
+                                                String UrlHinhAnh=jsonObjectImage.getString("UrlHinhAnh");
+                                                listLinkImage.add(new LinkImageModel(UrlHinhAnh));
+                                            }
+                                            item.setListLinkImage(listLinkImage);
+
+                                            sanPhamList.add(item);
+                                            adapter.notifyDataSetChanged();
+                                            displayBanner(sanPhamList);
+
+                                        }
+
+                                    }else{
+                                    }
+                                },throwable -> {
+                                    isLoading=false;
+                                    progress_bar.setVisibility(View.GONE);
+                                    Toast.makeText(HomeActivity2.this, "fail load"+throwable.getMessage(), Toast.LENGTH_SHORT).show();
+                                } ));
+                    }
+                }
+            });
+    }
+
     // đẻ dây xí sài
-    private void testSelectImage() {
 
-        // get lisst san pham tich list
-        compositeDisposable.add(shoppingAPI.getSanPham2(Common.API_KEY,Common.currentUser.getIdUser())
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(model -> {
-                    listSanPham2=model.getResult();
-
-                    for(int i=0;i<listSanPham2.size();i++){
-
-                        List<LinkImageModel>listLinkImage=new ArrayList<>();
-                        String jsonListImage=listSanPham2.get(i).getListImage();
-                        JSONArray jsonArray=new JSONArray(jsonListImage);
-
-                        for (int j=0;j<jsonArray.length();j++) {
-                            JSONObject jsonObjectImage=jsonArray.getJSONObject(j);
-                            String UrlHinhAnh=jsonObjectImage.getString("UrlHinhAnh");
-                            listLinkImage.add(new LinkImageModel(UrlHinhAnh));
-                        }
-                        listSanPham2.get(i).setListLinkImage(listLinkImage);
-                    }
-                    for (int i=0;i<listSanPham2.get(1).getListLinkImage().size();i++){
-                        Log.d("assas","link image: "+ listSanPham2.get(1).getListLinkImage().get(i).getLink());
-                    }
-
-                }, throwable -> {
-                    Toast.makeText(this, "loi" + throwable.getMessage(), Toast.LENGTH_SHORT).show();
-                    Log.d("assas","loi get link:"+ throwable.getMessage());
-                }));
-
-        compositeDisposable.add(shoppingAPI.getTest()
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(s -> {
-
-                    list12Cha=s.getResult();
-                    String jsonString=list12Cha.get(1).getList();
-                    JSONArray jsonArray=new JSONArray(jsonString);
-                    Log.d("jsonn",jsonArray.length()+"");
-                    for (int i=0;i<jsonArray.length();i++) {
-                        JSONObject jsonObjectId=jsonArray.getJSONObject(i);
-                        String idsp=jsonObjectId.getString("IdSP");
-                        Log.d("jsonn",idsp);
-                    }
-
-                }, throwable -> {
-                    //Toast.makeText(this, "loi" + throwable.getMessage(), Toast.LENGTH_SHORT).show();
-                    Log.d("assas","loi json"+ throwable.getMessage());
-                }));
-        }
 
     private void initMenu() {
         toolbar=findViewById(R.id.toolbar);
@@ -205,8 +223,7 @@ public class HomeActivity2 extends AppCompatActivity implements NavigationView.O
 
                         provinceList = s.getResult();
 
-
-
+                        Common.provinceList=s.getResult();
 
                         Collections.reverse(provinceList);
                         provinceList.add(0,new Tinh(99998,"Toàn quốc"));
@@ -228,22 +245,39 @@ public class HomeActivity2 extends AppCompatActivity implements NavigationView.O
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
+
+                page=1;// khi load tai lai
+                sanPhamList.clear();
+
+                adapter = new MySanPhamAdapter(HomeActivity2.this, sanPhamList, new IClickItemSanPham() {
+                    @Override
+                    public void onClickItemUser() {
+                        Intent intent=new Intent(HomeActivity2.this,ChiTietSP.class);
+                        startActivity(intent);
+                    }
+                });
+                recycler_sanpham.setAdapter(adapter);
+
+
+
+
+                loadMoreData(provinceList.get(position).getProvinceID());
+
                 compositeDisposable.add(shoppingAPI.getSanPhamByProvinceId(Common.API_KEY,
                         Common.currentUser.getIdUser(),
-                        provinceList.get(position).getProvinceID() )
+                        provinceList.get(position).getProvinceID(),page )
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe(sanPhamModel -> {
                             if(sanPhamModel.isSuccess()){
 
-                                sanPhamList.clear();
-                                sanPhamList=sanPhamModel.getResult();
 
-                                // add list link image
-                                for(int i=0;i<sanPhamList.size();i++){
+                                for (SanPham item:sanPhamModel.getResult()) {
+
+                                    Log.d("Asdf",item.getProvinceId()+"");
 
                                     List<LinkImageModel>listLinkImage=new ArrayList<>();
-                                    String jsonListImage=sanPhamList.get(i).getListImage();
+                                    String jsonListImage=item.getListImage();
                                     JSONArray jsonArray=new JSONArray(jsonListImage);
 
                                     for (int j=0;j<jsonArray.length();j++) {
@@ -251,18 +285,36 @@ public class HomeActivity2 extends AppCompatActivity implements NavigationView.O
                                         String UrlHinhAnh=jsonObjectImage.getString("UrlHinhAnh");
                                         listLinkImage.add(new LinkImageModel(UrlHinhAnh));
                                     }
-                                    sanPhamList.get(i).setListLinkImage(listLinkImage);
+                                    item.setListLinkImage(listLinkImage);
+
+                                    sanPhamList.add(item);
+
+                                    Toast.makeText(HomeActivity2.this, ""+sanPhamList.get(0).getProvinceId(), Toast.LENGTH_SHORT).show();
+
+                                    adapter.notifyDataSetChanged();
+
+
                                 }
 
-                                adapter = new MySanPhamAdapter(HomeActivity2.this, sanPhamList, new IClickItemSanPham() {
-                                    @Override
-                                    public void onClickItemUser() {
-                                            Intent intent=new Intent(HomeActivity2.this,ChiTietSP.class);
-                                            startActivity(intent);
-                                    }
-                                });
-                                recycler_sanpham.setAdapter(adapter);
                                 displayBanner(sanPhamList);
+                                //====bo=========
+//                                sanPhamList=sanPhamModel.getResult();
+//
+//                                // add list link image
+//                                for(int i=0;i<sanPhamList.size();i++){
+//
+//                                    List<LinkImageModel>listLinkImage=new ArrayList<>();
+//                                    String jsonListImage=sanPhamList.get(i).getListImage();
+//                                    JSONArray jsonArray=new JSONArray(jsonListImage);
+//
+//                                    for (int j=0;j<jsonArray.length();j++) {
+//                                        JSONObject jsonObjectImage=jsonArray.getJSONObject(j);
+//                                        String UrlHinhAnh=jsonObjectImage.getString("UrlHinhAnh");
+//                                        listLinkImage.add(new LinkImageModel(UrlHinhAnh));
+//                                    }
+//                                    sanPhamList.get(i).setListLinkImage(listLinkImage);
+//                                }
+
 
                             }
                             else {
@@ -291,7 +343,6 @@ public class HomeActivity2 extends AppCompatActivity implements NavigationView.O
 
     }
 
-
     private void displayBanner(List<SanPham> restaurants) {
         banner_slider.setAdapter(new SanPhamSliderAdapter(restaurants));
     }
@@ -304,9 +355,9 @@ public class HomeActivity2 extends AppCompatActivity implements NavigationView.O
           ButterKnife.bind(this);
 
 
-        GridLayoutManager gridLayoutManager = new GridLayoutManager(HomeActivity2.this, 2);
-        recycler_sanpham.setLayoutManager(gridLayoutManager);
-        recycler_sanpham.addItemDecoration(new DividerItemDecoration(HomeActivity2.this,gridLayoutManager.getOrientation()));
+
+        recycler_sanpham.setLayoutManager(linearLayoutManager);
+        recycler_sanpham.addItemDecoration(new DividerItemDecoration(HomeActivity2.this,linearLayoutManager.getOrientation()));
         // DividerItemDecoration : dung de tao ra cac dau ____ ngan cach
 
 

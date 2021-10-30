@@ -163,7 +163,7 @@ public class HomeFragment extends Fragment {
             public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
                     compositeDisposable.add(shoppingAPI.getSanPhamByProvinceId(Common.API_KEY,
                             Common.currentUser.getIdUser(),
-                           provinceList.get(position).getProvinceID() )
+                           provinceList.get(position).getProvinceID(),1 )
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(sanPhamModel -> {

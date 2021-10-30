@@ -25,6 +25,7 @@ import etn.app.danghoc.shoppingclient.Common.Common;
 import etn.app.danghoc.shoppingclient.EventBus.SanPhamItemClick;
 import etn.app.danghoc.shoppingclient.Interface.IOnRecycleViewClickListener;
 import etn.app.danghoc.shoppingclient.Model.SanPham;
+import etn.app.danghoc.shoppingclient.Model.Tinh;
 import etn.app.danghoc.shoppingclient.R;
 
 public class MySanPhamAdapter extends RecyclerView.Adapter<MySanPhamAdapter.MyViewHolder> {
@@ -52,8 +53,16 @@ public class MySanPhamAdapter extends RecyclerView.Adapter<MySanPhamAdapter.MyVi
     @Override
     public void onBindViewHolder(@NonNull @NotNull MyViewHolder holder, int position) {
         Picasso.get().load(sanPhamList.get(position).getHinh()).into(holder.img_sanpham);
-        holder.txt_sanpham_name.setText(sanPhamList.get(position).getTenSP());
-        holder.txt_sanpham_gia.setText(Common.formatPrice(sanPhamList.get(position).getGiaSP()));
+        holder.txt_sanpham_name.setText( sanPhamList.get(position).getTenSP());
+        holder.txt_sanpham_gia.setText("giá: "+Common.formatPrice(sanPhamList.get(position).getGiaSP()));
+
+        for (Tinh item: Common.provinceList) {
+            if(sanPhamList.get(position).getProvinceId()==item.getProvinceID())
+            {
+                holder.txt_khuvuc_ban.setText(new StringBuilder("khu vực bán: ").append(item.getProvinceName()));
+                break;
+            }
+        }
 
         holder.setListener((view, position1) -> {
             Common.selectSanPham = sanPhamList.get(position1);
@@ -74,6 +83,8 @@ public class MySanPhamAdapter extends RecyclerView.Adapter<MySanPhamAdapter.MyVi
         TextView txt_sanpham_name;
         @BindView(R.id.txt_sanpham_gia)
         TextView txt_sanpham_gia;
+        @BindView(R.id.txt_khuvuc_ban)
+        TextView txt_khuvuc_ban;
 
         @BindView(R.id.img_sanpham)
         ImageView img_sanpham;
