@@ -152,6 +152,17 @@
 
 
 
+            <Button
+                android:layout_margin="6dp"
+                android:inputType="textCapSentences|textMultiLine"
+                android:maxLines ="4"
+                android:maxLength ="2000"
+                android:background="@drawable/border_bottom"
+                android:id="@+id/btn_add_pd"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:text="cập nhập sản phẩm" />
         </LinearLayout>
 
 
@@ -168,17 +179,6 @@
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-        <Button
-            android:layout_margin="6dp"
-            android:inputType="textCapSentences|textMultiLine"
-            android:maxLines ="4"
-            android:maxLength ="2000"
-            android:background="@drawable/border_bottom"
-            android:id="@+id/btn_add_pd"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="right"
-            android:text="cập nhập sản phẩm" />
 
 
     </LinearLayout>

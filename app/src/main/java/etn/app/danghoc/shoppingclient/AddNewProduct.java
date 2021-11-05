@@ -253,7 +253,7 @@ public class AddNewProduct extends AppCompatActivity implements View.OnClickList
                 listImages.add(modalClass);
 
                 recycler_view.setHasFixedSize(true);
-                recycler_view.setLayoutManager(new LinearLayoutManager(this));
+                recycler_view.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL, false));
                 imageAdapter = new ImageAdapter(AddNewProduct.this, listImages, new IClickDeleteImage() {
                     @Override
                     public void onClick(int position) {

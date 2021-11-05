@@ -135,7 +135,6 @@ public class CategoryProductActivity extends AppCompatActivity {
     @Subscribe(sticky = true,threadMode = ThreadMode.MAIN)
     public void onItemClick(DanhMucItemClick event){
         if(event.isSuccess()){
-
             startActivity(new Intent(CategoryProductActivity.this,ProductByCategory.class));
         }
     }

@@ -3,6 +3,7 @@ package etn.app.danghoc.shoppingclient;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
@@ -47,7 +48,6 @@ public class ProductByCategory extends AppCompatActivity {
         initToolbar();
         displaySanPham();
 
-
     }
 
     private void displaySanPham() {
@@ -68,9 +68,8 @@ public class ProductByCategory extends AppCompatActivity {
                                           startActivity(intent);
                                       }
                                   });
-                                GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 2);
 
-                                recycler_sp_by_category.setLayoutManager(gridLayoutManager);
+                                recycler_sp_by_category.setLayoutManager(new LinearLayoutManager(this));
                                 recycler_sp_by_category.setAdapter(adapter);
 
                             }
