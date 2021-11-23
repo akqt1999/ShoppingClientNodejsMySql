@@ -81,7 +81,6 @@ import retrofit2.Response;
 
 public class AddNewProduct extends AppCompatActivity implements View.OnClickListener {
 
-
     private static final int IMAGE_CODE = 1;
 
     CompositeDisposable compositeDisposable = new CompositeDisposable();
@@ -169,9 +168,7 @@ public class AddNewProduct extends AppCompatActivity implements View.OnClickList
         compositeDisposable = new CompositeDisposable();
     }
 
-
     private void initRetrofitClient() {
-
         addressAPI = RetrofitClientAddress.getInstance("https://dev-online-gateway.ghn.vn/").create(IMyShoppingAPI.class);
 
         shoppingAPI = new RetrofitClient().getInstance(Common.API_RESTAURANT_ENDPOINT)
@@ -213,7 +210,6 @@ public class AddNewProduct extends AppCompatActivity implements View.OnClickList
                 }));
 
     }
-
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
@@ -294,13 +290,12 @@ public class AddNewProduct extends AppCompatActivity implements View.OnClickList
         return str+result;
     }
 
+        // code bo
         private String getImageFromFilePath (Intent data){
-
-
             return getPathFromURI(data.getData());
-
         }
 
+    // code bo
         private String getImageFilePath (Intent data){
             return getImageFromFilePath(data);
         }
@@ -312,7 +307,6 @@ public class AddNewProduct extends AppCompatActivity implements View.OnClickList
             cursor.moveToFirst();
             return cursor.getString(column_index);
         }
-
 
         private void displayProvince () {
             compositeDisposable.add(addressAPI.getProvince("8ce54678-f9b7-11eb-bfef-86bbb1a09031",
@@ -360,6 +354,7 @@ public class AddNewProduct extends AppCompatActivity implements View.OnClickList
 
         }
 
+        // code bo
         private void multipartImageUpload () {
 
             progress_bar.setVisibility(View.VISIBLE);
@@ -463,8 +458,6 @@ public class AddNewProduct extends AppCompatActivity implements View.OnClickList
             setSupportActionBar(toolbar);
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
-
-
         }
 
         @Override
@@ -473,7 +466,6 @@ public class AddNewProduct extends AppCompatActivity implements View.OnClickList
             if (item.getItemId() == android.R.id.home) {
                 finish();
             }
-
             return super.onOptionsItemSelected(item);
         }
 
@@ -497,7 +489,6 @@ public class AddNewProduct extends AppCompatActivity implements View.OnClickList
                             if(countNumberUploadUmage==listImages.size()){
                                 EventBus.getDefault().postSticky(new UpLoadImageSuccess(true));
                             }
-
                         }
                     }).addOnFailureListener(new OnFailureListener() {
                         @Override
@@ -506,8 +497,6 @@ public class AddNewProduct extends AppCompatActivity implements View.OnClickList
                             dialog.dismiss();
                         }
                     });
-
-
                 }
             }).addOnFailureListener(new OnFailureListener() {
                 @Override
@@ -516,11 +505,6 @@ public class AddNewProduct extends AppCompatActivity implements View.OnClickList
                 }
             });
         }
-
-
-
-
-
     }
 
     @Subscribe(sticky = true, threadMode = ThreadMode.MAIN)

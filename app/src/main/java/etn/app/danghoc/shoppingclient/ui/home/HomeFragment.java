@@ -222,7 +222,7 @@ public class HomeFragment extends Fragment {
     }
 
     private void displayBanner(List<SanPham> restaurants) {
-        banner_slider.setAdapter(new SanPhamSliderAdapter(restaurants));
+      //  banner_slider.setAdapter(new SanPhamSliderAdapter(restaurants));
     }
 
     private void initView(View root) {

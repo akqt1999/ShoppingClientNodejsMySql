@@ -48,7 +48,7 @@ public class SanPhamCategoryViewModel extends ViewModel {
     private void loadSanPham() {
         compositeDisposable.
                 add(myRestaurantAPI.getSanPhamByIdDanhMuc(Common.API_KEY,
-                        Common.selectCategprySelect.getIdDanhMuc())
+                        Common.selectCategprySelect.getIdDanhMuc(),Common.currentUser.getIdUser())
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe(sanPhamModel -> {

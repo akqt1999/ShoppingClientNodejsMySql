@@ -3,6 +3,7 @@ package etn.app.danghoc.shoppingclient.Retrofit;
 import java.util.Date;
 
 import etn.app.danghoc.shoppingclient.Model.AddCartModel;
+import etn.app.danghoc.shoppingclient.Model.BannerModel;
 import etn.app.danghoc.shoppingclient.Model.CartModel;
 import etn.app.danghoc.shoppingclient.Model.CreateOrderModel;
 import etn.app.danghoc.shoppingclient.Model.DanhMucModel;
@@ -73,7 +74,9 @@ public interface IMyShoppingAPI {
     @GET("sanPhamByIdDanhMuc")
     Observable<SanPhamModel>getSanPhamByIdDanhMuc(
                                             @Query("key")String key,
-                                            @Query("IdDanhMuc") int IdDanhMuc );
+                                            @Query("IdDanhMuc") int IdDanhMuc,
+                                            @Query("IdUser") String iduser
+                                            );
 
     @GET("sanPhamByProvinceIdTest3")
     Observable<SanPhamModel> getSanPhamByProvinceId(@Query("key") String apiKey,
@@ -226,4 +229,8 @@ public interface IMyShoppingAPI {
 
     @GET("testselect2")
     Observable<TestModelCha> getTest();
+
+    // banner
+    @GET("banner")
+    Observable<BannerModel> getBanner(@Query("key") String apiKey);
 }

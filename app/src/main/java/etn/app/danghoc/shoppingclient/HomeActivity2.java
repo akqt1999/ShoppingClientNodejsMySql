@@ -52,6 +52,7 @@ import etn.app.danghoc.shoppingclient.Adapter.MySanPhamAdapter;
 import etn.app.danghoc.shoppingclient.Adapter.SanPhamSliderAdapter;
 import etn.app.danghoc.shoppingclient.Callback.IClickItemSanPham;
 import etn.app.danghoc.shoppingclient.Common.Common;
+import etn.app.danghoc.shoppingclient.Model.Banner;
 import etn.app.danghoc.shoppingclient.Model.LinkImageModel;
 import etn.app.danghoc.shoppingclient.Model.SanPham;
 import etn.app.danghoc.shoppingclient.Model.Test1;
@@ -70,8 +71,7 @@ import ss.com.bannerslider.Slider;
 
 public class HomeActivity2 extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
-    List<TestModel>list12Cha=new ArrayList<>();
-    List<Test1>listTest1Con=new ArrayList<>();
+
 
 
     @BindView(R.id.spinner)
@@ -96,6 +96,7 @@ public class HomeActivity2 extends AppCompatActivity implements NavigationView.O
 
     List<Tinh> provinceList = new ArrayList<>();
     CategoryAdapter adapterCategory;
+    List<Banner>listBanner=new ArrayList<>();
 
     //draw
     Toolbar toolbar;
@@ -113,7 +114,7 @@ public class HomeActivity2 extends AppCompatActivity implements NavigationView.O
         displayProvince();
         showDialogLockUser();
         UpdateToken();
-
+        displayBanner();
 
     }
 
@@ -163,7 +164,7 @@ public class HomeActivity2 extends AppCompatActivity implements NavigationView.O
 
                                             sanPhamList.add(item);
                                             adapter.notifyDataSetChanged();
-                                            displayBanner(sanPhamList);
+                                         //   displayBanner(sanPhamList);
 
                                         }
 
@@ -258,9 +259,6 @@ public class HomeActivity2 extends AppCompatActivity implements NavigationView.O
                 });
                 recycler_sanpham.setAdapter(adapter);
 
-
-
-
                 loadMoreData(provinceList.get(position).getProvinceID());
 
                 compositeDisposable.add(shoppingAPI.getSanPhamByProvinceId(Common.API_KEY,
@@ -271,7 +269,7 @@ public class HomeActivity2 extends AppCompatActivity implements NavigationView.O
                         .subscribe(sanPhamModel -> {
                             if(sanPhamModel.isSuccess()){
 
-
+                                // tach link url image from json
                                 for (SanPham item:sanPhamModel.getResult()) {
 
                                     Log.d("Asdf",item.getProvinceId()+"");
@@ -289,14 +287,10 @@ public class HomeActivity2 extends AppCompatActivity implements NavigationView.O
 
                                     sanPhamList.add(item);
 
-                                    Toast.makeText(HomeActivity2.this, ""+sanPhamList.get(0).getProvinceId(), Toast.LENGTH_SHORT).show();
-
                                     adapter.notifyDataSetChanged();
-
-
                                 }
 
-                                displayBanner(sanPhamList);
+                              //  displayBanner(sanPhamList);
                                 //====bo=========
 //                                sanPhamList=sanPhamModel.getResult();
 //
@@ -337,14 +331,27 @@ public class HomeActivity2 extends AppCompatActivity implements NavigationView.O
             }
         });
 
-
-
-
-
     }
 
-    private void displayBanner(List<SanPham> restaurants) {
-        banner_slider.setAdapter(new SanPhamSliderAdapter(restaurants));
+    private void displayBanner() {
+
+        compositeDisposable.add(shoppingAPI.getBanner(
+                Common.API_KEY
+        ).subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(model -> {
+                    if (model.isSuccess()) {
+                        listBanner=model.getResult();
+                        banner_slider.setAdapter(new SanPhamSliderAdapter(listBanner));
+
+                    }else{
+                        Toast.makeText(HomeActivity2.this,"empty banner", Toast.LENGTH_SHORT).show();
+                    }
+
+                }, throwable -> {
+                    Toast.makeText(HomeActivity2.this,throwable.getMessage(), Toast.LENGTH_SHORT).show();
+                }));
+
     }
 
 
