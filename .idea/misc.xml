@@ -5,6 +5,10 @@
       <map>
         <entry key="../../../../layout/custom_preview.xml" value="0.27282051282051284" />
         <entry key="app/src/main/res/drawable/border_bottom.xml" value="0.1605" />
+        <entry key="app/src/main/res/drawable/ic_baseline_add_circle_24.xml" value="0.1475" />
+        <entry key="app/src/main/res/drawable/ic_baseline_add_photo_alternate_40.xml" value="0.1475" />
+        <entry key="app/src/main/res/drawable/ic_baseline_arrow_back_24.xml" value="0.1475" />
+        <entry key="app/src/main/res/drawable/ic_baseline_cancel_24.xml" value="0.1475" />
         <entry key="app/src/main/res/drawable/ic_baseline_restaurant_24.xml" value="0.1495" />
         <entry key="app/src/main/res/drawable/ic_baseline_shopping_cart_24.xml" value="0.112" />
         <entry key="app/src/main/res/layout/activity_add_new_product.xml" value="0.25" />

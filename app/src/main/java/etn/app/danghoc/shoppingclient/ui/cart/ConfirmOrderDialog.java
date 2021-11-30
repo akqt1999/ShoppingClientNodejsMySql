@@ -36,6 +36,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
+import dmax.dialog.SpotsDialog;
 import etn.app.danghoc.shoppingclient.Common.Common;
 import etn.app.danghoc.shoppingclient.EventBus.AddNewAddressClick;
 import etn.app.danghoc.shoppingclient.EventBus.LoadCartAgain;
@@ -87,6 +88,8 @@ public class ConfirmOrderDialog extends DialogFragment {
       TextView txt_total_price;
     Unbinder unbinder;
 
+    AlertDialog dialog;
+
     //hien ra thong thanh cong neu hai cai nay bang nhau
     int countOrderSuccess=0;
     int countOrderChoose=0;
@@ -105,7 +108,7 @@ public class ConfirmOrderDialog extends DialogFragment {
         View view = inflater.inflate(R.layout.layout_confirm_order, container, false);
         init1(view);
         unbinder = ButterKnife.bind(this, view);
-
+        dialog = new SpotsDialog.Builder().setContext(getContext()).setTheme(R.style.loadingDialog).setCancelable(false).build();
 
         return view;
     }
@@ -193,7 +196,7 @@ public class ConfirmOrderDialog extends DialogFragment {
 
     private void createOrderToDatabase(float gia, int IdSP, String IdSeller) {
 
-
+        dialog.show();
         compositeDisposable.add(shoppingAPI.createOrder(
                 Common.API_KEY,
                 txt_address.getText().toString(),
@@ -217,14 +220,16 @@ public class ConfirmOrderDialog extends DialogFragment {
                                     showDialogSuccess();
                                     EventBus.getDefault().postSticky(new LoadCartAgain(true));
                                 }
-
+                                dialog.dismiss();
                                 Toast.makeText(getContext(), "create order success", Toast.LENGTH_SHORT).show();
 
                             } else {
+                                dialog.dismiss();
                                 Toast.makeText(getContext(), "create order fail"+createOrderModel.getMessage(), Toast.LENGTH_SHORT).show();
                             }
+                            dialog.dismiss();
                         }, throwable -> {
-
+                            dialog.dismiss();
                             Toast.makeText(getContext(), "[CREATE ORDER]" + throwable.getMessage(), Toast.LENGTH_SHORT).show();
 
                         })

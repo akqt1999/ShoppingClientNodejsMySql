@@ -96,8 +96,6 @@ public class CartActivity extends AppCompatActivity {
 
     @OnClick(R.id.btn_place_order)
     void placeOrderClick() {
-
-
         boolean isChoose = true;
         for (int i = 0; i < Common.cartList.size(); i++) {
             if (Common.cartList.get(i).isChoose()) {
@@ -105,7 +103,6 @@ public class CartActivity extends AppCompatActivity {
                 break;
             }
         }
-
         if (isChoose)
             Toast.makeText(this, "chưa chọn đơn hàng cần mua", Toast.LENGTH_SHORT).show();
         else {
@@ -239,11 +236,8 @@ public class CartActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-
-
     @Override
     public void onStart() {
-
 
         super.onStart();
         Log.d("trnagthai","staer");
