@@ -234,3 +234,4 @@ public interface IMyShoppingAPI {
     @GET("banner")
     Observable<BannerModel> getBanner(@Query("key") String apiKey);
 }
+//test update

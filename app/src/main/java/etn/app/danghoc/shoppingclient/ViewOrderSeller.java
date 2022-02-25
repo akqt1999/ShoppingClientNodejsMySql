@@ -138,7 +138,7 @@ public class ViewOrderSeller extends AppCompatActivity {
     public void onClickOrder(ViewOrderBySellerClick event) {
         if(event.isSuccess())
         {
-            Toast.makeText(this, "nhan 123", Toast.LENGTH_SHORT).show();
+
             FragmentManager fm = getSupportFragmentManager();
             OrderDetailDialog dialog = OrderDetailDialog.newInstance();
             dialog.show(fm, "tag12212");
