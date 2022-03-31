@@ -40,8 +40,10 @@ import org.jetbrains.annotations.NotNull;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 
 import butterknife.BindView;
@@ -68,6 +70,8 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.schedulers.Schedulers;
 import ss.com.bannerslider.Slider;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 public class HomeActivity2 extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -88,7 +92,7 @@ public class HomeActivity2 extends AppCompatActivity implements NavigationView.O
     List<SanPham> sanPhamList=new ArrayList<>();
     boolean isLoading=false;
     int page=1;
-
+    Date date = new Date();
 
     CompositeDisposable compositeDisposable = new CompositeDisposable();
     IMyShoppingAPI shoppingAPI;
@@ -161,10 +165,19 @@ public class HomeActivity2 extends AppCompatActivity implements NavigationView.O
                                                 listLinkImage.add(new LinkImageModel(UrlHinhAnh));
                                             }
                                             item.setListLinkImage(listLinkImage);
+                                            if(item.getNgayUuTien()!=null){
+                                                if(item.getNgayUuTien().after(date)){
+                                                    sanPhamList.add(0,item);
+                                                    sanPhamList.get(0).setUuTien(true);
+                                                }else {
+                                                    sanPhamList.add(item);
+                                                }
+                                            }else {
+                                                sanPhamList.add(item);
+                                            }
 
-                                            sanPhamList.add(item);
                                             adapter.notifyDataSetChanged();
-                                         //   displayBanner(sanPhamList);
+
 
                                         }
 
@@ -285,7 +298,21 @@ public class HomeActivity2 extends AppCompatActivity implements NavigationView.O
                                     }
                                     item.setListLinkImage(listLinkImage);
 
-                                    sanPhamList.add(item);
+                                 //  sanPhamList.add(item);
+
+                                    Log.d("dfdd",item.getNgayUuTien()+" "+item.getTenSP());
+
+
+                                    if(item.getNgayUuTien()!=null){
+                                        if(item.getNgayUuTien().after(date)){
+                                            sanPhamList.add(0,item);
+                                            sanPhamList.get(0).setUuTien(true);
+                                        }else {
+                                            sanPhamList.add(item);
+                                        }
+                                    }else {
+                                        sanPhamList.add(item);
+                                    }
 
                                     adapter.notifyDataSetChanged();
                                 }
@@ -474,13 +501,13 @@ public class HomeActivity2 extends AppCompatActivity implements NavigationView.O
         }
         else if (id == R.id.nav_home) {
 
-        } else if (id == R.id.nav_view_order) {
-            Intent intent=new Intent(HomeActivity2.this,ViewOrder.class);
-            startActivity(intent);
-
-        } else if (id == R.id.nav_view_order_seller) {
-            Intent intent=new Intent(HomeActivity2.this,ViewOrderSeller.class);
-            startActivity(intent);
+//        } else if (id == R.id.nav_view_order) {
+//            Intent intent=new Intent(HomeActivity2.this,ViewOrder.class);
+//            startActivity(intent);
+//
+//        } else if (id == R.id.nav_view_order_seller) {
+//            Intent intent=new Intent(HomeActivity2.this,ViewOrderSeller.class);
+//            startActivity(intent);
 
         } else if (id == R.id.nav_view_add_new_product) {
             Intent intent=new Intent(HomeActivity2.this,AddNewProduct.class);
@@ -494,6 +521,13 @@ public class HomeActivity2 extends AppCompatActivity implements NavigationView.O
         {
             Intent intent=new Intent(HomeActivity2.this,CategoryProductActivity.class);
             startActivity(intent);
+        }
+        else if(id==R.id.nav_my_money){
+          //  startActivity(new Intent(HomeActivity2.this, MyProductActivity.class));
+            startActivity(new Intent(HomeActivity2.this,MyMonney.class));
+        }
+        else if(id== R.id.nav_history_money){
+            startActivity(new Intent(HomeActivity2.this,ViewHistoryMoneyActivity.class));
         }
 
        drawerLayout.closeDrawer(GravityCompat.START);

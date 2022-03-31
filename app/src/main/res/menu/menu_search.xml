@@ -9,7 +9,7 @@
         app:actionViewClass="androidx.appcompat.widget.SearchView"
         />
     <item
-        android:icon="@drawable/ic_baseline_shopping_cart_24"
+        android:icon="@drawable/ic_baseline_favorite_24"
         android:id="@+id/cart"
         android:title="cart"
         app:showAsAction="collapseActionView|ifRoom"

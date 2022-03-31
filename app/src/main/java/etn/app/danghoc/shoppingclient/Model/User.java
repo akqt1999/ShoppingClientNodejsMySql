@@ -3,7 +3,7 @@ package etn.app.danghoc.shoppingclient.Model;
 public class User {
 
     private String IdUser, PhoneUser, NameUser, AddressUser;
-
+    private double AmountMoney;
     int TrangThai;
 
     public User(String idUser, String phoneUser, String nameUser, String addressUser,int TrangThai) {
@@ -12,6 +12,14 @@ public class User {
         NameUser = nameUser;
         AddressUser = addressUser;
         TrangThai=TrangThai;
+    }
+
+    public double getAmountMoney() {
+        return AmountMoney;
+    }
+
+    public void setAmountMoney(double amountMoney) {
+        AmountMoney = amountMoney;
     }
 
     public int getTrangThai() {

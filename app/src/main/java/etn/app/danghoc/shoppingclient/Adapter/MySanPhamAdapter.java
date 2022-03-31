@@ -55,6 +55,10 @@ public class MySanPhamAdapter extends RecyclerView.Adapter<MySanPhamAdapter.MyVi
         holder.txt_sanpham_name.setText( sanPhamList.get(position).getTenSP());
         holder.txt_sanpham_gia.setText("giá: "+Common.formatPrice(sanPhamList.get(position).getGiaSP()));
 
+        if(sanPhamList.get(position).isUuTien()){
+            holder.txt_quang_cao.setVisibility(View.VISIBLE);
+        }
+
         for (Tinh item: Common.provinceList) {
             if(sanPhamList.get(position).getProvinceId()==item.getProvinceID())
             {
@@ -84,6 +88,9 @@ public class MySanPhamAdapter extends RecyclerView.Adapter<MySanPhamAdapter.MyVi
         TextView txt_sanpham_gia;
         @BindView(R.id.txt_khuvuc_ban)
         TextView txt_khuvuc_ban;
+        @BindView(R.id.txt_quang_cao)
+        TextView txt_quang_cao;
+
 
         @BindView(R.id.img_sanpham)
         ImageView img_sanpham;

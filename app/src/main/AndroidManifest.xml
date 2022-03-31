@@ -32,6 +32,12 @@
         android:usesCleartextTraffic="true"
         tools:replace="android:theme">
         <activity
+            android:name=".ViewHistoryMoneyActivity"
+            android:exported="true" />
+        <activity
+            android:name=".MyMonney"
+            android:exported="true" />
+        <activity
             android:name=".ProductByCategory"
             android:exported="true" />
         <activity

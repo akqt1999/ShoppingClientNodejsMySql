@@ -255,6 +255,10 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         {
              navController.navigate(R.id.nav_category);
         }
+        else if(id==R.id.nav_my_money){
+            startActivity(new Intent(HomeActivity.this, MyProductActivity.class));
+            //startActivity(new Intent(HomeActivity.this,MyMonney.class));
+        }
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);

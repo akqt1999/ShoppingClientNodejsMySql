@@ -50,8 +50,7 @@ public class CartActivity extends AppCompatActivity {
 
     @BindView(R.id.recycler_cart)
     RecyclerView recyclerCart;
-    @BindView(R.id.txtTotalPrice)
-    TextView txtTotalPrice;
+
     @BindView(R.id.txt_empty_cart)
     TextView txt_empty_cart;
     @BindView(R.id.group_place_holder)
@@ -94,24 +93,24 @@ public class CartActivity extends AppCompatActivity {
 
     }
 
-    @OnClick(R.id.btn_place_order)
-    void placeOrderClick() {
-        boolean isChoose = true;
-        for (int i = 0; i < Common.cartList.size(); i++) {
-            if (Common.cartList.get(i).isChoose()) {
-                isChoose = false;
-                break;
-            }
-        }
-        if (isChoose)
-            Toast.makeText(this, "chưa chọn đơn hàng cần mua", Toast.LENGTH_SHORT).show();
-        else {
-            DialogFragment dialog = ConfirmOrderDialog.newInstance();
-            FragmentManager fm = getSupportFragmentManager();
-            dialog.show(fm, "tag");
-        }
-
-    }
+//    @OnClick(R.id.btn_place_order)
+//    void placeOrderClick() {
+//        boolean isChoose = true;
+//        for (int i = 0; i < Common.cartList.size(); i++) {
+//            if (Common.cartList.get(i).isChoose()) {
+//                isChoose = false;
+//                break;
+//            }
+//        }
+//        if (isChoose)
+//            Toast.makeText(this, "chưa chọn đơn hàng cần mua", Toast.LENGTH_SHORT).show();
+//        else {
+//            DialogFragment dialog = ConfirmOrderDialog.newInstance();
+//            FragmentManager fm = getSupportFragmentManager();
+//            dialog.show(fm, "tag");
+//        }
+//
+//    }
 
     @Subscribe(sticky = true, threadMode = ThreadMode.MAIN)
     public void deleteItemCart(CartItemDelete event) {
@@ -179,7 +178,7 @@ public class CartActivity extends AppCompatActivity {
         double totalPriceFinal = Double.parseDouble(totalPrice + ""), displayPrice = 0.0;
         displayPrice = totalPriceFinal;
         displayPrice = Math.round(displayPrice * 100.0 / 100.0);
-        txtTotalPrice.setText(new StringBuilder().append(Common.formatPrice(displayPrice)));
+        //txtTotalPrice.setText(new StringBuilder().append(Common.formatPrice(displayPrice)));
         Common.totalPriceFromCart = totalPriceFinal;
     }
 

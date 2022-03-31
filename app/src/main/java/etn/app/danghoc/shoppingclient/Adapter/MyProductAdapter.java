@@ -31,6 +31,7 @@ import etn.app.danghoc.shoppingclient.EventBus.CartIsChoose;
 import etn.app.danghoc.shoppingclient.EventBus.CartItemDelete;
 import etn.app.danghoc.shoppingclient.EventBus.MyProductItemDelete;
 import etn.app.danghoc.shoppingclient.EventBus.MyProductItemEdit;
+import etn.app.danghoc.shoppingclient.EventBus.UpdateSanPhamAds;
 import etn.app.danghoc.shoppingclient.Model.Cart;
 import etn.app.danghoc.shoppingclient.Model.SanPham;
 import etn.app.danghoc.shoppingclient.R;
@@ -100,9 +101,17 @@ import etn.app.danghoc.shoppingclient.R;
                 return;
             }
 
-
             EventBus.getDefault().postSticky(new MyProductItemEdit(true,position) );
 
+        });
+
+        holder.btn_ads.setOnClickListener(view -> {
+            if(Common.currentUser.getAmountMoney()<30000){
+                Toast.makeText(context, "Tiền không đủ 30.000đ để quảng cáo\n" +
+                        "Xin hãy nộp tiền", Toast.LENGTH_SHORT).show();
+            }else{
+                EventBus.getDefault().postSticky(new UpdateSanPhamAds(true,position));
+            }
         });
 
     }
@@ -124,6 +133,8 @@ import etn.app.danghoc.shoppingclient.R;
         ImageButton btn_delete;
         @BindView(R.id.btn_edit)
         ImageButton btn_edit;
+        @BindView(R.id.btn_ads)
+        ImageButton btn_ads;
         @BindView(R.id.txt_price)
         TextView txtFoodPrice;
         @BindView(R.id.txtFoodName)

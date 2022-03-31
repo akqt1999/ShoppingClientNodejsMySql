@@ -36,20 +36,19 @@
 
     </item>
 
-    <item android:title="@string/don_hang">
+
+
+    <item android:title="@string/vi_tien">
         <menu>
             <item
-                android:id="@+id/nav_view_order"
-                android:icon="@drawable/ic_baseline_restore_24"
-                android:title="@string/view_orders" />
+                android:id="@+id/nav_my_money"
+                android:icon="@drawable/ic_baseline_account_balance_wallet_24"
+                android:title="@string/vi_tien" />
             <item
-                android:id="@+id/nav_view_order_seller"
+                android:id="@+id/nav_history_money"
                 android:icon="@drawable/ic_baseline_restore_24"
-                android:title="@string/view_orders_seller" />
-
+                android:title="lịch sử nộp tiền" />
         </menu>
-
-
     </item>
 
 </menu>

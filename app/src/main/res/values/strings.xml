@@ -17,9 +17,11 @@
     <string name="view_orders">đơn mua</string>
     <string name="view_orders_seller">đơn bán</string>
     <string name="don_hang">đơn hàng</string>
+    <string name="vi_tien">ví tiền</string>
     <string name="cart">giỏ hàng</string>
     <string name="add_new_pd">thêm sản phẩm mới</string>
     <string name="my_pd">sản phẩm của bạn</string>
     <string name="update_pd">cập nhập sản phẩm</string>
     <string name="category">danh mục sản phẩm</string>
+    <string name="nap_tien">nạp tiền</string>
 </resources>

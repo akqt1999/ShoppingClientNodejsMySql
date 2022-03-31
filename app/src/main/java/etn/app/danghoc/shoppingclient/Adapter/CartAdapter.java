@@ -58,25 +58,25 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
         holder.txtFoodName.setText(cartItems.get(position).getTenSP());
         holder.txtFoodPrice.setText(Common.formatPrice(cartItems.get(position).getGia()));
 
-        if (cartItems.get(position).isChoose())
-            holder.checkbox.setChecked(true);
-        else
-            holder.checkbox.setChecked(false);
+//        if (cartItems.get(position).isChoose())
+//            holder.checkbox.setChecked(true);
+//        else
+//            holder.checkbox.setChecked(false);
 
             //event
             holder.btn_delete.setOnClickListener(view -> {
                 EventBus.getDefault().postSticky(new CartItemDelete(true, position));
             });
 
-        holder.checkbox.setOnCheckedChangeListener((compoundButton, b) -> {
-            if (b)
-                Common.cartList.get(position).setChoose(true);//cot loi nam o day
-            else
-                Common.cartList.get(position).setChoose(false);
-
-            EventBus.getDefault().postSticky(new CartIsChoose(true));
-
-        });
+//        holder.checkbox.setOnCheckedChangeListener((compoundButton, b) -> {
+//            if (b)
+//                Common.cartList.get(position).setChoose(true);//cot loi nam o day
+//            else
+//                Common.cartList.get(position).setChoose(false);
+//
+//            EventBus.getDefault().postSticky(new CartIsChoose(true));
+//
+//        });
 
     }
 
@@ -99,8 +99,8 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
         TextView txtFoodPrice;
         @BindView(R.id.txtFoodName)
         TextView txtFoodName;
-        @BindView(R.id.checkbox)
-        CheckBox checkbox;
+//        @BindView(R.id.checkbox)
+//        CheckBox checkbox;
 
 
         public ViewHolder(@NonNull View itemView) {

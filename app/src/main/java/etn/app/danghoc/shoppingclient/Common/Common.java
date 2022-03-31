@@ -12,8 +12,14 @@ import android.os.Build;
 
 import androidx.core.app.NotificationCompat;
 
+import androidx.core.app.NotificationCompat;
+
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import etn.app.danghoc.shoppingclient.Model.Cart;
@@ -148,5 +154,24 @@ Common {
         notificationManager.notify(id,notification);
     }
 
+    public static String createCurrentDay() {
+        long estimatedServerTimeMs = System.currentTimeMillis();
+        //   SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
+        Date resultDate = new Date(estimatedServerTimeMs);
+        String date = sdf.format(resultDate);
 
+        Calendar c = Calendar.getInstance();
+        try {
+            c.setTime(sdf.parse(date));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+            // ngày nó sẽ đc cộng thêm 3 ngày nữa ,
+           c.add(Calendar.DATE, 3);  // number of days to add trong sql server bi loi cai nay se khong bi loi
+        date=sdf.format(c.getTime());
+        return date;
+    }
+
+   public static SimpleDateFormat simpleDateFormat= new SimpleDateFormat("dd-MM-yyyy");
 }

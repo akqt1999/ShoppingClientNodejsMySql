@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -57,6 +58,8 @@ public class ChiTietSP extends AppCompatActivity {
 
     @BindView(R.id.btn_cart)
     CounterFab btn_cart;
+    @BindView(R.id.btn_report)
+    Button btn_report;
     @BindView(R.id.banner_slider)
     Slider banner_slider;
 
@@ -165,6 +168,24 @@ public class ChiTietSP extends AppCompatActivity {
 
                     }
                 }).check();
+    }
+
+    @OnClick(R.id.btn_report)
+    public void clickReport()
+    {
+        compositeDisposable.add(myRestaurantAPI.updateSanPhamBaoCao(Common.API_KEY,Common.selectSanPham.getIdSP(),1)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(model -> {
+                    if(model.isSuccess()){
+                        Toast.makeText(this, "Cảm ơn bạn đã báo cáo sản phẩm này, chúng tôi sẽ xem xét lại ", Toast.LENGTH_SHORT).show();
+                    }else{
+                        Toast.makeText(this,model.getMessage() , Toast.LENGTH_SHORT).show();
+                    }
+
+                },throwable -> {
+                    Toast.makeText(this, "check sp exits cart"+throwable.getMessage(), Toast.LENGTH_SHORT).show();
+                }));
     }
 
     // back button

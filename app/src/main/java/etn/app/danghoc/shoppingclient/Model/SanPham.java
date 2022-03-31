@@ -1,16 +1,19 @@
 package etn.app.danghoc.shoppingclient.Model;
 
 import java.util.List;
+import java.util.Date;
 
 public class SanPham {
   private String   IdUser,TenSP,MoTa,hinh,listImage;
   private int IdSP,IdDanhMuc,trangthai;
   private float GiaSP;
   private String PhoneUser;
+  private Date NgayUuTien;
   private int ProvinceId;
   private List<LinkImageModel>listLinkImage;
+  private boolean isUuTien=false;
 
-    public SanPham(String idUser, String tenSP, String moTa, String hinh, String listImage, int idSP, int idDanhMuc, int trangthai, float giaSP, String phoneUser, int provinceId) {
+    public SanPham(String idUser, String tenSP, String moTa, String hinh, String listImage, int idSP, int idDanhMuc, int trangthai, float giaSP, String phoneUser, int provinceId,Date ngayUuTien) {
         IdUser = idUser;
         TenSP = tenSP;
         MoTa = moTa;
@@ -22,6 +25,7 @@ public class SanPham {
         GiaSP = giaSP;
         PhoneUser = phoneUser;
         ProvinceId = provinceId;
+        NgayUuTien=ngayUuTien;
     }
 
     public List<LinkImageModel> getListLinkImage() {
@@ -30,6 +34,22 @@ public class SanPham {
 
     public void setListLinkImage(List<LinkImageModel> listLinkImage) {
         this.listLinkImage = listLinkImage;
+    }
+
+    public Date getNgayUuTien() {
+        return NgayUuTien;
+    }
+
+    public boolean isUuTien() {
+        return isUuTien;
+    }
+
+    public void setUuTien(boolean uuTien) {
+        isUuTien = uuTien;
+    }
+
+    public void setNgayUuTien(Date ngayUuTien) {
+        NgayUuTien = ngayUuTien;
     }
 
     public String getListImage() {

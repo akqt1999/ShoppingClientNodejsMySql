@@ -81,6 +81,12 @@
                     android:id="@+id/btn_edit"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
+                <ImageButton
+                    android:backgroundTint="#fff"
+                    android:src="@drawable/ic_baseline_arrow_circle_up_24"
+                    android:id="@+id/btn_ads"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
 
             </LinearLayout>
 

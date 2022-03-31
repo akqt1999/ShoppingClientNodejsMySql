@@ -12,6 +12,9 @@ import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
@@ -31,6 +34,7 @@ import etn.app.danghoc.shoppingclient.Adapter.MyProductAdapter;
 import etn.app.danghoc.shoppingclient.Common.Common;
 import etn.app.danghoc.shoppingclient.EventBus.MyProductItemDelete;
 import etn.app.danghoc.shoppingclient.EventBus.MyProductItemEdit;
+import etn.app.danghoc.shoppingclient.EventBus.UpdateSanPhamAds;
 import etn.app.danghoc.shoppingclient.Model.LinkImageModel;
 import etn.app.danghoc.shoppingclient.Model.SanPham;
 import etn.app.danghoc.shoppingclient.Retrofit.IMyShoppingAPI;
@@ -118,24 +122,55 @@ public class MyProductActivity extends AppCompatActivity {
             EventBus.getDefault().register(this);
         EventBus.getDefault().postSticky(new MyProductItemDelete(false,-99));
         EventBus.getDefault().postSticky(new MyProductItemEdit(false,-99));
+        EventBus.getDefault().postSticky(new UpdateSanPhamAds(false,-99));
     }
 
     @Override
     protected void onStop() {
         if(EventBus.getDefault().isRegistered(this))
             EventBus.getDefault().unregister(this);
-        Log.d("dfknsoif","stop");
         super.onStop();
     }
 
     @Override
     protected void onPause() {
         Log.d("dfknsoif","pause");
-        EventBus.getDefault().postSticky(new MyProductItemEdit(false,-98));//no se xoa trang thai nay de khong khoi dong lai
+        //no se xoa trang thai nay de khong khoi dong lai
+        EventBus.getDefault().postSticky(new MyProductItemEdit(false,-98));
+        EventBus.getDefault().postSticky(new MyProductItemEdit(false,-99));
+        EventBus.getDefault().postSticky(new UpdateSanPhamAds(false,-99));
         super.onPause();
     }
 
+    @Subscribe(sticky = true,threadMode = ThreadMode.MAIN)
+    public void onUpdateItemAds(UpdateSanPhamAds event){
+        if(event.isSuccess()){
+            if(event.isSuccess()){
+                SanPham sanPham=sanPhamList.get(event.getPosition());
+                compositeDisposable.add(myRestaurantAPI.UpdateSanPhamAds(
+                        Common.API_KEY,
+                        sanPham.getIdSP(),
+                        Common.createCurrentDay()
+                ).subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(model -> {
+                            if(model.isSuccess()){
+                                Toast.makeText(this, "quảng cáo thành công", Toast.LENGTH_SHORT).show();
+                                updateMoney();
+                                addHistoryMoney(30000);
+                                // Thêm vào bảng lịch sử nộp tiền nữa
+                            }
+                            else {
+                                Toast.makeText(this, model.getMessage(), Toast.LENGTH_SHORT).show();
+                            }
 
+                        },throwable -> {
+                            Toast.makeText(this, throwable.getMessage(), Toast.LENGTH_SHORT).show();
+                        }));
+
+            }
+        }
+    }
 
 
 
@@ -167,6 +202,7 @@ public class MyProductActivity extends AppCompatActivity {
             }));
         }
     }
+
     @Subscribe(sticky = true,threadMode = ThreadMode.MAIN)
     public void onEditItem(MyProductItemEdit event){
             if(event.isSuccess()){
@@ -192,6 +228,60 @@ public class MyProductActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void addHistoryMoney(double tien) {
+        compositeDisposable.add(myRestaurantAPI.postHistoryMoney(Common.API_KEY,
+                Common.createCurrentDay(),-1,tien,Common.currentUser.getIdUser())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(userModel -> {
+                    if (userModel.isSuccess()) {
+
+                    } else {
+                        Toast.makeText(this, "fail add history money", Toast.LENGTH_SHORT).show();
+                    }
+                }));
+    }
+
+   void updateMoney(){
+       double moneyUpdate=Common.currentUser.getAmountMoney()-30000 ;
+       compositeDisposable.
+               add(myRestaurantAPI.updateMoneyUser(
+                       Common.API_KEY,
+                       Common.currentUser.getIdUser(),
+                       moneyUpdate
+                       )
+                               .subscribeOn(Schedulers.io())
+                               .observeOn(AndroidSchedulers.mainThread())
+                               .subscribe(model -> {
+                                   if (model.isSuccess()) {
+                                       getCurrentUser();
+                                   }
+                                   else {
+                                       Toast.makeText(this, "fail update"+model.getMessage(), Toast.LENGTH_SHORT).show();
+                                   }
+
+                               }, throwable -> {
+                                   Toast.makeText(this, "[update status]" + throwable.getMessage(), Toast.LENGTH_SHORT).show();
+                               })
+               );
+    }
+    void getCurrentUser(){
+            FirebaseUser user= FirebaseAuth.getInstance().getCurrentUser();
+            compositeDisposable.add(myRestaurantAPI.getUser(Common.API_KEY,user.getUid())
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(userModel -> {
+                        if(userModel.isSuccess())
+                        {
+                            Common.currentUser=userModel.getResult().get(0);
+                        }
+                        else
+                        {
+                            Toast.makeText(this, "fail get current user", Toast.LENGTH_SHORT).show();
+                        }
+                    }));
     }
 
 }

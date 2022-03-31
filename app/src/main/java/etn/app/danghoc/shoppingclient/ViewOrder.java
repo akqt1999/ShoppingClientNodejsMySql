@@ -101,7 +101,6 @@ public class ViewOrder extends AppCompatActivity {
                         .subscribe(orderModel -> {
                             if(orderModel.isSuccess())
                             {
-
                                 orderList=orderModel.getResult();
                                 Common.orderList=orderModel.getResult();
 

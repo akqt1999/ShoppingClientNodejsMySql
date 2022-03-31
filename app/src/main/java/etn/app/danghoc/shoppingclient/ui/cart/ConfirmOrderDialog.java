@@ -340,8 +340,6 @@ public class ConfirmOrderDialog extends DialogFragment {
      //   c.add(Calendar.DATE, 1);  // number of days to add trong sql server bi loi cai nay se khong bi loi
         date=sdf.format(c.getTime());
         return date;
-
-
     }
 
     private void showDialogSuccess() {
