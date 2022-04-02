@@ -7,6 +7,7 @@ import android.Manifest;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -15,6 +16,10 @@ import android.widget.Toast;
 
 import com.andremion.counterfab.CounterFab;
 import com.bumptech.glide.Glide;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.karumi.dexter.Dexter;
 import com.karumi.dexter.PermissionToken;
 import com.karumi.dexter.listener.PermissionDeniedResponse;
@@ -22,7 +27,9 @@ import com.karumi.dexter.listener.PermissionGrantedResponse;
 import com.karumi.dexter.listener.PermissionRequest;
 import com.karumi.dexter.listener.single.PermissionListener;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import butterknife.BindView;
@@ -35,6 +42,7 @@ import etn.app.danghoc.shoppingclient.Model.LinkImageModel;
 import etn.app.danghoc.shoppingclient.Model.SanPham;
 import etn.app.danghoc.shoppingclient.Retrofit.IMyShoppingAPI;
 import etn.app.danghoc.shoppingclient.Retrofit.RetrofitClient;
+import etn.app.danghoc.shoppingclient.chat.specificchat;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.schedulers.Schedulers;
@@ -45,7 +53,10 @@ public class ChiTietSP extends AppCompatActivity {
      IMyShoppingAPI myRestaurantAPI;
      CompositeDisposable compositeDisposable = new CompositeDisposable();
 
+    private FirebaseFirestore firebaseFirestore;
+    private FirebaseAuth firebaseAuth;
 
+    String urlImage="https://scontent.fdad3-4.fna.fbcdn.net/v/t1.15752-9/274838229_4952544314871195_2682715600486588086_n.png?_nc_cat=105&ccb=1-5&_nc_sid=ae9488&_nc_ohc=Vc2QC7GhfqUAX8-WLet&_nc_ht=scontent.fdad3-4.fna&oh=03_AVLB8Xmmds7koDkuwqSewj3Ww6MsVHBvQVfljPEZWbH_VA&oe=626F70BE";
 
     @BindView(R.id.txtFoodName)
     TextView txtFoodName;
@@ -72,7 +83,8 @@ public class ChiTietSP extends AppCompatActivity {
 
         ButterKnife.bind(this);
         myRestaurantAPI = RetrofitClient.getInstance(Common.API_RESTAURANT_ENDPOINT).create(IMyShoppingAPI.class);
-
+        firebaseFirestore=FirebaseFirestore.getInstance();
+        firebaseAuth=FirebaseAuth.getInstance();
         initToolbar();
         displayDetail();
 
@@ -187,6 +199,49 @@ public class ChiTietSP extends AppCompatActivity {
                     Toast.makeText(this, "check sp exits cart"+throwable.getMessage(), Toast.LENGTH_SHORT).show();
                 }));
     }
+
+    @OnClick(R.id.btn_chat)
+    public void clickChat()
+    {
+
+
+        DocumentReference documentReference=firebaseFirestore.collection("Users").document(Common.currentUser.getIdUser());
+        Map<String , Object> userdata=new HashMap<>();
+        userdata.put("name",Common.currentUser.getNameUser());
+        userdata.put("image",urlImage);
+        userdata.put("uid",firebaseAuth.getUid());
+        userdata.put("status","Online");
+
+        documentReference.set(userdata).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                Toast.makeText(getApplicationContext(),"Data on Cloud Firestore send success",Toast.LENGTH_SHORT).show();
+
+                DocumentReference documentReference2=firebaseFirestore.collection("Users").document(Common.selectSanPham.getIdUser());
+                Map<String , Object> userdata2=new HashMap<>();
+                userdata.put("name",Common.selectSanPham.getTenSP());
+                userdata.put("image",urlImage);
+                userdata.put("uid",Common.selectSanPham.getIdUser());
+                userdata.put("status","Online");
+
+                documentReference2.set(userdata).addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Intent intent=new Intent(ChiTietSP.this, specificchat.class);
+                        intent.putExtra("name",Common.selectSanPham.getTenSP());
+                        intent.putExtra("receiveruid",Common.selectSanPham.getIdUser());
+                        intent.putExtra("imageuri",urlImage);
+                        startActivity(intent);
+                    }
+                });
+
+            }
+        });
+        /////
+
+
+    }
+
 
     // back button
     @Override

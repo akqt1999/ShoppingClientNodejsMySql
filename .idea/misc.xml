@@ -12,9 +12,14 @@
         <entry key="app/src/main/res/drawable/ic_baseline_restaurant_24.xml" value="0.1495" />
         <entry key="app/src/main/res/drawable/ic_baseline_restore_24.xml" value="0.1425" />
         <entry key="app/src/main/res/drawable/ic_baseline_shopping_cart_24.xml" value="0.112" />
+        <entry key="app/src/main/res/drawable/messagebackgroun.xml" value="0.1" />
+        <entry key="app/src/main/res/drawable/recieverchatdrawble.xml" value="0.1" />
+        <entry key="app/src/main/res/drawable/senderchatdrawable.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_add_new_product.xml" value="0.25" />
         <entry key="app/src/main/res/layout/activity_cart.xml" value="0.25052083333333336" />
         <entry key="app/src/main/res/layout/activity_category_product.xml" value="0.23645833333333333" />
+        <entry key="app/src/main/res/layout/activity_chat2.xml" value="0.2545289855072464" />
+        <entry key="app/src/main/res/layout/activity_chat_screen.xml" value="0.25677083333333334" />
         <entry key="app/src/main/res/layout/activity_chi_tiet_sp.xml" value="0.25052083333333336" />
         <entry key="app/src/main/res/layout/activity_enter_otp.xml" value="0.22327898550724637" />
         <entry key="app/src/main/res/layout/activity_home.xml" value="0.11170212765957446" />
@@ -25,6 +30,7 @@
         <entry key="app/src/main/res/layout/activity_my_monney.xml" value="0.2421875" />
         <entry key="app/src/main/res/layout/activity_my_product.xml" value="0.22327898550724637" />
         <entry key="app/src/main/res/layout/activity_product_by_category.xml" value="0.25052083333333336" />
+        <entry key="app/src/main/res/layout/activity_specificchat.xml" value="0.17046605876393112" />
         <entry key="app/src/main/res/layout/activity_splash_screen.xml" value="0.22327898550724637" />
         <entry key="app/src/main/res/layout/activity_update_info.xml" value="0.22327898550724637" />
         <entry key="app/src/main/res/layout/activity_update_product.xml" value="0.22327898550724637" />
@@ -32,6 +38,9 @@
         <entry key="app/src/main/res/layout/activity_view_order.xml" value="0.25052083333333336" />
         <entry key="app/src/main/res/layout/activity_view_order_seller.xml" value="0.25052083333333336" />
         <entry key="app/src/main/res/layout/app_bar_home.xml" value="0.12183383991894631" />
+        <entry key="app/src/main/res/layout/callfragment.xml" value="0.25677083333333334" />
+        <entry key="app/src/main/res/layout/chatfragment.xml" value="0.25677083333333334" />
+        <entry key="app/src/main/res/layout/chatviewlayout.xml" value="0.25677083333333334" />
         <entry key="app/src/main/res/layout/content_home.xml" value="0.25052083333333336" />
         <entry key="app/src/main/res/layout/fragment_cart.xml" value="0.192481884057971" />
         <entry key="app/src/main/res/layout/fragment_category.xml" value="0.25052083333333336" />
@@ -52,6 +61,9 @@
         <entry key="app/src/main/res/layout/layout_order_item.xml" value="0.25677083333333334" />
         <entry key="app/src/main/res/layout/layout_sanpham_item.xml" value="0.25052083333333336" />
         <entry key="app/src/main/res/layout/layout_view_history_money_item.xml" value="0.25677083333333334" />
+        <entry key="app/src/main/res/layout/recieverchatlayout.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/senderchatlayout.xml" value="0.17046605876393112" />
+        <entry key="app/src/main/res/layout/statusfragment.xml" value="0.25677083333333334" />
         <entry key="app/src/main/res/menu/activity_main_drawer.xml" value="0.45" />
         <entry key="app/src/main/res/menu/home.xml" value="0.2421875" />
         <entry key="app/src/main/res/menu/menu_search.xml" value="0.25052083333333336" />

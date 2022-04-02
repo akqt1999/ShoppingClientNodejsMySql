@@ -7,9 +7,7 @@ import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.DividerItemDecoration;
-import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -40,7 +38,6 @@ import org.jetbrains.annotations.NotNull;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
@@ -48,7 +45,6 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.Unbinder;
 import etn.app.danghoc.shoppingclient.Adapter.CategoryAdapter;
 import etn.app.danghoc.shoppingclient.Adapter.MySanPhamAdapter;
 import etn.app.danghoc.shoppingclient.Adapter.SanPhamSliderAdapter;
@@ -57,21 +53,17 @@ import etn.app.danghoc.shoppingclient.Common.Common;
 import etn.app.danghoc.shoppingclient.Model.Banner;
 import etn.app.danghoc.shoppingclient.Model.LinkImageModel;
 import etn.app.danghoc.shoppingclient.Model.SanPham;
-import etn.app.danghoc.shoppingclient.Model.Test1;
-import etn.app.danghoc.shoppingclient.Model.TestModel;
-import etn.app.danghoc.shoppingclient.Model.TestModelCha;
 import etn.app.danghoc.shoppingclient.Model.Tinh;
 import etn.app.danghoc.shoppingclient.Retrofit.IMyShoppingAPI;
 import etn.app.danghoc.shoppingclient.Retrofit.RetrofitClient;
 import etn.app.danghoc.shoppingclient.Retrofit.RetrofitClientAddress;
 import etn.app.danghoc.shoppingclient.Sevices.PicassoImageLoadingService;
+import etn.app.danghoc.shoppingclient.chat.chatActivity;
 import etn.app.danghoc.shoppingclient.sendNotificationPack.Token;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.schedulers.Schedulers;
 import ss.com.bannerslider.Slider;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 
 public class HomeActivity2 extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -528,6 +520,9 @@ public class HomeActivity2 extends AppCompatActivity implements NavigationView.O
         }
         else if(id== R.id.nav_history_money){
             startActivity(new Intent(HomeActivity2.this,ViewHistoryMoneyActivity.class));
+        }
+        else if(id==R.id.nav_chat){
+            startActivity(new Intent(HomeActivity2.this, chatActivity.class));
         }
 
        drawerLayout.closeDrawer(GravityCompat.START);

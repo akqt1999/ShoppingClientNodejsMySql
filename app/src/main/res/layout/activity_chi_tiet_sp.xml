@@ -165,13 +165,27 @@
                                 android:layout_height="wrap_content"/>
 
                         </LinearLayout>
-                        <Button
+                        <LinearLayout
                             android:layout_width="wrap_content"
-                            android:layout_height="30dp"
-                            android:id="@+id/btn_report"
-                            android:text="báo cáo"
-                            android:textSize="10dp"
-                            />
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+                            <Button
+                                android:layout_width="wrap_content"
+                                android:layout_height="33dp"
+                                android:id="@+id/btn_report"
+                                android:text="báo cáo"
+                                android:textSize="10dp"
+                                />
+                            <Button
+                                android:layout_width="wrap_content"
+                                android:layout_height="33dp"
+                                android:id="@+id/btn_chat"
+                                android:text="nhắn tin"
+                                android:textSize="10dp"
+                                />
+
+                        </LinearLayout>
+
                         <View
                             android:background="#DC8F8F"
                             android:layout_width="match_parent"

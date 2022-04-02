@@ -32,6 +32,15 @@
         android:usesCleartextTraffic="true"
         tools:replace="android:theme">
         <activity
+            android:name=".chat.ChatActivity2"
+            android:exported="true" />
+        <activity
+            android:name=".chat.specificchat"
+            android:exported="true" />
+        <activity
+            android:name=".chat.chatActivity"
+            android:exported="true" />
+        <activity
             android:name=".ViewHistoryMoneyActivity"
             android:exported="true" />
         <activity

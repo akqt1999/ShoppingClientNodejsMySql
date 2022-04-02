@@ -51,4 +51,15 @@
         </menu>
     </item>
 
+
+    <item android:title="">
+        <menu>
+            <item
+                android:id="@+id/nav_chat"
+                android:icon="@drawable/ic_baseline_chat_24"
+                android:title="Tin Nhắn" />
+
+        </menu>
+    </item>
+
 </menu>
