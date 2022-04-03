@@ -7,13 +7,16 @@
         <item
             android:id="@+id/nav_home"
             android:icon="@drawable/home"
-            android:title="@string/menu_home" />
+            android:title="Trang chủ" />
 
         <item
             android:id="@+id/nav_sign_out"
             android:icon="@drawable/ic_baseline_exit_to_app_24"
             android:title="@string/sign_out" />
-
+        <item
+            android:id="@+id/nav_update_info"
+            android:icon="@drawable/ic_baseline_account_box_24"
+            android:title="cập nhập thông tin" />
 
 
     </group>

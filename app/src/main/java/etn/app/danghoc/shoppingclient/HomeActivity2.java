@@ -524,6 +524,10 @@ public class HomeActivity2 extends AppCompatActivity implements NavigationView.O
         else if(id==R.id.nav_chat){
             startActivity(new Intent(HomeActivity2.this, chatActivity.class));
         }
+        else if(id==R.id.nav_update_info){
+            startActivity(new Intent(HomeActivity2.this, UpdateInfoActivity.class));
+            finish();
+        }
 
        drawerLayout.closeDrawer(GravityCompat.START);
 
