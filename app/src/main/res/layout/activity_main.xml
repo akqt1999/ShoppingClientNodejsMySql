@@ -43,7 +43,7 @@
         android:textAllCaps="false"
         android:id="@+id/btn_sign_in"
         android:textColor="@color/white"
-        android:text="tiep tuc voi so dien thoai"
+        android:text="Tiếp tục với số điện thoại"
         app:layout_alignSelf="flex_start"
         android:layout_margin="8dp"
         android:background="@drawable/border_bottom"

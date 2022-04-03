@@ -46,8 +46,7 @@ public class chatActivity extends AppCompatActivity {
 
         tabLayout=findViewById(R.id.include);
         mchat=findViewById(R.id.chat);
-        mcall=findViewById(R.id.calls);
-        mstatus=findViewById(R.id.status);
+
         viewPager=findViewById(R.id.fragmentcontainer);
 
         firebaseFirestore=FirebaseFirestore.getInstance();
@@ -108,8 +107,6 @@ public class chatActivity extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(),"Now User is Offline",Toast.LENGTH_SHORT).show();
             }
         });
-
-
 
     }
 
