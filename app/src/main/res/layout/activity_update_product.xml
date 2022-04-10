@@ -30,7 +30,7 @@
                         android:id="@+id/toolbar"
                         android:layout_width="match_parent"
                         android:layout_height="?attr/actionBarSize"
-                        android:background="#7A86EA"
+                        android:background="@color/green"
                         app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
                         app:title="@string/update_pd">
 
@@ -51,9 +51,9 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="9dp"
-                        android:hint="tên sản phẩm ..." />
+                        android:hint="Tên sản phẩm..." />
                     <EditText
-                        android:hint="giá sản phẩm..."
+                        android:hint="Giá sản phẩm..."
                         android:id="@+id/edt_price_pd"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -69,7 +69,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content">
                             <TextView
-                                android:text="danh mục sản phẩm"
+                                android:text="Danh mục sản phẩm"
                                 android:layout_gravity="center"
                                 android:gravity="center"
                                 android:layout_width="wrap_content"
@@ -88,7 +88,7 @@
                             android:layout_height="wrap_content">
                             <TextView
 
-                                android:text="khu vực bán"
+                                android:text="Khu vực bán"
                                 android:layout_gravity="center"
                                 android:gravity="center"
                                 android:layout_width="wrap_content"
@@ -124,7 +124,7 @@
                             android:layout_height="wrap_content"
                             android:layout_below="@+id/btn_choose_img"
                             android:layout_centerHorizontal="true"
-                            android:text="chọn hình " />
+                            android:text="Chọn hình " />
 
                         <androidx.recyclerview.widget.RecyclerView
                             android:id="@+id/recycler_view"
@@ -140,7 +140,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="9dp"
-                        android:hint="mô tả sản phẩm..." />
+                        android:hint="Mô tả sản phẩm..." />
 
 
 
@@ -162,7 +162,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="right"
-                android:text="cập nhập sản phẩm" />
+                android:text="cập nhập sản phẩm"
+                android:textColor="@color/white"/>
         </LinearLayout>
 
 

@@ -5,6 +5,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
 
     >
+
     <ScrollView
         android:id="@+id/scrollView"
         android:layout_width="match_parent"
@@ -12,7 +13,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:orientation="vertical">
 
             <LinearLayout
@@ -32,7 +33,7 @@
                         android:id="@+id/toolbar"
                         android:layout_width="match_parent"
                         android:layout_height="?attr/actionBarSize"
-                        android:background="#7A86EA"
+                        android:background="@color/green"
                         app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
                         app:title="@string/add_new_pd">
 
@@ -52,15 +53,14 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="9dp"
-                        android:hint="tên sản phẩm..." />
+                        android:hint="Tên sản phẩm..." />
 
                     <EditText
-                        android:inputType="number"
                         android:id="@+id/edt_price_pd"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="giá sản phẩm..."
-                        />
+                        android:hint="Giá sản phẩm..."
+                        android:inputType="number" />
 
 
                     <LinearLayout
@@ -78,7 +78,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
                                 android:gravity="center"
-                                android:text="danh mục sản phẩm" />
+                                android:text="Danh mục sản phẩm" />
 
                             <Spinner
                                 android:id="@+id/spinner_category"
@@ -91,7 +91,7 @@
                         <LinearLayout
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="10dp"
+                            android:layout_marginLeft="24dp"
                             android:orientation="vertical">
 
                             <TextView
@@ -100,7 +100,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
                                 android:gravity="center"
-                                android:text="khu vực bán" />
+                                android:text="Khu vực bán" />
 
                             <Spinner
                                 android:id="@+id/spinner_khuvuc"
@@ -147,14 +147,11 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="9dp"
-                        android:hint="mô tả sản phẩm..." />
+                        android:hint="Mô tả sản phẩm..." />
 
 
                 </LinearLayout>
-
-
             </LinearLayout>
-
 
             <Button
                 android:id="@+id/btn_add_pd"
@@ -166,7 +163,8 @@
                 android:inputType="textCapSentences|textMultiLine"
                 android:maxLength="2000"
                 android:maxLines="4"
-                android:text="thêm sản phẩm" />
+                android:text="thêm sản phẩm"
+                android:textColor="@color/white" />
         </LinearLayout>
 
     </ScrollView>

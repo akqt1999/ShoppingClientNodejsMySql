@@ -16,25 +16,25 @@
         <item
             android:id="@+id/nav_update_info"
             android:icon="@drawable/ic_baseline_account_box_24"
-            android:title="cập nhập thông tin" />
+            android:title="Cập nhập thông tin" />
 
 
     </group>
 
-    <item android:title="sản phẩm">
+    <item android:title="Sản phẩm">
         <menu>
             <item
                 android:id="@+id/nav_view_add_new_product"
                 android:icon="@drawable/ic_baseline_add_circle_24"
-                android:title="thêm sản phẩm mới " />
+                android:title="Thêm sản phẩm mới " />
             <item
                 android:id="@+id/nav_view_my_product"
                 android:icon="@drawable/ic_baseline_smartphone_24"
-                android:title="sản phẩm của bạn " />
+                android:title="Sản phẩm của bạn " />
             <item
                 android:id="@+id/nav_category"
                 android:icon="@drawable/ic_baseline_smartphone_24"
-                android:title="danh mục sản phẩm" />
+                android:title="Danh mục sản phẩm" />
         </menu>
 
     </item>
@@ -50,7 +50,7 @@
             <item
                 android:id="@+id/nav_history_money"
                 android:icon="@drawable/ic_baseline_restore_24"
-                android:title="lịch sử nộp tiền" />
+                android:title="Lịch sử nộp tiền" />
         </menu>
     </item>
 

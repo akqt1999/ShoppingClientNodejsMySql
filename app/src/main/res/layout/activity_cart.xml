@@ -16,7 +16,7 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="#7A86EA"
+            android:background="@color/green"
             app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
             app:title="Danh sách yêu thích"></androidx.appcompat.widget.Toolbar>
     </com.google.android.material.appbar.AppBarLayout>

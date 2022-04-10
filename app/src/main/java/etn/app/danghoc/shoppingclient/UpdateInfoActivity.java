@@ -79,7 +79,7 @@ public class UpdateInfoActivity extends AppCompatActivity {
     }
 
     private void initView() {
-        toolbar.setTitle("Update information");
+        toolbar.setTitle("Cập nhật thông tin cá nhân");
         setSupportActionBar(toolbar);
 
         getSupportActionBar().setDisplayShowHomeEnabled(true);

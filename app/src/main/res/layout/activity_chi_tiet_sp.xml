@@ -17,9 +17,10 @@
             android:id="@+id/toolbar"
             app:title="@string/menu_home"
             app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-            android:background="#7A86EA"
+            android:background="@color/green"
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"/>
+            android:layout_height="?attr/actionBarSize"
+            android:textStyle="bold"/>
 
 
     </com.google.android.material.appbar.AppBarLayout>
@@ -61,7 +62,7 @@
             android:id="@+id/btn_cart"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:backgroundTint="@color/white"
+            android:backgroundTint="@color/green"
             android:elevation="6dp"
             android:src="@drawable/ic_baseline_favorite_24"
             app:layout_anchor="@id/appBarLayout"
@@ -97,10 +98,9 @@
                             android:id="@+id/txtFoodName"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="8dp"
                             android:padding="12dp"
                             android:text="@string/food_name"
-                            android:textColor="@color/colorPrimary"
+                            android:textColor="@color/green"
                             android:textSize="20dp"
                             android:textStyle="bold" />
 
@@ -118,18 +118,16 @@
 
                             <TextView
                                 android:id="@+id/txtFoodPrice"
+                                android:layout_marginBottom="10dp"
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="9"
                                 android:text="1,000"
-                                android:textColor="@color/colorPrimary"
+                                android:textColor="@color/green"
                                 android:textSize="18sp"
                                 android:textStyle="bold" />
 
                         </LinearLayout>
-
-
-
                         />
 
                     </LinearLayout>
@@ -149,13 +147,15 @@
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
                             android:orientation="horizontal">
+
                             <ImageButton
-                                android:backgroundTint="#00000000"
                                 android:id="@+id/btn_call"
-                                android:src="@drawable/ic_baseline_local_phone_24"
                                 android:layout_width="39dp"
-                                android:layout_height="39dp"/>
+                                android:layout_height="match_parent"
+                                android:backgroundTint="#00000000"
+                                android:src="@drawable/ic_baseline_local_phone_24" />
                             <TextView
                                 android:id="@+id/txt_phone"
                                 android:textColor="@color/black"
@@ -176,33 +176,36 @@
                                 android:text="báo cáo"
                                 android:textSize="10dp"
                                 />
+
                             <Button
+                                android:id="@+id/btn_chat"
                                 android:layout_width="wrap_content"
                                 android:layout_height="33dp"
-                                android:id="@+id/btn_chat"
                                 android:text="nhắn tin"
-                                android:textSize="10dp"
-                                />
+                                android:textSize="10dp" />
 
                         </LinearLayout>
 
                         <View
-                            android:background="#DC8F8F"
                             android:layout_width="match_parent"
-                            android:layout_height="1dp"/>
+                            android:layout_height="1dp"
+                            android:background="@color/gray" />
                         <TextView
                             android:textColor="@color/black"
                             android:textStyle="bold"
                             android:text="@string/description"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginLeft="10dp"
+                            android:textSize="18sp"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"/>
+
                         <TextView
                             android:id="@+id/txtFoodDescription"
-                            android:layout_width="wrap_content"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="12dp"
                             android:lineSpacingMultiplier="1.5"
-                            android:padding="12dp"
+                            android:padding="8dp"
                             android:text="@string/description"
                             android:textColor="@color/black"
                             android:textSize="14sp" />

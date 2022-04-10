@@ -12,9 +12,9 @@
         >
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
-            app:title="lịch sử nộp tiền"
+            app:title="Lịch sử nạp tiền"
             app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-            android:background="#7A86EA"
+            android:background="@color/green"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize">
         </androidx.appcompat.widget.Toolbar>

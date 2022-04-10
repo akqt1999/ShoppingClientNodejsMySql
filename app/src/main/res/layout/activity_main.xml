@@ -9,6 +9,7 @@
     app:flexWrap="wrap"
     app:justifyContent="center"
     app:alignContent="stretch"
+    android:backgroundTint="@color/white_chocolate"
 
     android:background="#C4DAA6A6"
     >
@@ -16,7 +17,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:background="@color/bg_login"
+        android:background="@color/green"
         app:layout_alignSelf="flex_start"
         android:padding="16dp"
 

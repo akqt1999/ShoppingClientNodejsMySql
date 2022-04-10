@@ -13,17 +13,16 @@
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
+            <androidx.appcompat.widget.Toolbar
 
-            <TextView
+                android:id="@+id/toolbar"
+                app:title="Thêm địa chỉ mới"
+                app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+                android:background="@color/green"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/bg_login"
-                android:padding="10dp"
-                android:text="Thêm đia chỉ mới"
-                android:textColor="@color/black"
-                android:textSize="21dp"
-                android:textStyle="bold"
-                />
+                android:layout_height="?attr/actionBarSize"
+                app:titleTextColor="@color/white">
+            </androidx.appcompat.widget.Toolbar>
             <LinearLayout
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
@@ -39,7 +38,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="10dp"
                         android:layout_marginTop="20dp"
-                        android:text="tỉnh"
+                        android:text="Tỉnh"
                         android:textColor="@color/black"
                         android:textSize="19dp" />
 
@@ -52,16 +51,17 @@
                 </LinearLayout>
 
                 <LinearLayout
-                    android:orientation="vertical"
-                    android:layout_weight="1"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content">
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="10dp"
-                        android:layout_marginTop="6dp"
-                        android:text="huyện"
+                        android:layout_marginTop="20dp"
+                        android:text="Huyện"
                         android:textColor="@color/black"
                         android:textSize="19dp" />
 
@@ -83,7 +83,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="6dp"
-                android:text="xã"
+                android:text="Xã"
                 android:textColor="@color/black"
                 android:textSize="19dp" />
 
@@ -98,7 +98,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
-                android:text="địa chỉ"
+                android:text="Địa chỉ"
                 android:textSize="19dp" />
 
             <TextView
@@ -106,7 +106,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
-                android:text="chưa chọn địa chỉ"
+                android:text="Chưa chọn địa chỉ"
                 android:textColor="@color/black"
                 android:textSize="19dp" />
 
@@ -115,7 +115,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="10dp"
-                android:text="số nhà "
+                android:text="Số nhà "
                 android:textColor="@color/black"
                 android:textSize="19dp" />
 
@@ -123,14 +123,14 @@
                 android:id="@+id/edt_address_number"
                 android:layout_width="match_parent"
                 android:layout_height="80dp"
-                android:hint="nhap so nha" />
+                android:hint="Nhập số nhà" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="10dp"
-                android:text="số điện thoại"
+                android:text="Số điện thoại"
                 android:textColor="@color/black"
                 android:textSize="19dp" />
 
@@ -139,15 +139,16 @@
                 android:id="@+id/edit_phone_number"
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
-                android:hint="nhap so dien thoai" />
+                android:hint="Nhập số điện thoại" />
             <Button
                 android:id="@+id/btn_add_address"
+                android:background="@drawable/border_bottom"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
-                android:text="them dia chi "
-                android:textColor="@color/black" />
+                android:text="Thêm địa chỉ"
+                android:textColor="@color/white" />
 
             <Button
                 android:id="@+id/btn_cancel123"
@@ -155,8 +156,10 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
-                android:text="cancel"
-                android:textColor="@color/black" />
+                android:layout_marginTop="10dp"
+                android:background="@drawable/border_bottom"
+                android:text="Hủy"
+                android:textColor="@color/white" />
         </LinearLayout>
 
     </ScrollView>
