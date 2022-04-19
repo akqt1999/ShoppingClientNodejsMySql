@@ -60,8 +60,6 @@ import etn.app.danghoc.shoppingclient.R;
                 .into(holder.imgCart);
         holder.txtFoodName.setText(sanPhams.get(position).getTenSP());
         holder.txtFoodPrice.setText(Common.formatPrice(sanPhams.get(position).getGiaSP()));
-        holder.txt_status.setText(Common.convertStatusMyProduct(sanPhams.get(position).getTrangthai()));
-
 
         //event
         holder.btn_delete.setOnClickListener(view -> {
@@ -110,8 +108,26 @@ import etn.app.danghoc.shoppingclient.R;
                 Toast.makeText(context, "Tiền không đủ 30.000đ để quảng cáo\n" +
                         "Xin hãy nộp tiền", Toast.LENGTH_SHORT).show();
             }else{
-                EventBus.getDefault().postSticky(new UpdateSanPhamAds(true,position));
+               // EventBus.getDefault().postSticky(new UpdateSanPhamAds(true,position));
+                AlertDialog.Builder builder=new AlertDialog.Builder(context);
+                builder.setTitle("bạn có muốn quảng cáo bài đăng?");
+                builder.setMessage("bạn sẽ trả 30.000đ để quảng cáo trong vòng 3 ngày");
+                builder.setPositiveButton("có", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        EventBus.getDefault().postSticky(new UpdateSanPhamAds(true,position));
+                    }
+                });
+                builder.setNegativeButton("không", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.dismiss();
+                    }
+                });
+                Dialog dialog=builder.create();
+                dialog.show();
             }
+
         });
 
     }
@@ -139,8 +155,6 @@ import etn.app.danghoc.shoppingclient.R;
         TextView txtFoodPrice;
         @BindView(R.id.txtFoodName)
         TextView txtFoodName;
-        @BindView(R.id.txt_status)
-        TextView txt_status;
 
 
 

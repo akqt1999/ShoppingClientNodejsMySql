@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
+import java.util.Collections;
 import java.util.List;
 
 import butterknife.BindView;
@@ -61,7 +62,7 @@ public class ViewHistoryMoneyActivity extends AppCompatActivity {
                             if(orderModel.isSuccess())
                             {
                                 historyMoneyList=orderModel.getResult();
-
+                                Collections.reverse(historyMoneyList);
                                 adapter = new HistoryMoneyAdapter(this, historyMoneyList);
                                 LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
                                 recycler_history_money.setLayoutManager(linearLayoutManager);
