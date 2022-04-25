@@ -35,7 +35,7 @@
                         android:layout_height="?attr/actionBarSize"
                         android:background="@color/green"
                         app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-                        app:title="@string/add_new_pd">
+                        app:title="Thêm bài đăng mới">
 
                     </androidx.appcompat.widget.Toolbar>
                 </com.google.android.material.appbar.AppBarLayout>
