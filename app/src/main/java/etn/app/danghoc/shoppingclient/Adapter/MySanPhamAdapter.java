@@ -77,7 +77,11 @@ public class MySanPhamAdapter extends RecyclerView.Adapter<MySanPhamAdapter.MyVi
 
     @Override
     public int getItemCount() {
-        return sanPhamList.size();
+        if(sanPhamList!=null){
+            return sanPhamList.size();
+        }else{
+            return  0;
+        }
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {

@@ -107,13 +107,11 @@ public class CategoryProductActivity extends AppCompatActivity {
     @Override
     protected void onPause() {
         EventBus.getDefault().postSticky(new DanhMucItemClick(false, -99));
-
         super.onPause();
     }
 
     @Override
     public void onStop() {
-
 
         if (EventBus.getDefault().isRegistered(toString()))
             EventBus.getDefault().unregister(this);

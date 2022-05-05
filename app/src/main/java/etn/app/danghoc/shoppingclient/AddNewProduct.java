@@ -614,6 +614,13 @@ public class AddNewProduct extends AppCompatActivity implements View.OnClickList
 
                 case R.id.btn_add_pd:
 
+                    if (edt_description_pd.getText().toString().trim().length() == 0
+                            || edt_name_pd.getText().toString().trim().length() == 0
+                            || edt_price_pd.getText().toString().trim().length() == 0) {
+                        Toast.makeText(this, "chưa nhập đầy đủ thông tin sản phẩm", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+
                     if (listImages.size()==0||listImages==null) {
                        // multipartImageUpload();
                         Toast.makeText(getApplicationContext(), "chưa chọn hình", Toast.LENGTH_SHORT).show();

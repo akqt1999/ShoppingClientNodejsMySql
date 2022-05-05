@@ -65,11 +65,11 @@ import etn.app.danghoc.shoppingclient.R;
         holder.btn_delete.setOnClickListener(view -> {
          //   EventBus.getDefault().postSticky(new CartItemDelete(true, position));
 
-            if(sanPhams.get(position).getTrangthai()==0)
-            {
-                Toast.makeText(context, "đang chờ bạn xác nhận cho người bán không thể xóa", Toast.LENGTH_LONG).show();
-                return;
-            }
+//            if(sanPhams.get(position).getTrangthai()==0)
+//            {
+//                Toast.makeText(context, "đang chờ bạn xác nhận cho người bán không thể xóa", Toast.LENGTH_LONG).show();
+//                return;
+//            }
 
             AlertDialog.Builder builder=new AlertDialog.Builder(context);
             builder.setMessage("bạn có thực sự muốn xoá");
