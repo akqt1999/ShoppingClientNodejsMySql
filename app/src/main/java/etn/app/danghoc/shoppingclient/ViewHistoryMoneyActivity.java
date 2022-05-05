@@ -1,11 +1,13 @@
 package etn.app.danghoc.shoppingclient;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
@@ -50,6 +52,24 @@ public class ViewHistoryMoneyActivity extends AppCompatActivity {
         apiService= Client.getInstance().create(APIService.class);
 
         displayHistoryMoney();
+        initToolbar();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected (MenuItem item){ // button back
+        // handle arrow click here
+        if (item.getItemId() == android.R.id.home) {
+            finish();
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    private void initToolbar () {
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
     }
 
     private void displayHistoryMoney() {

@@ -583,11 +583,12 @@ public class AddNewProduct extends AppCompatActivity implements View.OnClickList
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe(hinhAnhModel -> {
 
-
-
                             dialog.dismiss();
 
                             Toast.makeText(AddNewProduct.this, "upload link success", Toast.LENGTH_SHORT).show();
+                            startActivity(new Intent(this,MyProductActivity.class));
+                            finish();
+
 
                         },throwable -> {
 
@@ -667,4 +668,6 @@ public class AddNewProduct extends AppCompatActivity implements View.OnClickList
 
             }
         }
+
+
     }
