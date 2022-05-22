@@ -129,6 +129,9 @@ public class MyProductActivity extends AppCompatActivity {
     protected void onStop() {
         if(EventBus.getDefault().isRegistered(this))
             EventBus.getDefault().unregister(this);
+        EventBus.getDefault().postSticky(new MyProductItemDelete(false,-99));
+        EventBus.getDefault().postSticky(new MyProductItemEdit(false,-99));
+        EventBus.getDefault().postSticky(new UpdateSanPhamAds(false,-99));
         super.onStop();
     }
 
@@ -187,14 +190,16 @@ public class MyProductActivity extends AppCompatActivity {
             ).subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(deleteProductModel -> {
-                Toast.makeText(this, ""+sanPhamList.get(position).getIdSP(), Toast.LENGTH_SHORT).show();
+              //  Toast.makeText(this, ""+sanPhamList.get(position).getIdSP(), Toast.LENGTH_SHORT).show();
                         if(deleteProductModel.isSuccess()){
                             sanPhamList.remove(position);
                             adapter.notifyDataSetChanged();
                             Toast.makeText(this, "delete success", Toast.LENGTH_SHORT).show();
+                            EventBus.getDefault().postSticky(new MyProductItemDelete(false,-99));
                         }
                         else {
                             Toast.makeText(this, deleteProductModel.getMessage(), Toast.LENGTH_SHORT).show();
+                            EventBus.getDefault().postSticky(new MyProductItemDelete(false,-99));
                         }
 
             },throwable -> {

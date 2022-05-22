@@ -38,11 +38,13 @@ import retrofit2.http.Part;
 import retrofit2.http.Query;
 
 public interface IMyShoppingAPI {
+    // dùng tương tác (lấy dữ liệu từ talbe user) với api để lấy dữ liệu từ table user database
     @GET("user")
     Observable<UserModel> getUser(@Query("key") String apiKey,
                                   @Query("idUser") String idUser); //cai fbid chu la cai dien thoai
 
     // user
+    // dùng tương tác (chèn dữ liệu vào table user) với api để lấy dữ liệu từ table user database
     @POST("user")
     @FormUrlEncoded
     Observable<UpdateUserModel> updateUserInfo(@Field("key") String apiKey,

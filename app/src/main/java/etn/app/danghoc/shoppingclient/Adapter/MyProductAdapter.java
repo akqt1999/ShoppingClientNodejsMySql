@@ -47,12 +47,17 @@ import etn.app.danghoc.shoppingclient.R;
 
     }
 
+
+
+
     @NonNull
     @Override
     public MyProductAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         return new MyProductAdapter.ViewHolder(LayoutInflater.
                 from(context).inflate(R.layout.item_my_product, parent, false));
     }
+
+
 
     @Override
     public void onBindViewHolder(@NonNull MyProductAdapter.ViewHolder holder, int position) {

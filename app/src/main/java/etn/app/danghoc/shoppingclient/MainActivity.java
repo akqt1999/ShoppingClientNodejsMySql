@@ -93,7 +93,7 @@ public class MainActivity extends AppCompatActivity {
 
         mAuth.getFirebaseAuthSettings().setAppVerificationDisabledForTesting(true);
 
-        edt_phone_number=findViewById(R.id.edit_phone_number);
+       // edt_phone_number=findViewById(R.id.edt_phone_number);
 
         providers= Arrays.asList(new AuthUI.IdpConfig.PhoneBuilder().build());
 
@@ -101,24 +101,27 @@ public class MainActivity extends AppCompatActivity {
 
         ButterKnife.bind(this);
 
-
+            // nhập số điện thoại mà mã otp thành công sẽ thực hiện cái này
         listener=firebaseAuth1 -> { // cai nay la lang nghe su kien login
+
+            /// lấy gía trị của user trên firebase
             FirebaseUser user=firebaseAuth1.getCurrentUser();
 
+            ///
             if(user!=null) //user really login
             {
+                // lấy mã uid user để kiểm tra có tồn tại trên database hay không ,
                 compositeDisposable.add(myRestaurantAPI.getUser(Common.API_KEY,user.getUid())
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe(userModel -> {
-                            if(userModel.isSuccess())
+                            if(userModel.isSuccess()) // nếu mã uid user tồn tại trên database thì sẽ vào activity home (trang chủ)
                             {
                                 Common.currentUser=userModel.getResult().get(0);
                                 startActivity(new Intent(MainActivity.this,HomeActivity2.class));
-
                                 finish();
                             }
-                            else
+                            else //nếu mã uid user không tồn tại trên database thì sẽ vào activity đăng ký
                             {
                                 startActivity(new Intent(MainActivity.this,UpdateInfoActivity.class));
                                 finish();
@@ -163,6 +166,7 @@ public class MainActivity extends AppCompatActivity {
 // set this to remove reCaptcha web // xoa cai captcha
         mAuth.getFirebaseAuthSettings().setAppVerificationDisabledForTesting(true);
 
+        // đưa tới giao diện nhập sđt và otp của google
         someActivityResultLauncher.launch(AuthUI.getInstance()
                 .createSignInIntentBuilder()
                 .setAvailableProviders(providers)
@@ -205,54 +209,54 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-//    private void gotoEnterOtpActivity(String phoneNumber, String verificationId) {
-//        Intent intent=new Intent(this,EnterOtpActivity.class);
-//        intent.putExtra("phone_number",phoneNumber);
-//        intent.putExtra("verification_id",verificationId);
-//        startActivity(intent);
-//    }
+    private void gotoEnterOtpActivity(String phoneNumber, String verificationId) {
+        Intent intent=new Intent(this,EnterOtpActivity.class);
+        intent.putExtra("phone_number",phoneNumber);
+        intent.putExtra("verification_id",verificationId);
+        startActivity(intent);
+    }
 
-//    private void signInWithPhoneAuthCredential(PhoneAuthCredential credential) {
-//        mAuth.signInWithCredential(credential)
-//                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-//                    @Override
-//                    public void onComplete(@NonNull Task<AuthResult> task) {
-//                        if (task.isSuccessful()) {
-//                            // Sign in success, update UI with the signed-in user's information
-//
-//
-//                            FirebaseUser user = task.getResult().getUser();
-//                            if(user!=null) //user really login
-//                            {
-//                                compositeDisposable.add(myRestaurantAPI.getUser(Common.API_KEY,user.getUid())
-//                                        .subscribeOn(Schedulers.io())
-//                                        .observeOn(AndroidSchedulers.mainThread())
-//                                        .subscribe(userModel -> {
-//                                            if(userModel.isSuccess())
-//                                            {
-//                                                Common.currentUser=userModel.getResult().get(0);
-//                                                startActivity(new Intent(MainActivity.this,HomeActivity.class));
-//
-//                                                finish();
-//                                            }
-//                                            else
-//                                            {
-//                                                startActivity(new Intent(MainActivity.this,UpdateInfoActivity.class));
-//                                                finish();
-//                                            }
-//                                        }));
-//                            }
-//                            // Update UI
-//                        } else {
-//                            // Sign in failed, display a message and update the UI
-//                            if (task.getException() instanceof FirebaseAuthInvalidCredentialsException) {
-//                                // The verification code entered was invalid
-//                                Toast.makeText(MainActivity.this, "ma xac minh khong hop le", Toast.LENGTH_SHORT).show();
-//                            }
-//                        }
-//                    }
-//                });
-//    }
+    private void signInWithPhoneAuthCredential(PhoneAuthCredential credential) {
+        mAuth.signInWithCredential(credential)
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            // Sign in success, update UI with the signed-in user's information
+
+
+                            FirebaseUser user = task.getResult().getUser();
+                            if(user!=null) //user really login
+                            {
+                                compositeDisposable.add(myRestaurantAPI.getUser(Common.API_KEY,user.getUid())
+                                        .subscribeOn(Schedulers.io())
+                                        .observeOn(AndroidSchedulers.mainThread())
+                                        .subscribe(userModel -> {
+                                            if(userModel.isSuccess())
+                                            {
+                                                Common.currentUser=userModel.getResult().get(0);
+                                                startActivity(new Intent(MainActivity.this,HomeActivity.class));
+
+                                                finish();
+                                            }
+                                            else
+                                            {
+                                                startActivity(new Intent(MainActivity.this,UpdateInfoActivity.class));
+                                                finish();
+                                            }
+                                        }));
+                            }
+                            // Update UI
+                        } else {
+                            // Sign in failed, display a message and update the UI
+                            if (task.getException() instanceof FirebaseAuthInvalidCredentialsException) {
+                                // The verification code entered was invalid
+                                Toast.makeText(MainActivity.this, "ma xac minh khong hop le", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    }
+                });
+    }
 
 
 }

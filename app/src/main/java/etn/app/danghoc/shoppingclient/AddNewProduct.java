@@ -541,6 +541,7 @@ public class AddNewProduct extends AppCompatActivity implements View.OnClickList
 
         if (EventBus.getDefault().isRegistered(this))
             EventBus.getDefault().unregister(this);
+        EventBus.getDefault().postSticky(new UpLoadImageSuccess(false));
         super.onStop();
     }
 
